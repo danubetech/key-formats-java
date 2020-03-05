@@ -22,7 +22,7 @@
 		<repository>
 			<id>github</id>
 			<name>GitHub danubetech key-formats-java</name>
-			<url>https://maven.pkg.github.com/danubetechs/key-formats-java</url>
+			<url>https://maven.pkg.github.com/danubetech/key-formats-java</url>
 		</repository>
 	</distributionManagement>
 
