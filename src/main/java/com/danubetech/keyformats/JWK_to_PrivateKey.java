@@ -4,7 +4,7 @@ import java.security.interfaces.RSAPrivateKey;
 
 import org.bitcoinj.core.ECKey;
 
-import com.danubetech.keytypes.JWKKeyTypes;
+import com.danubetech.keyformats.keytypes.KeyType_for_JWK;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.crypto.impl.RSAKeyUtils;
 import com.nimbusds.jose.jwk.Curve;
@@ -12,49 +12,49 @@ import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.KeyType;
 import com.nimbusds.jose.jwk.RSAKey;
 
-public class JWKToPrivateKey {
+public class JWK_to_PrivateKey {
 
-	public static Object JWKToAnyPrivateKey(JWK jsonWebKey) throws JOSEException {
+	public static Object JWK_to_anyPrivateKey(JWK jsonWebKey) throws JOSEException {
 
-		String keyType = JWKKeyTypes.keyTypeForJWK(jsonWebKey);
+		String keyType = KeyType_for_JWK.keyType_for_JWK(jsonWebKey);
 
 		if (KeyType.RSA.getValue().equals(keyType))
-			return JWKToRSAPrivateKey(jsonWebKey);
-		else if (Curve.P_256K.getName().equals(keyType))
-			return JWKToP_256KPrivateKey(jsonWebKey);
+			return JWK_to_RSAPrivateKey(jsonWebKey);
+		else if (Curve.SECP256K1.getName().equals(keyType))
+			return JWK_to_secp256k1PrivateKey(jsonWebKey);
 		else if (Curve.Ed25519.getName().equals(keyType))
-			return JWKToEd25519PrivateKeyBytes(jsonWebKey);
+			return JWK_to_Ed25519PrivateKeyBytes(jsonWebKey);
 		else if (Curve.X25519.getName().equals(keyType))
-			return JWKToX25519PrivateKeyBytes(jsonWebKey);
+			return JWK_to_X25519PrivateKeyBytes(jsonWebKey);
 		else
 			throw new IllegalArgumentException("Unsupported key type: " + keyType);
 	}
 
-	public static RSAPrivateKey JWKToRSAPrivateKey(JWK jsonWebKey) throws JOSEException {
+	public static RSAPrivateKey JWK_to_RSAPrivateKey(JWK jsonWebKey) throws JOSEException {
 
 		if (! KeyType.RSA.equals(jsonWebKey.getKeyType())) throw new IllegalArgumentException("Incorrect key type: " + jsonWebKey.getKeyType());
 
 		return (RSAPrivateKey) RSAKeyUtils.toRSAPrivateKey((RSAKey) jsonWebKey);
 	}
 
-	public static ECKey JWKToP_256KPrivateKey(JWK jsonWebKey) throws JOSEException {
+	public static ECKey JWK_to_secp256k1PrivateKey(JWK jsonWebKey) throws JOSEException {
 
-		byte[] privateKeyBytes = JWKToP_256KPrivateKeyBytes(jsonWebKey);
+		byte[] privateKeyBytes = JWK_to_secp256k1PrivateKeyBytes(jsonWebKey);
 
 		return ECKey.fromPrivate(privateKeyBytes);
 	}
 
-	public static byte[] JWKToP_256KPrivateKeyBytes(JWK jsonWebKey) throws JOSEException {
+	public static byte[] JWK_to_secp256k1PrivateKeyBytes(JWK jsonWebKey) throws JOSEException {
 
 		if (! KeyType.EC.equals(jsonWebKey.getKeyType())) throw new IllegalArgumentException("Incorrect key type: " + jsonWebKey.getKeyType());
 
 		com.nimbusds.jose.jwk.ECKey ecKey = (com.nimbusds.jose.jwk.ECKey) jsonWebKey;
-		if (! Curve.P_256K.equals(ecKey.getCurve())) throw new IllegalArgumentException("Incorrect curve: " + ecKey.getCurve());
+		if (! Curve.SECP256K1.equals(ecKey.getCurve())) throw new IllegalArgumentException("Incorrect curve: " + ecKey.getCurve());
 
 		return ecKey.getD().decode();
 	}
 
-	public static byte[] JWKToEd25519PrivateKeyBytes(JWK jsonWebKey) {
+	public static byte[] JWK_to_Ed25519PrivateKeyBytes(JWK jsonWebKey) {
 
 		if (! KeyType.OKP.equals(jsonWebKey.getKeyType())) throw new IllegalArgumentException("Incorrect key type: " + jsonWebKey.getKeyType());
 
@@ -68,7 +68,7 @@ public class JWKToPrivateKey {
 		return privateKeyBytes;
 	}
 
-	public static byte[] JWKToX25519PrivateKeyBytes(JWK jsonWebKey) {
+	public static byte[] JWK_to_X25519PrivateKeyBytes(JWK jsonWebKey) {
 
 		if (! KeyType.OKP.equals(jsonWebKey.getKeyType())) throw new IllegalArgumentException("Incorrect key type: " + jsonWebKey.getKeyType());
 

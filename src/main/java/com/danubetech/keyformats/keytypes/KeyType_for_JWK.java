@@ -1,13 +1,13 @@
-package com.danubetech.keytypes;
+package com.danubetech.keyformats.keytypes;
 
 import com.nimbusds.jose.jwk.ECKey;
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.KeyType;
 import com.nimbusds.jose.jwk.OctetKeyPair;
 
-public class JWKKeyTypes {
+public class KeyType_for_JWK {
 
-	public static String keyTypeForJWK(JWK jsonWebKey) {
+	public static String keyType_for_JWK(JWK jsonWebKey) {
 
 		if (KeyType.RSA.equals(jsonWebKey.getKeyType()))
 			return jsonWebKey.getKeyType().getValue();

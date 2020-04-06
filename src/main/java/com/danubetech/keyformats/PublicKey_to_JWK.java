@@ -10,9 +10,9 @@ import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.KeyUse;
 import com.nimbusds.jose.util.Base64URL;
 
-public class PublicKeyToJWK {
+public class PublicKey_to_JWK {
 
-	public static JWK RSAPublicKeyToJWK(RSAPublicKey publicKey, String kid, String use) {
+	public static JWK RSAPublicKey_to_JWK(RSAPublicKey publicKey, String kid, String use) {
 
 		JWK jsonWebKey = new com.nimbusds.jose.jwk.RSAKey.Builder(publicKey)
 				.keyID(kid)
@@ -22,13 +22,13 @@ public class PublicKeyToJWK {
 		return jsonWebKey;
 	}
 
-	public static JWK P_256KPublicKeyToJWK(ECKey publicKey, String kid, String use) {
+	public static JWK secp256k1PublicKey_to_JWK(ECKey publicKey, String kid, String use) {
 
 		ECPoint publicKeyPoint = publicKey.getPubKeyPoint();
 		Base64URL xParameter = Base64URL.encode(publicKeyPoint.getAffineXCoord().getEncoded());
 		Base64URL yParameter = Base64URL.encode(publicKeyPoint.getAffineYCoord().getEncoded());
 
-		JWK jsonWebKey = new com.nimbusds.jose.jwk.ECKey.Builder(Curve.P_256K, xParameter, yParameter)
+		JWK jsonWebKey = new com.nimbusds.jose.jwk.ECKey.Builder(Curve.SECP256K1, xParameter, yParameter)
 				.keyID(kid)
 				.keyUse(use == null ? null : new KeyUse(use))
 				.build();
@@ -36,14 +36,14 @@ public class PublicKeyToJWK {
 		return jsonWebKey;
 	}
 
-	public static JWK P_256KPublicKeyBytesToJWK(byte[] publicKeyBytes, String kid, String use) {
+	public static JWK secp256k1PublicKeyBytes_to_JWK(byte[] publicKeyBytes, String kid, String use) {
 
 		ECKey publicKey = ECKey.fromPublicOnly(publicKeyBytes);
 
-		return P_256KPublicKeyToJWK(publicKey, kid, use);
+		return secp256k1PublicKey_to_JWK(publicKey, kid, use);
 	}
 
-	public static JWK Ed25519PublicKeyBytesToJWK(byte[] publicKeyBytes, String kid, String use) {
+	public static JWK Ed25519PublicKeyBytes_to_JWK(byte[] publicKeyBytes, String kid, String use) {
 
 		Base64URL xParameter = Base64URL.encode(publicKeyBytes);
 
@@ -55,7 +55,7 @@ public class PublicKeyToJWK {
 		return jsonWebKey;
 	}
 
-	public static JWK X25519PublicKeyBytesToJWK(byte[] publicKeyBytes, String kid, String use) {
+	public static JWK X25519PublicKeyBytes_to_JWK(byte[] publicKeyBytes, String kid, String use) {
 
 		Base64URL xParameter = Base64URL.encode(publicKeyBytes);
 
