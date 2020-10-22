@@ -4,14 +4,14 @@
 	<groupId>com.danubetech</groupId>
 	<artifactId>key-formats-java</artifactId>
 	<packaging>jar</packaging>
-	<version>0.2.0</version>
+	<version>0.2.1-SNAPSHOT</version>
 	<name>key-formats-java</name>
 
 	<scm>
 		<url>https://github.com/danubetech/key-formats-java</url>
 		<connection>scm:git:git://github.com/danubetech/key-formats-java.git</connection>
 		<developerConnection>scm:git:git@github.com:danubetech/key-formats-java.git</developerConnection>
-	  <tag>v0.2.0</tag>
+	  <tag>HEAD</tag>
   </scm>
 
 	<issueManagement>
