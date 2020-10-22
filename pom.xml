@@ -12,7 +12,7 @@
 	<scm>
 		<url>https://github.com/danubetech/key-formats-java</url>
 		<connection>scm:git:git://github.com/danubetech/key-formats-java.git</connection>
-		<developerConnection>scm:git:git@danubetech/key-formats-java.git</developerConnection>
+		<developerConnection>scm:git:git@github.com:danubetech/key-formats-java.git</developerConnection>
 	</scm>
 
 	<issueManagement>
