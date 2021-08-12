@@ -23,7 +23,7 @@ jobs:
         uses: qcastel/github-actions-maven-release@v1.12.24
         with:
           skip-perform: true
-          release-branch-name: main
+          release-branch-name: major-release-workflow
           maven-repo-server-id: danubetech-maven-releases
           maven-repo-server-username: ${{ env.MAVEN_USERNAME }}
           maven-repo-server-password: ${{ env.MAVEN_PASSWORD }}
