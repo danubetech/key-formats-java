@@ -22,14 +22,15 @@ jobs:
       - name: Release to Danubetech Nexus
         uses: qcastel/github-actions-maven-release@v1.12.24
         with:
+          skip-perform: true
           release-branch-name: main
           maven-repo-server-id: danubetech-maven-releases
           maven-repo-server-username: ${{ env.MAVEN_USERNAME }}
           maven-repo-server-password: ${{ env.MAVEN_PASSWORD }}
           access-token: ${{ env.TOKEN }}
-          version-minor: true
+          version-major: true
           maven-development-version-number: ${parsedVersion.majorVersion}.${parsedVersion.nextMinorVersion}-SNAPSHOT
-          maven-release-version-number: ${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.0
+          maven-release-version-number: ${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.patchVersion}
           git-release-bot-name: "admin-bot"
           git-release-bot-email: "admin@danubetech.com"
           maven-args: "-Dmaven.javadoc.skip=true -DskipTests -DskipITs"
