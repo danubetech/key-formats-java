@@ -28,7 +28,7 @@ Dependency:
 ## Libsodium or Tink
 
 By default, **key-formats-java** uses [libsodium](https://doc.libsodium.org/) for Ed25519 cryptographic operations.
-In situations when this library is not available on a system, [Tink](https://developers.google.com/tink) can be used instead.
+In situations when this library is not available on a system (e.g. Android), [Tink](https://developers.google.com/tink) can be used instead.
 For details on how to change the "provider" for the Ed25519 functions, see this issue: https://github.com/danubetech/key-formats-java/issues/11
 
 ## About
