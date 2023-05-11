@@ -8,6 +8,7 @@ public class KeyTypeName_for_JWK {
 
 	public static KeyTypeName keyTypeName_for_JWK(JWK jsonWebKey) {
 
+		if (jsonWebKey.getKty() == null) throw new IllegalArgumentException("No 'kty' found in JWK.");
 		if (KeyType.RSA.equals(jsonWebKey.getKty()))
 			return KeyTypeName.from(jsonWebKey.getKty());	// "RSA"
 		else if (KeyType.EC.equals(jsonWebKey.getKty()))
