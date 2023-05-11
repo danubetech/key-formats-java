@@ -5,7 +5,6 @@ import com.danubetech.keyformats.jose.JWSAlgorithm;
 import org.bitcoinj.core.ECKey;
 import org.bouncycastle.crypto.params.ECPublicKeyParameters;
 import org.bouncycastle.crypto.signers.ECDSASigner;
-import org.web3j.crypto.Hash;
 import org.web3j.crypto.Sign;
 
 import java.math.BigInteger;
@@ -13,11 +12,11 @@ import java.security.GeneralSecurityException;
 
 import static org.bitcoinj.core.ECKey.CURVE;
 
-public class secp256k1_ES256KCC_PublicKeyVerifier extends PublicKeyVerifier<ECKey> {
+public class secp256k1_ES256KRR_PublicKeyVerifier extends PublicKeyVerifier<ECKey> {
 
-    public secp256k1_ES256KCC_PublicKeyVerifier(ECKey publicKey) {
+    public secp256k1_ES256KRR_PublicKeyVerifier(ECKey publicKey) {
 
-        super(publicKey, JWSAlgorithm.ES256KCC);
+        super(publicKey, JWSAlgorithm.ES256KRR);
     }
 
     @Override
@@ -34,14 +33,12 @@ public class secp256k1_ES256KCC_PublicKeyVerifier extends PublicKeyVerifier<ECKe
 
         ECKey ec = ECKey.fromPublicOnly(this.getPublicKey());
 
-        ECPublicKeyParameters publicKey = new ECPublicKeyParameters(ec.getPubKeyPoint(), CURVE);
+        ECPublicKeyParameters publicKey= new ECPublicKeyParameters(ec.getPubKeyPoint(), CURVE);
         signer.init(false, publicKey);
 
         Sign.SignatureData sig = new Sign.SignatureData(v, r, s);
         Sign.signedMessageToKey(content, sig);
 
-        byte[] hash = Hash.sha3(content);
-
-        return signer.verifySignature(hash, new BigInteger(1, r), new BigInteger(1, s));
+        return signer.verifySignature(content, new BigInteger(1, r), new BigInteger(1, s));
     }
 }

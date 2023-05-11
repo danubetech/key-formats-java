@@ -47,7 +47,7 @@ public class secp256k1Test extends AbstractTest {
 
 	@Override
 	List<String> getAlgorithms() {
-		return Arrays.asList(JWSAlgorithm.ES256K, JWSAlgorithm.ES256KCC);
+		return Arrays.asList(JWSAlgorithm.ES256K, JWSAlgorithm.ES256KCC, JWSAlgorithm.ES256KRR);
 	}
 
 	@Override
