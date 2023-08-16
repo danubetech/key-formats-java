@@ -37,6 +37,6 @@ public class SHA256ProviderTest {
 		byte[] sha256 = sha256Provider.sha256(content);
 		assertEquals(sha256.length, 32);
 		assertFalse(Arrays.equals(sha256, zeros));
-		assertArrayEquals(sha256, Hex.decodeHex("a591a6d40bf420404a011733cfb7b190d62c65bf0bcda32b57b277d9ad9f146e"));
+		assertArrayEquals(sha256, Hex.decodeHex("a591a6d40bf420404a011733cfb7b190d62c65bf0bcda32b57b277d9ad9f146e".toCharArray()));
 	}
 }

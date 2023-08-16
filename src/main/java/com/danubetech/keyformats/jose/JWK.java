@@ -1,20 +1,15 @@
 package com.danubetech.keyformats.jose;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.codec.binary.Base64;
 
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class JWK {
     @JsonProperty("kid") private String kid;
@@ -178,7 +173,7 @@ public class JWK {
     @JsonIgnore
     public byte[] getXdecoded() {
         String x = this.getX();
-        return x != null ? Base64.decodeBase64(x) : null;
+        return x != null ? Base64.getUrlDecoder().decode(x) : null;
     }
 
     public void setX(String x) {
@@ -192,7 +187,7 @@ public class JWK {
     @JsonIgnore
     public byte[] getYdecoded() {
         String y = this.getY();
-        return y != null ? Base64.decodeBase64(y) : null;
+        return y != null ? Base64.getUrlDecoder().decode(y) : null;
     }
 
     public void setY(String y) {
@@ -206,7 +201,7 @@ public class JWK {
     @JsonIgnore
     public byte[] getDdecoded() {
         String d = this.getD();
-        return d != null ? Base64.decodeBase64(d) : null;
+        return d != null ? Base64.getUrlDecoder().decode(d) : null;
     }
 
     public void setD(String d) {
@@ -220,7 +215,7 @@ public class JWK {
     @JsonIgnore
     public byte[] getNdecoded() {
         String n = this.getN();
-        return n != null ? Base64.decodeBase64(n) : null;
+        return n != null ? Base64.getUrlDecoder().decode(n) : null;
     }
 
     public void setN(String n) {
@@ -234,7 +229,7 @@ public class JWK {
     @JsonIgnore
     public byte[] getEdecoded() {
         String e = this.getE();
-        return e != null ? Base64.decodeBase64(e) : null;
+        return e != null ? Base64.getUrlDecoder().decode(e) : null;
     }
 
     public void setE(String e) {
@@ -248,7 +243,7 @@ public class JWK {
     @JsonIgnore
     public byte[] getKdecoded() {
         String k = this.getK();
-        return k != null ? Base64.decodeBase64(k) : null;
+        return k != null ? Base64.getUrlDecoder().decode(k) : null;
     }
 
     public void setK(String k) {
@@ -262,7 +257,7 @@ public class JWK {
     @JsonIgnore
     public byte[] getPdecoded() {
         String p = this.getP();
-        return p != null ? Base64.decodeBase64(p) : null;
+        return p != null ? Base64.getUrlDecoder().decode(p) : null;
     }
 
     public void setP(String p) {
@@ -276,7 +271,7 @@ public class JWK {
     @JsonIgnore
     public byte[] getQdecoded() {
         String q = this.getQ();
-        return q != null ? Base64.decodeBase64(q) : null;
+        return q != null ? Base64.getUrlDecoder().decode(q) : null;
     }
 
     public void setQ(String q) {
@@ -290,7 +285,7 @@ public class JWK {
     @JsonIgnore
     public byte[] getDpdecoded() {
         String dp = this.getDp();
-        return dp != null ? Base64.decodeBase64(dp) : null;
+        return dp != null ? Base64.getUrlDecoder().decode(dp) : null;
     }
 
     public void setDp(String dp) {
@@ -304,7 +299,7 @@ public class JWK {
     @JsonIgnore
     public byte[] getDqdecoded() {
         String dq = this.getDq();
-        return dq != null ? Base64.decodeBase64(dq) : null;
+        return dq != null ? Base64.getUrlDecoder().decode(dq) : null;
     }
 
     public void setDq(String dq) {
@@ -318,7 +313,7 @@ public class JWK {
     @JsonIgnore
     public byte[] getQidecoded() {
         String qi = this.getQi();
-        return qi != null ? Base64.decodeBase64(qi) : null;
+        return qi != null ? Base64.getUrlDecoder().decode(qi) : null;
     }
 
     public void setQi(String qi) {

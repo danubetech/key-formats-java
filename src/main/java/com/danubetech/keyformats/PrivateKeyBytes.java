@@ -155,7 +155,7 @@ public class PrivateKeyBytes {
 	public static byte[] P_256PrivateKey_to_bytes(ECPrivateKey privateKey) {
 
 		byte[] s = ByteArrayUtil.bigIntegertoByteArray(privateKey.getS());
-		if (s.length != 32) throw new IllegalArgumentException("Invalid 's' value (not 32 bytes): " + Hex.encodeHexString(s) + ", length=" + s.length);
+		if (s.length != 32) throw new IllegalArgumentException("Invalid 's' value (not 32 bytes): " + new String(Hex.encodeHex(s)) + ", length=" + s.length);
 
 		return s;
 	}
@@ -185,7 +185,7 @@ public class PrivateKeyBytes {
 	public static byte[] P_384PrivateKey_to_bytes(ECPrivateKey privateKey) {
 
 		byte[] s = ByteArrayUtil.bigIntegertoByteArray(privateKey.getS());
-		if (s.length != 48) throw new IllegalArgumentException("Invalid 's' value (not 48 bytes): " + Hex.encodeHexString(s) + ", length=" + s.length);
+		if (s.length != 48) throw new IllegalArgumentException("Invalid 's' value (not 48 bytes): " + new String(Hex.encodeHex(s)) + ", length=" + s.length);
 
 		return s;
 	}
@@ -215,7 +215,7 @@ public class PrivateKeyBytes {
 	public static byte[] P_521PrivateKey_to_bytes(ECPrivateKey privateKey) {
 
 		byte[] s = ByteArrayUtil.bigIntegertoByteArray(privateKey.getS());
-		if (s.length != 64 && s.length != 65 && s.length != 66) throw new IllegalArgumentException("Invalid 's' value (not 64 or 65 or 66 bytes): " + Hex.encodeHexString(s) + ", length=" + s.length);
+		if (s.length != 64 && s.length != 65 && s.length != 66) throw new IllegalArgumentException("Invalid 's' value (not 64 or 65 or 66 bytes): " + new String(Hex.encodeHex(s)) + ", length=" + s.length);
 
 		return s;
 	}

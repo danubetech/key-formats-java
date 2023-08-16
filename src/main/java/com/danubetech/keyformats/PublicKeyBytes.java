@@ -49,9 +49,9 @@ public class PublicKeyBytes {
 		org.bouncycastle.math.ec.ECPoint publicKeyPoint = publicKey.getPubKeyPoint();
 
 		byte[] x = publicKeyPoint.getAffineXCoord().getEncoded();
-		if (x.length != 32) throw new IllegalArgumentException("Invalid 'x' value (not 32 bytes): " + Hex.encodeHexString(x) + ", length=" + x.length);
+		if (x.length != 32) throw new IllegalArgumentException("Invalid 'x' value (not 32 bytes): " + new String(Hex.encodeHex(x)) + ", length=" + x.length);
 		byte[] y = publicKeyPoint.getAffineYCoord().getEncoded();
-		if (y.length != 32) throw new IllegalArgumentException("Invalid 'y' value (not 32 bytes): " + Hex.encodeHexString(y) + ", length=" + y.length);
+		if (y.length != 32) throw new IllegalArgumentException("Invalid 'y' value (not 32 bytes): " + new String(Hex.encodeHex(y)) + ", length=" + y.length);
 
 		byte[] publicKeyBytes = new byte[65];
 		publicKeyBytes[0] = 4;
@@ -159,9 +159,9 @@ public class PublicKeyBytes {
 		ECPoint publicKeyPoint = publicKey.getW();
 
 		byte[] x = ByteArrayUtil.bigIntegertoByteArray(publicKeyPoint.getAffineX());
-		if (x.length != 32) throw new IllegalArgumentException("Invalid 'x' value (not 32 bytes): " + Hex.encodeHexString(x) + ", length=" + x.length + " (" + publicKeyPoint.getAffineX().bitLength() + " bits)");
+		if (x.length != 32) throw new IllegalArgumentException("Invalid 'x' value (not 32 bytes): " + new String(Hex.encodeHex(x)) + ", length=" + x.length + " (" + publicKeyPoint.getAffineX().bitLength() + " bits)");
 		byte[] y = ByteArrayUtil.bigIntegertoByteArray(publicKeyPoint.getAffineY());
-		if (y.length != 32) throw new IllegalArgumentException("Invalid 'y' value (not 32 bytes): " + Hex.encodeHexString(y) + ", length=" + y.length + " (" + publicKeyPoint.getAffineY().bitLength() + " bits)");
+		if (y.length != 32) throw new IllegalArgumentException("Invalid 'y' value (not 32 bytes): " + new String(Hex.encodeHex(y)) + ", length=" + y.length + " (" + publicKeyPoint.getAffineY().bitLength() + " bits)");
 
 		byte[] publicKeyBytes = new byte[1+x.length+y.length];
 		publicKeyBytes[0] = 4;
@@ -204,9 +204,9 @@ public class PublicKeyBytes {
 		ECPoint publicKeyPoint = publicKey.getW();
 
 		byte[] x = ByteArrayUtil.bigIntegertoByteArray(publicKeyPoint.getAffineX());
-		if (x.length != 48) throw new IllegalArgumentException("Invalid 'x' value (not 48 bytes): " + Hex.encodeHexString(x) + ", length=" + x.length + " (" + publicKeyPoint.getAffineX().bitLength() + " bits)");
+		if (x.length != 48) throw new IllegalArgumentException("Invalid 'x' value (not 48 bytes): " + new String(Hex.encodeHex(x)) + ", length=" + x.length + " (" + publicKeyPoint.getAffineX().bitLength() + " bits)");
 		byte[] y = ByteArrayUtil.bigIntegertoByteArray(publicKeyPoint.getAffineY());
-		if (y.length != 48) throw new IllegalArgumentException("Invalid 'y' value (not 48 bytes): " + Hex.encodeHexString(y) + ", length=" + y.length + " (" + publicKeyPoint.getAffineY().bitLength() + " bits)");
+		if (y.length != 48) throw new IllegalArgumentException("Invalid 'y' value (not 48 bytes): " + new String(Hex.encodeHex(y)) + ", length=" + y.length + " (" + publicKeyPoint.getAffineY().bitLength() + " bits)");
 
 		byte[] publicKeyBytes = new byte[1+x.length+y.length];
 		publicKeyBytes[0] = 4;
@@ -249,9 +249,9 @@ public class PublicKeyBytes {
 		ECPoint publicKeyPoint = publicKey.getW();
 
 		byte[] x = ByteArrayUtil.bigIntegertoByteArray(publicKeyPoint.getAffineX());
-		if (x.length < 64 || x.length > 66) throw new IllegalArgumentException("Invalid 'x' value (<64 or >66 bytes): " + Hex.encodeHexString(x) + ", length=" + x.length + " (" + publicKeyPoint.getAffineX().bitLength() + " bits)");
+		if (x.length < 64 || x.length > 66) throw new IllegalArgumentException("Invalid 'x' value (<64 or >66 bytes): " + new String(Hex.encodeHex(x)) + ", length=" + x.length + " (" + publicKeyPoint.getAffineX().bitLength() + " bits)");
 		byte[] y = ByteArrayUtil.bigIntegertoByteArray(publicKeyPoint.getAffineY());
-		if (y.length < 64 || y.length > 66) throw new IllegalArgumentException("Invalid 'y' value (<64 or >66 bytes): " + Hex.encodeHexString(y) + ", length=" + y.length + " (" + publicKeyPoint.getAffineY().bitLength() + " bits)");
+		if (y.length < 64 || y.length > 66) throw new IllegalArgumentException("Invalid 'y' value (<64 or >66 bytes): " + new String(Hex.encodeHex(y)) + ", length=" + y.length + " (" + publicKeyPoint.getAffineY().bitLength() + " bits)");
 
 		byte[] publicKeyBytes = new byte[1+x.length+y.length];
 		publicKeyBytes[0] = 4;

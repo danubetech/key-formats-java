@@ -4,7 +4,6 @@ import com.danubetech.keyformats.jose.Curve;
 import com.danubetech.keyformats.jose.JWK;
 import com.danubetech.keyformats.jose.KeyType;
 import com.danubetech.keyformats.util.ByteArrayUtil;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
 import org.bitcoinj.core.ECKey;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -16,6 +15,7 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.ECPoint;
 import java.util.Arrays;
+import java.util.Base64;
 
 public class PrivateKey_to_JWK {
 
@@ -29,9 +29,9 @@ public class PrivateKey_to_JWK {
 		jsonWebKey.setKty(KeyType.RSA);
 		jsonWebKey.setKid(kid);
 		jsonWebKey.setUse(use);
-		jsonWebKey.setN(Base64.encodeBase64URLSafeString(ByteArrayUtil.bigIntegertoByteArray(((RSAPublicKey) privateKey.getPublic()).getModulus())));
-		jsonWebKey.setE(Base64.encodeBase64URLSafeString(ByteArrayUtil.bigIntegertoByteArray(((RSAPublicKey) privateKey.getPublic()).getPublicExponent())));
-		jsonWebKey.setD(Base64.encodeBase64URLSafeString(ByteArrayUtil.bigIntegertoByteArray(((RSAPrivateKey) privateKey.getPrivate()).getPrivateExponent())));
+		jsonWebKey.setN(Base64.getUrlEncoder().withoutPadding().encodeToString(ByteArrayUtil.bigIntegertoByteArray(((RSAPublicKey) privateKey.getPublic()).getModulus())));
+		jsonWebKey.setE(Base64.getUrlEncoder().withoutPadding().encodeToString(ByteArrayUtil.bigIntegertoByteArray(((RSAPublicKey) privateKey.getPublic()).getPublicExponent())));
+		jsonWebKey.setD(Base64.getUrlEncoder().withoutPadding().encodeToString(ByteArrayUtil.bigIntegertoByteArray(((RSAPrivateKey) privateKey.getPrivate()).getPrivateExponent())));
 
 		return jsonWebKey;
 	}
@@ -41,8 +41,8 @@ public class PrivateKey_to_JWK {
 		org.bouncycastle.math.ec.ECPoint publicKeyPoint = privateKey.getPubKeyPoint();
 		byte[] privateKeyBytes = privateKey.getPrivKeyBytes();
 
-		if (publicKeyPoint.getAffineXCoord().getEncoded().length != 32) throw new IllegalArgumentException("Invalid 'x' value (not 32 bytes): " + Hex.encodeHexString(publicKeyPoint.getAffineXCoord().getEncoded()) + ", length=" + publicKeyPoint.getAffineXCoord().getEncoded().length);
-		if (publicKeyPoint.getAffineYCoord().getEncoded().length != 32) throw new IllegalArgumentException("Invalid 'y' value (not 32 bytes): " + Hex.encodeHexString(publicKeyPoint.getAffineYCoord().getEncoded()) + ", length=" + publicKeyPoint.getAffineYCoord().getEncoded().length);
+		if (publicKeyPoint.getAffineXCoord().getEncoded().length != 32) throw new IllegalArgumentException("Invalid 'x' value (not 32 bytes): " + new String(Hex.encodeHex(publicKeyPoint.getAffineXCoord().getEncoded())) + ", length=" + publicKeyPoint.getAffineXCoord().getEncoded().length);
+		if (publicKeyPoint.getAffineYCoord().getEncoded().length != 32) throw new IllegalArgumentException("Invalid 'y' value (not 32 bytes): " + new String(Hex.encodeHex(publicKeyPoint.getAffineYCoord().getEncoded())) + ", length=" + publicKeyPoint.getAffineYCoord().getEncoded().length);
 		if (privateKeyBytes.length != 32) throw new IllegalArgumentException("Invalid 'd' value (not 32 bytes): length=" + privateKeyBytes.length);
 
 		JWK jsonWebKey = new JWK();
@@ -50,9 +50,9 @@ public class PrivateKey_to_JWK {
 		jsonWebKey.setCrv(Curve.secp256k1);
 		jsonWebKey.setKid(kid);
 		jsonWebKey.setUse(use);
-		jsonWebKey.setX(Base64.encodeBase64URLSafeString(publicKeyPoint.getAffineXCoord().getEncoded()));
-		jsonWebKey.setY(Base64.encodeBase64URLSafeString(publicKeyPoint.getAffineYCoord().getEncoded()));
-		jsonWebKey.setD(Base64.encodeBase64URLSafeString(privateKeyBytes));
+		jsonWebKey.setX(Base64.getUrlEncoder().withoutPadding().encodeToString(publicKeyPoint.getAffineXCoord().getEncoded()));
+		jsonWebKey.setY(Base64.getUrlEncoder().withoutPadding().encodeToString(publicKeyPoint.getAffineYCoord().getEncoded()));
+		jsonWebKey.setD(Base64.getUrlEncoder().withoutPadding().encodeToString(privateKeyBytes));
 
 		return jsonWebKey;
 	}
@@ -67,8 +67,8 @@ public class PrivateKey_to_JWK {
 		jsonWebKey.setCrv(Curve.Bls12381G1);
 		jsonWebKey.setKid(kid);
 		jsonWebKey.setUse(use);
-		jsonWebKey.setX(Base64.encodeBase64URLSafeString(publicKeyBytes));
-		jsonWebKey.setD(Base64.encodeBase64URLSafeString(privateKeyBytes));
+		jsonWebKey.setX(Base64.getUrlEncoder().withoutPadding().encodeToString(publicKeyBytes));
+		jsonWebKey.setD(Base64.getUrlEncoder().withoutPadding().encodeToString(privateKeyBytes));
 
 		return jsonWebKey;
 	}
@@ -83,8 +83,8 @@ public class PrivateKey_to_JWK {
 		jsonWebKey.setCrv(Curve.Bls12381G2);
 		jsonWebKey.setKid(kid);
 		jsonWebKey.setUse(use);
-		jsonWebKey.setX(Base64.encodeBase64URLSafeString(publicKeyBytes));
-		jsonWebKey.setD(Base64.encodeBase64URLSafeString(privateKeyBytes));
+		jsonWebKey.setX(Base64.getUrlEncoder().withoutPadding().encodeToString(publicKeyBytes));
+		jsonWebKey.setD(Base64.getUrlEncoder().withoutPadding().encodeToString(privateKeyBytes));
 
 		return jsonWebKey;
 	}
@@ -99,8 +99,8 @@ public class PrivateKey_to_JWK {
 		jsonWebKey.setCrv(Curve.Bls48581G1);
 		jsonWebKey.setKid(kid);
 		jsonWebKey.setUse(use);
-		jsonWebKey.setX(Base64.encodeBase64URLSafeString(publicKeyBytes));
-		jsonWebKey.setD(Base64.encodeBase64URLSafeString(privateKeyBytes));
+		jsonWebKey.setX(Base64.getUrlEncoder().withoutPadding().encodeToString(publicKeyBytes));
+		jsonWebKey.setD(Base64.getUrlEncoder().withoutPadding().encodeToString(privateKeyBytes));
 
 		return jsonWebKey;
 	}
@@ -115,8 +115,8 @@ public class PrivateKey_to_JWK {
 		jsonWebKey.setCrv(Curve.Bls48581G2);
 		jsonWebKey.setKid(kid);
 		jsonWebKey.setUse(use);
-		jsonWebKey.setX(Base64.encodeBase64URLSafeString(publicKeyBytes));
-		jsonWebKey.setD(Base64.encodeBase64URLSafeString(privateKeyBytes));
+		jsonWebKey.setX(Base64.getUrlEncoder().withoutPadding().encodeToString(publicKeyBytes));
+		jsonWebKey.setD(Base64.getUrlEncoder().withoutPadding().encodeToString(privateKeyBytes));
 
 		return jsonWebKey;
 	}
@@ -131,8 +131,8 @@ public class PrivateKey_to_JWK {
 		jsonWebKey.setCrv(Curve.Ed25519);
 		jsonWebKey.setKid(kid);
 		jsonWebKey.setUse(use);
-		jsonWebKey.setX(Base64.encodeBase64URLSafeString(publicKeyBytes));
-		jsonWebKey.setD(Base64.encodeBase64URLSafeString(onlyPrivateKeyBytes));
+		jsonWebKey.setX(Base64.getUrlEncoder().withoutPadding().encodeToString(publicKeyBytes));
+		jsonWebKey.setD(Base64.getUrlEncoder().withoutPadding().encodeToString(onlyPrivateKeyBytes));
 
 		return jsonWebKey;
 	}
@@ -147,8 +147,8 @@ public class PrivateKey_to_JWK {
 		jsonWebKey.setCrv(Curve.X25519);
 		jsonWebKey.setKid(kid);
 		jsonWebKey.setUse(use);
-		jsonWebKey.setX(Base64.encodeBase64URLSafeString(publicKeyBytes));
-		jsonWebKey.setD(Base64.encodeBase64URLSafeString(onlyPrivateKeyBytes));
+		jsonWebKey.setX(Base64.getUrlEncoder().withoutPadding().encodeToString(publicKeyBytes));
+		jsonWebKey.setD(Base64.getUrlEncoder().withoutPadding().encodeToString(onlyPrivateKeyBytes));
 
 		return jsonWebKey;
 	}
@@ -156,7 +156,7 @@ public class PrivateKey_to_JWK {
 	public static JWK P_256PrivateKey_to_JWK(ECPrivateKey privateKey, String kid, String use) {
 
 		byte[] d = ByteArrayUtil.bigIntegertoByteArray(privateKey.getS());
-		if (d.length != 32) throw new IllegalArgumentException("Invalid 'd' value (not 32 bytes): " + Hex.encodeHexString(d) + ", length=" + d.length + " (" + privateKey.getS().bitLength() + " bits)");
+		if (d.length != 32) throw new IllegalArgumentException("Invalid 'd' value (not 32 bytes): " + new String(Hex.encodeHex(d)) + ", length=" + d.length + " (" + privateKey.getS().bitLength() + " bits)");
 
 		ECPoint publicKeyPoint;
 		try {
@@ -169,18 +169,18 @@ public class PrivateKey_to_JWK {
 		}
 
 		byte[] x = ByteArrayUtil.bigIntegertoByteArray(publicKeyPoint.getAffineX());
-		if (x.length != 32) throw new IllegalArgumentException("Invalid 'x' value (not 32 bytes): " + Hex.encodeHexString(x) + ", length=" + x.length + " (" + publicKeyPoint.getAffineX().bitLength() + " bits)");
+		if (x.length != 32) throw new IllegalArgumentException("Invalid 'x' value (not 32 bytes): " + new String(Hex.encodeHex(x)) + ", length=" + x.length + " (" + publicKeyPoint.getAffineX().bitLength() + " bits)");
 		byte[] y = ByteArrayUtil.bigIntegertoByteArray(publicKeyPoint.getAffineY());
-		if (y.length != 32) throw new IllegalArgumentException("Invalid 'y' value (not 32 bytes): " + Hex.encodeHexString(y) + ", length=" + y.length + " (" + publicKeyPoint.getAffineY().bitLength() + " bits)");
+		if (y.length != 32) throw new IllegalArgumentException("Invalid 'y' value (not 32 bytes): " + new String(Hex.encodeHex(y)) + ", length=" + y.length + " (" + publicKeyPoint.getAffineY().bitLength() + " bits)");
 
 		JWK jsonWebKey = new JWK();
 		jsonWebKey.setKty(KeyType.EC);
 		jsonWebKey.setCrv(Curve.P_256);
 		jsonWebKey.setKid(kid);
 		jsonWebKey.setUse(use);
-		jsonWebKey.setX(Base64.encodeBase64URLSafeString(x));
-		jsonWebKey.setY(Base64.encodeBase64URLSafeString(y));
-		jsonWebKey.setD(Base64.encodeBase64URLSafeString(d));
+		jsonWebKey.setX(Base64.getUrlEncoder().withoutPadding().encodeToString(x));
+		jsonWebKey.setY(Base64.getUrlEncoder().withoutPadding().encodeToString(y));
+		jsonWebKey.setD(Base64.getUrlEncoder().withoutPadding().encodeToString(d));
 
 		return jsonWebKey;
 	}
@@ -188,7 +188,7 @@ public class PrivateKey_to_JWK {
 	public static JWK P_384PrivateKey_to_JWK(ECPrivateKey privateKey, String kid, String use) {
 
 		byte[] d = ByteArrayUtil.bigIntegertoByteArray(privateKey.getS());
-		if (d.length != 48) throw new IllegalArgumentException("Invalid 'd' value (not 48 bytes): " + Hex.encodeHexString(d) + ", length=" + d.length + " (" + privateKey.getS().bitLength() + " bits)");
+		if (d.length != 48) throw new IllegalArgumentException("Invalid 'd' value (not 48 bytes): " + new String(Hex.encodeHex(d)) + ", length=" + d.length + " (" + privateKey.getS().bitLength() + " bits)");
 
 		ECPoint publicKeyPoint;
 		try {
@@ -201,18 +201,18 @@ public class PrivateKey_to_JWK {
 		}
 
 		byte[] x = ByteArrayUtil.bigIntegertoByteArray(publicKeyPoint.getAffineX());
-		if (x.length != 48) throw new IllegalArgumentException("Invalid 'x' value (not 48 bytes): " + Hex.encodeHexString(x) + ", length=" + x.length + " (" + publicKeyPoint.getAffineX().bitLength() + " bits)");
+		if (x.length != 48) throw new IllegalArgumentException("Invalid 'x' value (not 48 bytes): " + new String(Hex.encodeHex(x)) + ", length=" + x.length + " (" + publicKeyPoint.getAffineX().bitLength() + " bits)");
 		byte[] y = ByteArrayUtil.bigIntegertoByteArray(publicKeyPoint.getAffineY());
-		if (y.length != 48) throw new IllegalArgumentException("Invalid 'y' value (not 48 bytes): " + Hex.encodeHexString(y) + ", length=" + y.length + " (" + publicKeyPoint.getAffineY().bitLength() + " bits)");
+		if (y.length != 48) throw new IllegalArgumentException("Invalid 'y' value (not 48 bytes): " + new String(Hex.encodeHex(y)) + ", length=" + y.length + " (" + publicKeyPoint.getAffineY().bitLength() + " bits)");
 
 		JWK jsonWebKey = new JWK();
 		jsonWebKey.setKty(KeyType.EC);
 		jsonWebKey.setCrv(Curve.P_384);
 		jsonWebKey.setKid(kid);
 		jsonWebKey.setUse(use);
-		jsonWebKey.setX(Base64.encodeBase64URLSafeString(x));
-		jsonWebKey.setY(Base64.encodeBase64URLSafeString(y));
-		jsonWebKey.setD(Base64.encodeBase64URLSafeString(d));
+		jsonWebKey.setX(Base64.getUrlEncoder().withoutPadding().encodeToString(x));
+		jsonWebKey.setY(Base64.getUrlEncoder().withoutPadding().encodeToString(y));
+		jsonWebKey.setD(Base64.getUrlEncoder().withoutPadding().encodeToString(d));
 
 		return jsonWebKey;
 	}
@@ -220,7 +220,7 @@ public class PrivateKey_to_JWK {
 	public static JWK P_521PrivateKey_to_JWK(ECPrivateKey privateKey, String kid, String use) {
 
 		byte[] d = ByteArrayUtil.bigIntegertoByteArray(privateKey.getS());
-		if (d.length != 64 && d.length != 65 && d.length != 66) throw new IllegalArgumentException("Invalid 'd' value (not 64 or 65 or 66 bytes): " + Hex.encodeHexString(d) + ", length=" + d.length + " (" + privateKey.getS().bitLength() + " bits)");
+		if (d.length != 64 && d.length != 65 && d.length != 66) throw new IllegalArgumentException("Invalid 'd' value (not 64 or 65 or 66 bytes): " + new String(Hex.encodeHex(d)) + ", length=" + d.length + " (" + privateKey.getS().bitLength() + " bits)");
 		d = ByteArrayUtil.padArrayZeros(d, 66);
 
 		ECPoint publicKeyPoint;
@@ -234,10 +234,10 @@ public class PrivateKey_to_JWK {
 		}
 
 		byte[] x = ByteArrayUtil.bigIntegertoByteArray(publicKeyPoint.getAffineX());
-		if (x.length != 64 && x.length != 65 && x.length != 66) throw new IllegalArgumentException("Invalid 'x' value (not 64 or 65 or bytes): " + Hex.encodeHexString(x) + ", length=" + x.length + " (" + publicKeyPoint.getAffineX().bitLength() + " bits)");
+		if (x.length != 64 && x.length != 65 && x.length != 66) throw new IllegalArgumentException("Invalid 'x' value (not 64 or 65 or bytes): " + new String(Hex.encodeHex(x)) + ", length=" + x.length + " (" + publicKeyPoint.getAffineX().bitLength() + " bits)");
 		x = ByteArrayUtil.padArrayZeros(x, 66);
 		byte[] y = ByteArrayUtil.bigIntegertoByteArray(publicKeyPoint.getAffineY());
-		if (y.length != 64 && y.length != 65 && y.length != 66) throw new IllegalArgumentException("Invalid 'y' value (not 64 or 65 or 66 bytes): " + Hex.encodeHexString(y) + ", length=" + y.length + " (" + publicKeyPoint.getAffineY().bitLength() + " bits)");
+		if (y.length != 64 && y.length != 65 && y.length != 66) throw new IllegalArgumentException("Invalid 'y' value (not 64 or 65 or 66 bytes): " + new String(Hex.encodeHex(y)) + ", length=" + y.length + " (" + publicKeyPoint.getAffineY().bitLength() + " bits)");
 		y = ByteArrayUtil.padArrayZeros(y, 66);
 
 		JWK jsonWebKey = new JWK();
@@ -245,9 +245,9 @@ public class PrivateKey_to_JWK {
 		jsonWebKey.setCrv(Curve.P_521);
 		jsonWebKey.setKid(kid);
 		jsonWebKey.setUse(use);
-		jsonWebKey.setX(Base64.encodeBase64URLSafeString(x));
-		jsonWebKey.setY(Base64.encodeBase64URLSafeString(y));
-		jsonWebKey.setD(Base64.encodeBase64URLSafeString(d));
+		jsonWebKey.setX(Base64.getUrlEncoder().withoutPadding().encodeToString(x));
+		jsonWebKey.setY(Base64.getUrlEncoder().withoutPadding().encodeToString(y));
+		jsonWebKey.setD(Base64.getUrlEncoder().withoutPadding().encodeToString(d));
 
 		return jsonWebKey;
 	}

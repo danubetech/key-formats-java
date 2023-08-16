@@ -30,7 +30,8 @@ public class JWKTest {
 		TinkEd25519Provider.get().generateEC25519KeyPair(publicKey, privateKey);
 		JWK jwkPrivateKey = PrivateKey_to_JWK.Ed25519PrivateKeyBytes_to_JWK(privateKey, "key-1", "sig");
 		JWK jwkPublicKey = PrivateKey_to_JWK.Ed25519PrivateKeyBytes_to_JWK(privateKey, "key-1", "sig");
-		assertEquals(Hex.encodeHexString(jwkPublicKey.getXdecoded()), Hex.encodeHexString(publicKey));
-		assertEquals(Hex.encodeHexString(jwkPublicKey.getDdecoded()) + Hex.encodeHexString(jwkPublicKey.getXdecoded()), Hex.encodeHexString(privateKey));
+		assertEquals(new String(Hex.encodeHex(jwkPrivateKey.getXdecoded())), new String(Hex.encodeHex(publicKey)));
+		assertEquals(new String(Hex.encodeHex(jwkPrivateKey.getDdecoded())) + new String(Hex.encodeHex(jwkPrivateKey.getXdecoded())), new String(Hex.encodeHex(privateKey)));
+		assertEquals(new String(Hex.encodeHex(jwkPrivateKey.getXdecoded())), new String(Hex.encodeHex(jwkPublicKey.getXdecoded())));
 	}
 }
