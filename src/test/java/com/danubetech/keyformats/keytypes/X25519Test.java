@@ -16,17 +16,19 @@ public class X25519Test {
 
 	static {
 		try {
-			jwkPublic = JWK.fromJson("{\n" +
-					"  \"kty\": \"OKP\",\n" +
-					"  \"crv\": \"X25519\",\n" +
-					"  \"x\": \"HDcYn8qmdrOXxBUNDh8wCzFgA_BbSqDzyYZl-Iac_nQ\"\n" +
-					"}");
-			jwkPrivate = JWK.fromJson("{\n" +
-					"  \"kty\": \"OKP\",\n" +
-					"  \"crv\": \"X25519\",\n" +
-					"  \"x\": \"HDcYn8qmdrOXxBUNDh8wCzFgA_BbSqDzyYZl-Iac_nQ\",\n" +
-					"  \"d\": \"lxnr4guCed8naHgpkHPONJWjTQu3b0J00zyAyPk7Ja8\"\n" +
-					"}");
+			jwkPublic = JWK.fromJson("""
+                    {
+                      "kty": "OKP",
+                      "crv": "X25519",
+                      "x": "HDcYn8qmdrOXxBUNDh8wCzFgA_BbSqDzyYZl-Iac_nQ"
+                    }""");
+			jwkPrivate = JWK.fromJson("""
+                    {
+                      "kty": "OKP",
+                      "crv": "X25519",
+                      "x": "HDcYn8qmdrOXxBUNDh8wCzFgA_BbSqDzyYZl-Iac_nQ",
+                      "d": "lxnr4guCed8naHgpkHPONJWjTQu3b0J00zyAyPk7Ja8"
+                    }""");
 		} catch (IOException ex) {
 			throw new ExceptionInInitializerError(ex);
 		}

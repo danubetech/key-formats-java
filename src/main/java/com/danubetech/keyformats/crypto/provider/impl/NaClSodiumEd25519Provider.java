@@ -55,7 +55,7 @@ public class NaClSodiumEd25519Provider extends Ed25519Provider {
 		System.arraycopy(content, 0, signatureValue, Sign.ED25519_BYTES, content.length);
 
 		boolean ret = signNative.cryptoSign(signatureValue, content, content.length, privateKey);
-		if (! ret) throw new GeneralSecurityException("Signing error: " + ret);
+		if (! ret) throw new GeneralSecurityException("Unknown signing error");
 
 		signatureValue = Arrays.copyOfRange(signatureValue, 0, Sign.ED25519_BYTES);
 

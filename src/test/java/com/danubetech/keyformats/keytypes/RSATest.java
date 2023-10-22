@@ -22,17 +22,19 @@ public class RSATest extends AbstractTest {
 
 	static {
 		try {
-			jwkPublic = JWK.fromJson("{\n" +
-					"  \"kty\": \"RSA\",\n" +
-					"  \"e\": \"AQAB\",\n" +
-					"  \"n\": \"lqF6-rWlBHPB7fEGQ46iKBFplLY5qJaWX1kH0bcUmQMgjsVWlOpNb6I9NTeuSf3JM54vDS_8iZvmJ7bsQOWBCZEv_rWW4kMJSjcoAdhDt_5sU3g2mFbv7KLRpsfWSN8G4zn7WpF2O18qtfTGAPQC_UNoHsVPZ-Nry5aNzFxQpoXDgziIcjQWEpI8OEUIyJQhl2jS6-VKJMINSWDqb2mARvTSuLd8eG_4tw5yMQFvKikjcbCdx0gqnbXu4dHTInGgtnozyY9b2HRx6Qk0wpQ-OsYaYskZFv8eP8pFEuOy-S65Uyhhbt0f5FuRWPTL0lOAGpPTYFOt0g6niq-ryXC2nQ\"\n" +
-					"}");
-			jwkPrivate = JWK.fromJson("{\n" +
-					"  \"kty\": \"RSA\",\n" +
-					"  \"e\": \"AQAB\",\n" +
-					"  \"n\": \"lqF6-rWlBHPB7fEGQ46iKBFplLY5qJaWX1kH0bcUmQMgjsVWlOpNb6I9NTeuSf3JM54vDS_8iZvmJ7bsQOWBCZEv_rWW4kMJSjcoAdhDt_5sU3g2mFbv7KLRpsfWSN8G4zn7WpF2O18qtfTGAPQC_UNoHsVPZ-Nry5aNzFxQpoXDgziIcjQWEpI8OEUIyJQhl2jS6-VKJMINSWDqb2mARvTSuLd8eG_4tw5yMQFvKikjcbCdx0gqnbXu4dHTInGgtnozyY9b2HRx6Qk0wpQ-OsYaYskZFv8eP8pFEuOy-S65Uyhhbt0f5FuRWPTL0lOAGpPTYFOt0g6niq-ryXC2nQ\",\n" +
-					"  \"d\": \"X4UBLnD3tu4NIW1Bcp_FdrEsCdDQmXb83nPfwH5fwnQ4NjEvqXk3J75zIAcyL9uOtnvuDGfMthq1haO7B6BCBqYaEGRozQyDnJuDdEAHGWtumDPYMxyWQrIxTpjU6xr7DCbdnN43YokD1aTl1v7l0mLnaPPoWdHerpjHTLuRrTaWdg8822HzDi4AQddA9aAq78ijX8WCKvJGzqA7WqUikL8veSnXvbFpZaU1_XKzDLdP3oTp3uZMcvbEgCbh1UYxorlBe6S6H-BM0PHG4AOdpGYgDvCSqb_acAdLZQBpoqiNV0jC3PBVtb-GgOFhdvFvgEC-KBwqAUiyJin1iCpy4Q\"\n" +
-					"}");
+			jwkPublic = JWK.fromJson("""
+                    {
+                      "kty": "RSA",
+                      "e": "AQAB",
+                      "n": "lqF6-rWlBHPB7fEGQ46iKBFplLY5qJaWX1kH0bcUmQMgjsVWlOpNb6I9NTeuSf3JM54vDS_8iZvmJ7bsQOWBCZEv_rWW4kMJSjcoAdhDt_5sU3g2mFbv7KLRpsfWSN8G4zn7WpF2O18qtfTGAPQC_UNoHsVPZ-Nry5aNzFxQpoXDgziIcjQWEpI8OEUIyJQhl2jS6-VKJMINSWDqb2mARvTSuLd8eG_4tw5yMQFvKikjcbCdx0gqnbXu4dHTInGgtnozyY9b2HRx6Qk0wpQ-OsYaYskZFv8eP8pFEuOy-S65Uyhhbt0f5FuRWPTL0lOAGpPTYFOt0g6niq-ryXC2nQ"
+                    }""");
+			jwkPrivate = JWK.fromJson("""
+                    {
+                      "kty": "RSA",
+                      "e": "AQAB",
+                      "n": "lqF6-rWlBHPB7fEGQ46iKBFplLY5qJaWX1kH0bcUmQMgjsVWlOpNb6I9NTeuSf3JM54vDS_8iZvmJ7bsQOWBCZEv_rWW4kMJSjcoAdhDt_5sU3g2mFbv7KLRpsfWSN8G4zn7WpF2O18qtfTGAPQC_UNoHsVPZ-Nry5aNzFxQpoXDgziIcjQWEpI8OEUIyJQhl2jS6-VKJMINSWDqb2mARvTSuLd8eG_4tw5yMQFvKikjcbCdx0gqnbXu4dHTInGgtnozyY9b2HRx6Qk0wpQ-OsYaYskZFv8eP8pFEuOy-S65Uyhhbt0f5FuRWPTL0lOAGpPTYFOt0g6niq-ryXC2nQ",
+                      "d": "X4UBLnD3tu4NIW1Bcp_FdrEsCdDQmXb83nPfwH5fwnQ4NjEvqXk3J75zIAcyL9uOtnvuDGfMthq1haO7B6BCBqYaEGRozQyDnJuDdEAHGWtumDPYMxyWQrIxTpjU6xr7DCbdnN43YokD1aTl1v7l0mLnaPPoWdHerpjHTLuRrTaWdg8822HzDi4AQddA9aAq78ijX8WCKvJGzqA7WqUikL8veSnXvbFpZaU1_XKzDLdP3oTp3uZMcvbEgCbh1UYxorlBe6S6H-BM0PHG4AOdpGYgDvCSqb_acAdLZQBpoqiNV0jC3PBVtb-GgOFhdvFvgEC-KBwqAUiyJin1iCpy4Q"
+                    }""");
 		} catch (IOException ex) {
 			throw new ExceptionInInitializerError(ex);
 		}

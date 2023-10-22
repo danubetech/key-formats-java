@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -15,7 +16,7 @@ public class JWKTest {
 
 	@Test
 	public void testParseJWK() throws Exception {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(JWKTest.class.getResourceAsStream("jwks.txt"), StandardCharsets.UTF_8));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(JWKTest.class.getResourceAsStream("jwks.txt")), StandardCharsets.UTF_8));
 		String line;
 		while ((line = reader.readLine()) != null) {
 			JWK.fromJson(line);

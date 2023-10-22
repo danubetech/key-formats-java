@@ -18,7 +18,7 @@ public enum KeyTypeName {
 
     private static final Map<String, KeyTypeName> KEY_TYPE_NAME_MAP = new HashMap<>();
 
-    private String value;
+    private final String value;
 
     static {
         for (KeyTypeName keyType : KeyTypeName.values()) {
@@ -26,7 +26,7 @@ public enum KeyTypeName {
         }
     }
 
-    private KeyTypeName(String value) {
+    KeyTypeName(String value) {
         this.value = value;
     }
 

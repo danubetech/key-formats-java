@@ -2,7 +2,7 @@ package com.danubetech.keyformats.crypto;
 
 public abstract class PrivateKeySigner <T> extends ByteSigner {
 
-	private T privateKey;
+	private final T privateKey;
 
 	protected PrivateKeySigner(T privateKey, String algorithm) {
 

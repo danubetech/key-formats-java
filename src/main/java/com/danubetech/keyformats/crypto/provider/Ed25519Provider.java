@@ -41,7 +41,6 @@ public abstract class Ed25519Provider {
 	 * Generate a new Ed25519 private/public key pair.
 	 * @param publicKey A 32 byte array that will be filled with the new Ed25519 public key.
 	 * @param privateKey A 64 byte array that will be filled with the new Ed25519 private key concatenated with the new Ed25519 public key.
-	 * @throws GeneralSecurityException
 	 */
 	public abstract void generateEC25519KeyPair(byte[] publicKey, byte[] privateKey) throws GeneralSecurityException;
 
@@ -50,7 +49,6 @@ public abstract class Ed25519Provider {
 	 * @param publicKey A 32 byte array that will be filled with the new Ed25519 public key.
 	 * @param privateKey A 64 byte array that will be filled with the new Ed25519 private key concatenated with the new Ed25519 public key.
 	 * @param seed A seed byte array for generating the new Ed25519 private/public key pair.
-	 * @throws GeneralSecurityException
 	 */
 	public abstract void generateEC25519KeyPairFromSeed(byte[] publicKey, byte[] privateKey, byte[] seed) throws GeneralSecurityException;
 
@@ -59,7 +57,6 @@ public abstract class Ed25519Provider {
 	 * @param content The content to sign.
 	 * @param privateKey A 64 byte array containing a Ed25519 private key concatenated with a Ed25519 public key.
 	 * @return A 64 byte array containing the signature.
-	 * @throws GeneralSecurityException
 	 */
 	public abstract byte[] sign(byte[] content, byte[] privateKey) throws GeneralSecurityException;
 
@@ -69,7 +66,6 @@ public abstract class Ed25519Provider {
 	 * @param signature The signature.
 	 * @param publicKey A 32 byte array containing an Ed25519 public key.
 	 * @return True if the signature can be verified, false otherwise.
-	 * @throws GeneralSecurityException
 	 */
 	public abstract boolean verify(byte[] content, byte[] signature, byte[] publicKey) throws GeneralSecurityException;
 }

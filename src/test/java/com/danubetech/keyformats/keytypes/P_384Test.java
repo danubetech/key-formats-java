@@ -22,19 +22,21 @@ public class P_384Test extends AbstractTest {
 
 	static {
 		try {
-			jwkPublic = JWK.fromJson("{\n" +
-					"  \"kty\": \"EC\",\n" +
-					"  \"crv\": \"P-384\",\n" +
-					"  \"x\": \"K3-TGpdCapZuw3G9anqdhHakApxVwQ8CACFUSQ4yvV1ZQw5MeLsknANXQ6w95_m2\",\n" +
-					"  \"y\": \"cT0oZj26FpjLYTUsb1NJ85pj8GBU6v3SkHRLl_zLFuoHGcDGgzDNyxdgzdNNfRZD\"\n" +
-					"}");
-			jwkPrivate = JWK.fromJson("{\n" +
-					"  \"kty\": \"EC\",\n" +
-					"  \"crv\": \"P-384\",\n" +
-					"  \"x\": \"K3-TGpdCapZuw3G9anqdhHakApxVwQ8CACFUSQ4yvV1ZQw5MeLsknANXQ6w95_m2\",\n" +
-					"  \"y\": \"cT0oZj26FpjLYTUsb1NJ85pj8GBU6v3SkHRLl_zLFuoHGcDGgzDNyxdgzdNNfRZD\",\n" +
-					"  \"d\": \"g-NvpP9jH-w_mrfl3TOq8mrwNJ4Cn9z4H61MpAYVG8h8Dh9KpQ5GRPVnArvi0i5Z\"\n" +
-					"}");
+			jwkPublic = JWK.fromJson("""
+                    {
+                      "kty": "EC",
+                      "crv": "P-384",
+                      "x": "K3-TGpdCapZuw3G9anqdhHakApxVwQ8CACFUSQ4yvV1ZQw5MeLsknANXQ6w95_m2",
+                      "y": "cT0oZj26FpjLYTUsb1NJ85pj8GBU6v3SkHRLl_zLFuoHGcDGgzDNyxdgzdNNfRZD"
+                    }""");
+			jwkPrivate = JWK.fromJson("""
+                    {
+                      "kty": "EC",
+                      "crv": "P-384",
+                      "x": "K3-TGpdCapZuw3G9anqdhHakApxVwQ8CACFUSQ4yvV1ZQw5MeLsknANXQ6w95_m2",
+                      "y": "cT0oZj26FpjLYTUsb1NJ85pj8GBU6v3SkHRLl_zLFuoHGcDGgzDNyxdgzdNNfRZD",
+                      "d": "g-NvpP9jH-w_mrfl3TOq8mrwNJ4Cn9z4H61MpAYVG8h8Dh9KpQ5GRPVnArvi0i5Z"
+                    }""");
 		} catch (IOException ex) {
 			throw new ExceptionInInitializerError(ex);
 		}

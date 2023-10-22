@@ -21,19 +21,21 @@ public class P_521Test extends AbstractTest {
 
 	static {
 		try {
-			jwkPublic = JWK.fromJson("{\n" +
-					"  \"kty\": \"EC\",\n" +
-					"  \"crv\": \"P-521\",\n" +
-					"  \"x\": \"ACvIr_udUJF1StwVRFG36Nh4uaXANQcv5wBr5NvTfmIp9DM70vPtWFlXHZD2Ck1Fm6QfKnjoSF-wSBTWW3I_GLQx\",\n" +
-					"  \"y\": \"AGQKM2hWzUp1HWEv7-gOYQBHwkT6Mc8-2dSVifBrjGPiPGC14iMSFEP9RXI9SeiBG64NFI30eYovMofgCuJvlx9M\"\n" +
-					"}");
-			jwkPrivate = JWK.fromJson("{\n" +
-					"  \"kty\": \"EC\",\n" +
-					"  \"crv\": \"P-521\",\n" +
-					"  \"x\": \"ACvIr_udUJF1StwVRFG36Nh4uaXANQcv5wBr5NvTfmIp9DM70vPtWFlXHZD2Ck1Fm6QfKnjoSF-wSBTWW3I_GLQx\",\n" +
-					"  \"y\": \"AGQKM2hWzUp1HWEv7-gOYQBHwkT6Mc8-2dSVifBrjGPiPGC14iMSFEP9RXI9SeiBG64NFI30eYovMofgCuJvlx9M\",\n" +
-					"  \"d\": \"AIU2LKboudbyA001rYZSngUhKfDT2V4HH-c_rzSBh7niBNKPcRfnAWunVg30lD9TRPuDsM8UL6Q7J3k7r23GJ2cc\"\n" +
-					"}");
+			jwkPublic = JWK.fromJson("""
+                    {
+                      "kty": "EC",
+                      "crv": "P-521",
+                      "x": "ACvIr_udUJF1StwVRFG36Nh4uaXANQcv5wBr5NvTfmIp9DM70vPtWFlXHZD2Ck1Fm6QfKnjoSF-wSBTWW3I_GLQx",
+                      "y": "AGQKM2hWzUp1HWEv7-gOYQBHwkT6Mc8-2dSVifBrjGPiPGC14iMSFEP9RXI9SeiBG64NFI30eYovMofgCuJvlx9M"
+                    }""");
+			jwkPrivate = JWK.fromJson("""
+                    {
+                      "kty": "EC",
+                      "crv": "P-521",
+                      "x": "ACvIr_udUJF1StwVRFG36Nh4uaXANQcv5wBr5NvTfmIp9DM70vPtWFlXHZD2Ck1Fm6QfKnjoSF-wSBTWW3I_GLQx",
+                      "y": "AGQKM2hWzUp1HWEv7-gOYQBHwkT6Mc8-2dSVifBrjGPiPGC14iMSFEP9RXI9SeiBG64NFI30eYovMofgCuJvlx9M",
+                      "d": "AIU2LKboudbyA001rYZSngUhKfDT2V4HH-c_rzSBh7niBNKPcRfnAWunVg30lD9TRPuDsM8UL6Q7J3k7r23GJ2cc"
+                    }""");
 		} catch (IOException ex) {
 			throw new ExceptionInInitializerError(ex);
 		}

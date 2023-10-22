@@ -10,7 +10,10 @@ import org.bitcoinj.core.ECKey;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import java.math.BigInteger;
-import java.security.*;
+import java.security.AlgorithmParameters;
+import java.security.KeyFactory;
+import java.security.NoSuchAlgorithmException;
+import java.security.Security;
 import java.security.interfaces.ECPublicKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.*;

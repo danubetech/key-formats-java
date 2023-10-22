@@ -6,7 +6,6 @@ import com.danubetech.keyformats.jose.JWSAlgorithm;
 import java.security.GeneralSecurityException;
 import java.security.KeyPair;
 import java.security.Signature;
-import java.security.interfaces.RSAPrivateKey;
 
 public class RSA_RS256_PrivateKeySigner extends PrivateKeySigner<KeyPair> {
 

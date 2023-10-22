@@ -2,7 +2,7 @@ package com.danubetech.keyformats.crypto;
 
 public abstract class PublicKeyVerifier <T> extends ByteVerifier {
 
-	private T publicKey;
+	private final T publicKey;
 
 	protected PublicKeyVerifier(T publicKey, String algorithm) {
 

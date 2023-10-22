@@ -11,8 +11,8 @@ import java.util.concurrent.ExecutionException;
 
 public class Ed25519_EdDSA_LibIndySigner extends ByteSigner {
 
-    private Wallet wallet;
-    private String signerVk;
+    private final Wallet wallet;
+    private final String signerVk;
 
     public Ed25519_EdDSA_LibIndySigner(byte[] privateKey, Wallet wallet, String signerVk) {
 

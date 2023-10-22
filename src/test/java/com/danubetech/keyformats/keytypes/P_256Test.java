@@ -22,19 +22,21 @@ public class P_256Test extends AbstractTest {
 
 	static {
 		try {
-			jwkPublic = JWK.fromJson("{\n" +
-					"  \"kty\": \"EC\",\n" +
-					"  \"crv\": \"P-256\",\n" +
-					"  \"x\": \"NNKq5JQTh51m4oGRKLZkXw43n8-c2pwptOrrbUSwgtY\",\n" +
-					"  \"y\": \"wDHqdnu8ydJv_zFqLpybhaRH9j62ShPFRrHYpUhWuu8\"\n" +
-					"}");
-			jwkPrivate = JWK.fromJson("{\n" +
-					"  \"kty\": \"EC\",\n" +
-					"  \"crv\": \"P-256\",\n" +
-					"  \"x\": \"NNKq5JQTh51m4oGRKLZkXw43n8-c2pwptOrrbUSwgtY\",\n" +
-					"  \"y\": \"wDHqdnu8ydJv_zFqLpybhaRH9j62ShPFRrHYpUhWuu8\",\n" +
-					"  \"d\": \"duGXAvbPzfAcoeLqlXjfkfV3DqsOds5qi-uwjV1nD-A\"\n" +
-					"}");
+			jwkPublic = JWK.fromJson("""
+                    {
+                      "kty": "EC",
+                      "crv": "P-256",
+                      "x": "NNKq5JQTh51m4oGRKLZkXw43n8-c2pwptOrrbUSwgtY",
+                      "y": "wDHqdnu8ydJv_zFqLpybhaRH9j62ShPFRrHYpUhWuu8"
+                    }""");
+			jwkPrivate = JWK.fromJson("""
+                    {
+                      "kty": "EC",
+                      "crv": "P-256",
+                      "x": "NNKq5JQTh51m4oGRKLZkXw43n8-c2pwptOrrbUSwgtY",
+                      "y": "wDHqdnu8ydJv_zFqLpybhaRH9j62ShPFRrHYpUhWuu8",
+                      "d": "duGXAvbPzfAcoeLqlXjfkfV3DqsOds5qi-uwjV1nD-A"
+                    }""");
 		} catch (IOException ex) {
 			throw new ExceptionInInitializerError(ex);
 		}

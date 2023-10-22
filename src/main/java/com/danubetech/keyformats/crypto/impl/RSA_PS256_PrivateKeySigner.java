@@ -6,7 +6,6 @@ import com.danubetech.keyformats.jose.JWSAlgorithm;
 import java.security.GeneralSecurityException;
 import java.security.KeyPair;
 import java.security.Signature;
-import java.security.interfaces.RSAPrivateKey;
 import java.security.spec.MGF1ParameterSpec;
 import java.security.spec.PSSParameterSpec;
 

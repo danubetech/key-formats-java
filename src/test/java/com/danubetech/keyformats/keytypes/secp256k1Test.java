@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -22,19 +21,21 @@ public class secp256k1Test extends AbstractTest {
 
 	static {
 		try {
-			jwkPublic = JWK.fromJson("{\n" +
-					"  \"kty\": \"EC\",\n" +
-					"  \"crv\": \"secp256k1\",\n" +
-					"  \"x\": \"L_SbJlSbQ4KmFRL-X1B9UvaYr4ADKT9BB4qfkH5JC0g\",\n" +
-					"  \"y\": \"RqENlFt0h1p6ezVjecuAPjs9A3XYtqQ_4tHS15bYnQs\"\n" +
-					"}");
-			jwkPrivate = JWK.fromJson("{\n" +
-					"  \"kty\": \"EC\",\n" +
-					"  \"crv\": \"secp256k1\",\n" +
-					"  \"x\": \"L_SbJlSbQ4KmFRL-X1B9UvaYr4ADKT9BB4qfkH5JC0g\",\n" +
-					"  \"y\": \"RqENlFt0h1p6ezVjecuAPjs9A3XYtqQ_4tHS15bYnQs\",\n" +
-					"  \"d\": \"I7FRcpukxhOfpvH28R97rOZ78L8Os2Q-c1LjuHte8Tc\"\n" +
-					"}");
+			jwkPublic = JWK.fromJson("""
+                    {
+                      "kty": "EC",
+                      "crv": "secp256k1",
+                      "x": "L_SbJlSbQ4KmFRL-X1B9UvaYr4ADKT9BB4qfkH5JC0g",
+                      "y": "RqENlFt0h1p6ezVjecuAPjs9A3XYtqQ_4tHS15bYnQs"
+                    }""");
+			jwkPrivate = JWK.fromJson("""
+                    {
+                      "kty": "EC",
+                      "crv": "secp256k1",
+                      "x": "L_SbJlSbQ4KmFRL-X1B9UvaYr4ADKT9BB4qfkH5JC0g",
+                      "y": "RqENlFt0h1p6ezVjecuAPjs9A3XYtqQ_4tHS15bYnQs",
+                      "d": "I7FRcpukxhOfpvH28R97rOZ78L8Os2Q-c1LjuHte8Tc"
+                    }""");
 		} catch (IOException ex) {
 			throw new ExceptionInInitializerError(ex);
 		}

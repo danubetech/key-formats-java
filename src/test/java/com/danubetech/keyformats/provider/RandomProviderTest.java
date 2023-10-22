@@ -1,16 +1,14 @@
 package com.danubetech.keyformats.provider;
-import com.danubetech.keyformats.crypto.provider.Ed25519Provider;
+
 import com.danubetech.keyformats.crypto.provider.RandomProvider;
 import com.danubetech.keyformats.crypto.provider.impl.JavaRandomProvider;
-import com.danubetech.keyformats.crypto.provider.impl.NaClSodiumEd25519Provider;
 import com.danubetech.keyformats.crypto.provider.impl.NaClSodiumRandomProvider;
-import com.danubetech.keyformats.crypto.provider.impl.TinkEd25519Provider;
 import org.junit.jupiter.api.Test;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class RandomProviderTest {
 

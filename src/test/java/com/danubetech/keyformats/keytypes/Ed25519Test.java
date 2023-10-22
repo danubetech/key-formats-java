@@ -1,12 +1,9 @@
 package com.danubetech.keyformats.keytypes;
 
 import com.danubetech.keyformats.*;
-import com.danubetech.keyformats.crypto.provider.Ed25519Provider;
-import com.danubetech.keyformats.crypto.provider.impl.TinkEd25519Provider;
 import com.danubetech.keyformats.jose.JWK;
 import com.danubetech.keyformats.jose.JWSAlgorithm;
 import com.danubetech.keyformats.jose.KeyTypeName;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -23,17 +20,19 @@ public class Ed25519Test extends AbstractTest {
 
 	static {
 		try {
-			jwkPublic = JWK.fromJson("{\n" +
-					"  \"kty\": \"OKP\",\n" +
-					"  \"crv\": \"Ed25519\",\n" +
-					"  \"x\": \"HBzNvsEpO1VBjGlroD8FO6-nsAjp9hRjxP73vH8CQMw\"\n" +
-					"}");
-			jwkPrivate = JWK.fromJson("{\n" +
-					"  \"kty\": \"OKP\",\n" +
-					"  \"crv\": \"Ed25519\",\n" +
-					"  \"x\": \"HBzNvsEpO1VBjGlroD8FO6-nsAjp9hRjxP73vH8CQMw\",\n" +
-					"  \"d\": \"IP3EFeVIO54b2EyfJ7Urws3qV4rbaShE_Bybbeuac8g\"\n" +
-					"}");
+			jwkPublic = JWK.fromJson("""
+                    {
+                      "kty": "OKP",
+                      "crv": "Ed25519",
+                      "x": "HBzNvsEpO1VBjGlroD8FO6-nsAjp9hRjxP73vH8CQMw"
+                    }""");
+			jwkPrivate = JWK.fromJson("""
+                    {
+                      "kty": "OKP",
+                      "crv": "Ed25519",
+                      "x": "HBzNvsEpO1VBjGlroD8FO6-nsAjp9hRjxP73vH8CQMw",
+                      "d": "IP3EFeVIO54b2EyfJ7Urws3qV4rbaShE_Bybbeuac8g"
+                    }""");
 		} catch (IOException ex) {
 			throw new ExceptionInInitializerError(ex);
 		}
