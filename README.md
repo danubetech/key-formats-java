@@ -22,7 +22,7 @@ Dependency:
 	<dependency>
 		<groupId>com.danubetech</groupId>
 		<artifactId>key-formats-java</artifactId>
-		<version>1.9.0</version>
+		<version>1.12.0</version>
 	</dependency>
 
 ## Libsodium or Tink
