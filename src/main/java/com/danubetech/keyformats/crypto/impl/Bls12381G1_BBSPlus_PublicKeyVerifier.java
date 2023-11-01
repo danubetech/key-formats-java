@@ -1,31 +1,14 @@
 package com.danubetech.keyformats.crypto.impl;
 
 import bbs.signatures.Bbs;
-import bbs.signatures.KeyPair;
-import com.danubetech.keyformats.crypto.PublicKeyVerifier;
-import com.danubetech.keyformats.jose.JWSAlgorithm;
 
-import java.security.GeneralSecurityException;
+public class Bls12381G1_BBSPlus_PublicKeyVerifier extends BBSPlus_PublicKeyVerifier {
 
-public class Bls12381G1_BBSPlus_PublicKeyVerifier extends PublicKeyVerifier<KeyPair> {
-
-    public Bls12381G1_BBSPlus_PublicKeyVerifier(KeyPair publicKey) {
-
-        super(publicKey, JWSAlgorithm.BBSPlus);
-    }
-
-    @Override
-    public boolean verify(byte[] content, byte[] signature) throws GeneralSecurityException {
-
-        try {
-
-            return Bbs.blsVerify(this.getPublicKey().publicKey, signature, new byte[][]{signature});
-        } catch (GeneralSecurityException ex) {
-
-            throw ex;
-        } catch (Exception ex) {
-
-            throw new GeneralSecurityException(ex.getMessage(), ex);
+    public Bls12381G1_BBSPlus_PublicKeyVerifier(byte[] publicKey) {
+        super(publicKey);
+        int keySize = Bbs.getBls12381G1PublicKeySize();
+        if (publicKey.length != keySize) {
+            throw new IllegalArgumentException("wrong key size: expected: " + keySize + "but was " + publicKey.length);
         }
     }
 }
