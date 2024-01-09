@@ -19,7 +19,7 @@ public class Bls12381G1_BBSPlus_PrivateKeySigner extends PrivateKeySigner<KeyPai
 
         try {
 
-            return Bbs.blsSign(this.getPrivateKey().secretKey, this.getPrivateKey().publicKey, new byte[][]{content});
+            return Bbs.blsSign(this.getPrivateKey().secretKey, this.getPrivateKey().publicKey, new byte[][] { content });
         } catch (GeneralSecurityException ex) {
 
             throw ex;
