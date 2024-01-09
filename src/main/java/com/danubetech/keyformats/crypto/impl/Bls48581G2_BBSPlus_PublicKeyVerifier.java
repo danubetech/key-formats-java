@@ -1,6 +1,5 @@
 package com.danubetech.keyformats.crypto.impl;
 
-import bbs.signatures.Bbs;
 import bbs.signatures.KeyPair;
 import com.danubetech.keyformats.crypto.PublicKeyVerifier;
 import com.danubetech.keyformats.jose.JWSAlgorithm;
@@ -17,15 +16,6 @@ public class Bls48581G2_BBSPlus_PublicKeyVerifier extends PublicKeyVerifier<KeyP
     @Override
     public boolean verify(byte[] content, byte[] signature) throws GeneralSecurityException {
 
-        try {
-
-            return Bbs.blsVerify(this.getPublicKey().publicKey, signature, new byte[][] { content });
-        } catch (GeneralSecurityException ex) {
-
-            throw ex;
-        } catch (Exception ex) {
-
-            throw new GeneralSecurityException(ex.getMessage(), ex);
-        }
+        throw new RuntimeException("Not implemented");
     }
 }
