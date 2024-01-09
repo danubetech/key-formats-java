@@ -17,6 +17,9 @@ public class Bls12381G2_BBSPlus_PrivateKeySigner extends PrivateKeySigner<KeyPai
     @Override
     public byte[] sign(byte[] content) throws GeneralSecurityException {
 
+        if (Bbs.getSecretKeySize() != this.getPrivateKey().secretKey.length) throw new IllegalArgumentException("Secret key size is not " + Bbs.getSecretKeySize() + ": " + this.getPrivateKey().secretKey.length);
+        if (Bbs.getBls12381G2PublicKeySize() != this.getPrivateKey().publicKey.length) throw new IllegalArgumentException("Public key size is not " + Bbs.getBls12381G2PublicKeySize() + ": " + this.getPrivateKey().publicKey.length);
+
         try {
 
             return Bbs.blsSign(this.getPrivateKey().secretKey, this.getPrivateKey().publicKey, new byte[][] { content });

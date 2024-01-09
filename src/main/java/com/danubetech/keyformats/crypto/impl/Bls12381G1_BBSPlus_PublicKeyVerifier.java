@@ -17,6 +17,9 @@ public class Bls12381G1_BBSPlus_PublicKeyVerifier extends PublicKeyVerifier<KeyP
     @Override
     public boolean verify(byte[] content, byte[] signature) throws GeneralSecurityException {
 
+        if (Bbs.getBls12381G1PublicKeySize() != this.getPublicKey().publicKey.length) throw new IllegalArgumentException("Public key size is not " + Bbs.getBls12381G1PublicKeySize() + ": " + this.getPublicKey().publicKey.length);
+        if (Bbs.getSignatureSize() != signature.length) throw new IllegalArgumentException("Signature size is not " + Bbs.getSignatureSize() + ": " + signature.length);
+
         try {
 
             return Bbs.blsVerify(this.getPublicKey().publicKey, signature, new byte[][] { content });
