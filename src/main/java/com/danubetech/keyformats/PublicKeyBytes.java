@@ -185,9 +185,10 @@ public class PublicKeyBytes {
 			System.arraycopy(publicKeyBytes, 1, x, 0, x.length);
 			System.arraycopy(publicKeyBytes, 1+x.length, y, 0, y.length);
 		} else {
-			System.arraycopy(publicKeyBytes, 1, x, 0, x.length);
+			byte[] k = new byte[33];
+			System.arraycopy(publicKeyBytes, 0, k, 0, k.length);
 			ECNamedCurveParameterSpec ecNamedCurveParameterSpec = ECNamedCurveTable.getParameterSpec("secp256k1");
-			org.bouncycastle.math.ec.ECPoint bcEcPoint = ecNamedCurveParameterSpec.getCurve().decodePoint(x);
+			org.bouncycastle.math.ec.ECPoint bcEcPoint = ecNamedCurveParameterSpec.getCurve().decodePoint(k);
 			x = bcEcPoint.getRawXCoord().getEncoded();
 			y = bcEcPoint.getRawYCoord().getEncoded();
 		}
@@ -239,9 +240,10 @@ public class PublicKeyBytes {
 			System.arraycopy(publicKeyBytes, 1, x, 0, x.length);
 			System.arraycopy(publicKeyBytes, 1+x.length, y, 0, y.length);
 		} else {
-			System.arraycopy(publicKeyBytes, 1, x, 0, x.length);
+			byte[] k = new byte[49];
+			System.arraycopy(publicKeyBytes, 0, k, 0, k.length);
 			ECNamedCurveParameterSpec ecNamedCurveParameterSpec = ECNamedCurveTable.getParameterSpec("secp384r1");
-			org.bouncycastle.math.ec.ECPoint bcEcPoint = ecNamedCurveParameterSpec.getCurve().decodePoint(x);
+			org.bouncycastle.math.ec.ECPoint bcEcPoint = ecNamedCurveParameterSpec.getCurve().decodePoint(k);
 			x = bcEcPoint.getRawXCoord().getEncoded();
 			y = bcEcPoint.getRawYCoord().getEncoded();
 		}
@@ -292,9 +294,10 @@ public class PublicKeyBytes {
 			System.arraycopy(publicKeyBytes, 1, x, 0, x.length);
 			System.arraycopy(publicKeyBytes, 1+x.length, y, 0, y.length);
 		} else {
-			System.arraycopy(publicKeyBytes, 1, x, 0, x.length);
-			ECNamedCurveParameterSpec ecNamedCurveParameterSpec = ECNamedCurveTable.getParameterSpec("secp384r1");
-			org.bouncycastle.math.ec.ECPoint bcEcPoint = ecNamedCurveParameterSpec.getCurve().decodePoint(x);
+			byte[] k = new byte[133];
+			System.arraycopy(publicKeyBytes, 0, k, 0, k.length);
+			ECNamedCurveParameterSpec ecNamedCurveParameterSpec = ECNamedCurveTable.getParameterSpec("secp521r1");
+			org.bouncycastle.math.ec.ECPoint bcEcPoint = ecNamedCurveParameterSpec.getCurve().decodePoint(k);
 			x = bcEcPoint.getRawXCoord().getEncoded();
 			y = bcEcPoint.getRawYCoord().getEncoded();
 		}
