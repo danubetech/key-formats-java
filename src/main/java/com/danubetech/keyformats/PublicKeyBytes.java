@@ -4,7 +4,9 @@ import bbs.signatures.KeyPair;
 import com.danubetech.keyformats.util.ByteArrayUtil;
 import org.apache.commons.codec.binary.Hex;
 import org.bitcoinj.core.ECKey;
+import org.bouncycastle.jce.ECNamedCurveTable;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.bouncycastle.jce.spec.ECNamedCurveParameterSpec;
 
 import java.math.BigInteger;
 import java.security.AlgorithmParameters;
@@ -173,13 +175,22 @@ public class PublicKeyBytes {
 
 	public static ECPublicKey bytes_to_P_256PublicKey(byte[] publicKeyBytes) {
 
-		if (publicKeyBytes.length != 65) throw new IllegalArgumentException("Expected 65 bytes instead of " + publicKeyBytes.length);
+		if (publicKeyBytes.length != 33 && publicKeyBytes.length != 65) throw new IllegalArgumentException("Expected 33 or 65 bytes instead of " + publicKeyBytes.length);
 
 		byte[] x = new byte[32];
 		byte[] y = new byte[32];
 		if (publicKeyBytes[0] != 4) throw new IllegalArgumentException("Expected 0x04 as first byte instead of " + publicKeyBytes[0] + " (length: " + publicKeyBytes.length + ")");
-		System.arraycopy(publicKeyBytes, 1, x, 0, x.length);
-		System.arraycopy(publicKeyBytes, 1+x.length, y, 0, y.length);
+
+		if (publicKeyBytes.length == 65) {
+			System.arraycopy(publicKeyBytes, 1, x, 0, x.length);
+			System.arraycopy(publicKeyBytes, 1+x.length, y, 0, y.length);
+		} else {
+			System.arraycopy(publicKeyBytes, 1, x, 0, x.length);
+			ECNamedCurveParameterSpec ecNamedCurveParameterSpec = ECNamedCurveTable.getParameterSpec("secp256k1");
+			org.bouncycastle.math.ec.ECPoint bcEcPoint = ecNamedCurveParameterSpec.getCurve().decodePoint(x);
+			x = bcEcPoint.getRawXCoord().getEncoded();
+			y = bcEcPoint.getRawYCoord().getEncoded();
+		}
 
 		ECPublicKey publicKey;
 		try {
