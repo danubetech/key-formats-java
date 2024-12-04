@@ -179,9 +179,9 @@ public class PublicKeyBytes {
 
 		byte[] x = new byte[32];
 		byte[] y = new byte[32];
-		if (publicKeyBytes[0] != 4) throw new IllegalArgumentException("Expected 0x04 as first byte instead of " + publicKeyBytes[0] + " (length: " + publicKeyBytes.length + ")");
 
 		if (publicKeyBytes.length == 65) {
+			if (publicKeyBytes[0] != 4) throw new IllegalArgumentException("Expected 0x04 as first byte instead of " + publicKeyBytes[0] + " (length: " + publicKeyBytes.length + ")");
 			System.arraycopy(publicKeyBytes, 1, x, 0, x.length);
 			System.arraycopy(publicKeyBytes, 1+x.length, y, 0, y.length);
 		} else {
@@ -234,9 +234,9 @@ public class PublicKeyBytes {
 
 		byte[] x = new byte[48];
 		byte[] y = new byte[48];
-		if (publicKeyBytes[0] != 4) throw new IllegalArgumentException("Expected 0x04 as first byte instead of " + publicKeyBytes[0] + " (length: " + publicKeyBytes.length + ")");
 
 		if (publicKeyBytes.length == 97) {
+			if (publicKeyBytes[0] != 4) throw new IllegalArgumentException("Expected 0x04 as first byte instead of " + publicKeyBytes[0] + " (length: " + publicKeyBytes.length + ")");
 			System.arraycopy(publicKeyBytes, 1, x, 0, x.length);
 			System.arraycopy(publicKeyBytes, 1+x.length, y, 0, y.length);
 		} else {
@@ -291,6 +291,7 @@ public class PublicKeyBytes {
 		byte[] y = new byte[(publicKeyBytes.length-1)/2];
 
 		if (publicKeyBytes.length >= 129 && publicKeyBytes.length <= 133) {
+			if (publicKeyBytes[0] != 4) throw new IllegalArgumentException("Expected 0x04 as first byte instead of " + publicKeyBytes[0] + " (length: " + publicKeyBytes.length + ")");
 			System.arraycopy(publicKeyBytes, 1, x, 0, x.length);
 			System.arraycopy(publicKeyBytes, 1+x.length, y, 0, y.length);
 		} else {
