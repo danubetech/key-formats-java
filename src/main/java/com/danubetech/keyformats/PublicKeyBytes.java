@@ -187,7 +187,7 @@ public class PublicKeyBytes {
 		} else {
 			byte[] k = new byte[33];
 			System.arraycopy(publicKeyBytes, 0, k, 0, k.length);
-			ECNamedCurveParameterSpec ecNamedCurveParameterSpec = ECNamedCurveTable.getParameterSpec("secp256k1");
+			ECNamedCurveParameterSpec ecNamedCurveParameterSpec = ECNamedCurveTable.getParameterSpec("secp256r1");
 			org.bouncycastle.math.ec.ECPoint bcEcPoint = ecNamedCurveParameterSpec.getCurve().decodePoint(k);
 			x = bcEcPoint.getRawXCoord().getEncoded();
 			y = bcEcPoint.getRawYCoord().getEncoded();
