@@ -11,8 +11,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class X25519Test {
 
-	static final JWK jwkPublic;
-	static final JWK jwkPrivate;
+	public static final JWK jwkPublic;
+	public static final JWK jwkPrivate;
 
 	static {
 		try {

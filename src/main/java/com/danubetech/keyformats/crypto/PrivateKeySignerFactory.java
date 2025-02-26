@@ -6,7 +6,7 @@ import com.danubetech.keyformats.jose.JWK;
 import com.danubetech.keyformats.jose.JWSAlgorithm;
 import com.danubetech.keyformats.jose.KeyTypeName;
 import com.danubetech.keyformats.keytypes.KeyTypeName_for_JWK;
-import org.bitcoinj.core.ECKey;
+import org.bitcoinj.crypto.ECKey;
 
 import java.security.KeyPair;
 import java.security.interfaces.ECPrivateKey;
@@ -36,6 +36,7 @@ public class PrivateKeySignerFactory {
             if (JWSAlgorithm.ES256K.equals(algorithm)) return new secp256k1_ES256K_PrivateKeySigner((ECKey) privateKey);
             if (JWSAlgorithm.ES256KCC.equals(algorithm)) return new secp256k1_ES256KCC_PrivateKeySigner((ECKey) privateKey);
             if (JWSAlgorithm.ES256KRR.equals(algorithm)) return new secp256k1_ES256KRR_PrivateKeySigner((ECKey) privateKey);
+            if (JWSAlgorithm.ES256KS.equals(algorithm)) return new secp256k1_ES256KS_PrivateKeySigner((ECKey) privateKey);
         } else if (KeyTypeName.Bls12381G1.equals(keyTypeName)) {
 
             if (JWSAlgorithm.BBSPlus.equals(algorithm)) return new Bls12381G1_BBSPlus_PrivateKeySigner((bbs.signatures.KeyPair) privateKey);

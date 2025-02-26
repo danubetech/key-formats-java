@@ -3,7 +3,7 @@ package com.danubetech.keyformats;
 import bbs.signatures.KeyPair;
 import com.danubetech.keyformats.util.ByteArrayUtil;
 import org.apache.commons.codec.binary.Hex;
-import org.bitcoinj.core.ECKey;
+import org.bitcoinj.crypto.ECKey;
 import org.bouncycastle.jce.ECNamedCurveTable;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.jce.spec.ECNamedCurveParameterSpec;

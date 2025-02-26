@@ -16,8 +16,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class P_521Test extends AbstractTest {
 
-	static final JWK jwkPublic;
-	static final JWK jwkPrivate;
+	public static final JWK jwkPublic;
+	public static final JWK jwkPrivate;
 
 	static {
 		try {

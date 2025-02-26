@@ -6,7 +6,7 @@ import com.danubetech.keyformats.jose.JWK;
 import com.danubetech.keyformats.jose.KeyType;
 import com.danubetech.keyformats.util.ByteArrayUtil;
 import org.apache.commons.codec.binary.Hex;
-import org.bitcoinj.core.ECKey;
+import org.bitcoinj.crypto.ECKey;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import java.security.Security;

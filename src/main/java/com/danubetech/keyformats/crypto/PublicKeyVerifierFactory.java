@@ -6,14 +6,14 @@ import com.danubetech.keyformats.jose.JWK;
 import com.danubetech.keyformats.jose.JWSAlgorithm;
 import com.danubetech.keyformats.jose.KeyTypeName;
 import com.danubetech.keyformats.keytypes.KeyTypeName_for_JWK;
-import org.bitcoinj.core.ECKey;
+import org.bitcoinj.crypto.ECKey;
 
 import java.security.interfaces.ECPublicKey;
 import java.security.interfaces.RSAPublicKey;
 
 public class PublicKeyVerifierFactory {
 
-    public static PublicKeyVerifier<?> publicKeyVerifierForJWK(JWK jwk, String algorithm) {
+    public static PublicKeyVerifier<?> publicKeyVerifierForKey(JWK jwk, String algorithm) {
 
         return publicKeyVerifierForKey(
                 KeyTypeName_for_JWK.keyTypeName_for_JWK(jwk),
@@ -36,6 +36,7 @@ public class PublicKeyVerifierFactory {
             if (JWSAlgorithm.ES256K.equals(algorithm)) return new secp256k1_ES256K_PublicKeyVerifier((ECKey) publicKey);
             if (JWSAlgorithm.ES256KCC.equals(algorithm)) return new secp256k1_ES256KCC_PublicKeyVerifier((ECKey) publicKey);
             if (JWSAlgorithm.ES256KRR.equals(algorithm)) return new secp256k1_ES256KRR_PublicKeyVerifier((ECKey) publicKey);
+            if (JWSAlgorithm.ES256KS.equals(algorithm)) return new secp256k1_ES256KS_PublicKeyVerifier((ECKey) publicKey);
         } else if (KeyTypeName.Bls12381G1.equals(keyTypeName)) {
 
             if (JWSAlgorithm.BBSPlus.equals(algorithm)) return new Bls12381G1_BBSPlus_PublicKeyVerifier((bbs.signatures.KeyPair) publicKey);

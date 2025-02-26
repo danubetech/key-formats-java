@@ -5,7 +5,7 @@ import com.danubetech.keyformats.jose.JWK;
 import com.danubetech.keyformats.jose.KeyType;
 import com.danubetech.keyformats.jose.KeyTypeName;
 import com.danubetech.keyformats.keytypes.KeyTypeName_for_JWK;
-import org.bitcoinj.core.ECKey;
+import org.bitcoinj.crypto.ECKey;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import java.math.BigInteger;
@@ -46,6 +46,8 @@ public class JWK_to_PrivateKey {
 			return JWK_to_P_256PrivateKey(jsonWebKey);
 		else if (keyType == KeyTypeName.P_384)
 			return JWK_to_P_384PrivateKey(jsonWebKey);
+		else if (keyType == KeyTypeName.P_521)
+			return JWK_to_P_521PrivateKey(jsonWebKey);
 		else
 			throw new IllegalArgumentException("Unsupported key type: " + keyType);
 	}

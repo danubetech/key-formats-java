@@ -2,7 +2,7 @@ package com.danubetech.keyformats.crypto.impl;
 
 import com.danubetech.keyformats.crypto.PrivateKeySigner;
 import com.danubetech.keyformats.jose.JWSAlgorithm;
-import org.bitcoinj.core.ECKey;
+import org.bitcoinj.crypto.ECKey;
 import org.web3j.crypto.ECDSASignature;
 import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Sign;

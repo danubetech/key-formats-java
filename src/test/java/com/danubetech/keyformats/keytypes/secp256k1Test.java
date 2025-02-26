@@ -4,7 +4,7 @@ import com.danubetech.keyformats.*;
 import com.danubetech.keyformats.jose.JWK;
 import com.danubetech.keyformats.jose.JWSAlgorithm;
 import com.danubetech.keyformats.jose.KeyTypeName;
-import org.bitcoinj.core.ECKey;
+import org.bitcoinj.crypto.ECKey;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -16,8 +16,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class secp256k1Test extends AbstractTest {
 
-	static final JWK jwkPublic;
-	static final JWK jwkPrivate;
+	public static final JWK jwkPublic;
+	public static final JWK jwkPrivate;
 
 	static {
 		try {

@@ -12,4 +12,5 @@ public class JWSAlgorithm {
     public static final String ES512 = "ES512";
     public static final String ES256KCC = "ES256KCC";
     public static final String ES256KRR = "ES256KRR";
+    public static final String ES256KS = "ES256KS";
 }
