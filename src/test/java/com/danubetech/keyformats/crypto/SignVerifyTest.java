@@ -7,11 +7,13 @@ import org.junit.jupiter.api.Test;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SignVerifyTest {
 
 	private static final byte[] CONTENT = "Hello World!".getBytes(StandardCharsets.UTF_8);
+	private static final byte[] OTHER_CONTENT = "Goodbye World!".getBytes(StandardCharsets.UTF_8);
 
 	private static final Map<PrivateKeySigner<?>, PublicKeyVerifier<?>> SIGNERS_VERIFIERS = Map.of(
 			PrivateKeySignerFactory.privateKeySignerForKey(Ed25519Test.jwkPrivate, JWSAlgorithm.EdDSA),
@@ -22,8 +24,8 @@ public class SignVerifyTest {
 			PublicKeyVerifierFactory.publicKeyVerifierForKey(secp256k1Test.jwkPublic, JWSAlgorithm.ES256KCC),
 			PrivateKeySignerFactory.privateKeySignerForKey(secp256k1Test.jwkPrivate, JWSAlgorithm.ES256KRR),
 			PublicKeyVerifierFactory.publicKeyVerifierForKey(secp256k1Test.jwkPublic, JWSAlgorithm.ES256KRR),
-			//PrivateKeySignerFactory.privateKeySignerForKey(secp256k1Test.jwkPrivate, JWSAlgorithm.ES256KS),
-			//PublicKeyVerifierFactory.publicKeyVerifierForKey(secp256k1Test.jwkPublic, JWSAlgorithm.ES256KS),
+			PrivateKeySignerFactory.privateKeySignerForKey(secp256k1Test.jwkPrivate, JWSAlgorithm.ES256KS),
+			PublicKeyVerifierFactory.publicKeyVerifierForKey(secp256k1Test.jwkPublic, JWSAlgorithm.ES256KS),
 			PrivateKeySignerFactory.privateKeySignerForKey(P_256Test.jwkPrivate, JWSAlgorithm.ES256),
 			PublicKeyVerifierFactory.publicKeyVerifierForKey(P_256Test.jwkPublic, JWSAlgorithm.ES256),
 			PrivateKeySignerFactory.privateKeySignerForKey(P_384Test.jwkPrivate, JWSAlgorithm.ES384),
@@ -39,6 +41,7 @@ public class SignVerifyTest {
 			PublicKeyVerifier<?> publicKeyVerifierFactory = pair.getValue();
 			byte[] signature = privateKeySigner.sign(CONTENT);
 			assertTrue(publicKeyVerifierFactory.verify(CONTENT, signature));
+			assertFalse(publicKeyVerifierFactory.verify(OTHER_CONTENT, signature));
 		}
 	}
 }
