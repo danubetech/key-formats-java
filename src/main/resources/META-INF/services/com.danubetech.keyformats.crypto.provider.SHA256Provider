@@ -1,1 +1,1 @@
-com.danubetech.keyformats.crypto.provider.impl.NaClSodiumSHA256Provider
+com.danubetech.keyformats.crypto.provider.impl.JavaSHA256Provider
