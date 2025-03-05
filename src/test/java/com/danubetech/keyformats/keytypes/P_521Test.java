@@ -65,7 +65,7 @@ public class P_521Test extends AbstractTest {
 	public void testPublicKey() throws Exception {
 		ECPublicKey publicKey = JWK_to_PublicKey.JWK_to_P_521PublicKey(jwkPublic);
 		byte[] publicKeyBytes = PublicKeyBytes.P_521PublicKey_to_bytes(publicKey);
-		assertTrue(publicKeyBytes.length >= 129 && publicKeyBytes.length <= 133);
+		assertTrue(publicKeyBytes.length >= 65 && publicKeyBytes.length <= 67);
 
 		ECPublicKey publicKey2 = PublicKeyBytes.bytes_to_P_521PublicKey(publicKeyBytes);
 		assertArrayEquals(publicKey.getEncoded(), publicKey2.getEncoded());

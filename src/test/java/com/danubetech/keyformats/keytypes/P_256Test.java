@@ -66,7 +66,7 @@ public class P_256Test extends AbstractTest {
 	public void testPublicKey() throws Exception {
 		ECPublicKey publicKey = JWK_to_PublicKey.JWK_to_P_256PublicKey(jwkPublic);
 		byte[] publicKeyBytes = PublicKeyBytes.P_256PublicKey_to_bytes(publicKey);
-		assertEquals(publicKeyBytes.length, 65);
+		assertEquals(33, publicKeyBytes.length);
 
 		ECPublicKey publicKey2 = PublicKeyBytes.bytes_to_P_256PublicKey(publicKeyBytes);
 		assertArrayEquals(publicKey.getEncoded(), publicKey2.getEncoded());
@@ -78,7 +78,7 @@ public class P_256Test extends AbstractTest {
 	public void testPrivateKey() throws Exception {
 		ECPrivateKey privateKey = JWK_to_PrivateKey.JWK_to_P_256PrivateKey(jwkPrivate);
 		byte[] privateKeyBytes = PrivateKeyBytes.P_256PrivateKey_to_bytes(privateKey);
-		assertEquals(privateKeyBytes.length, 32);
+		assertEquals(32, privateKeyBytes.length);
 
 		ECPrivateKey privateKey2 = PrivateKeyBytes.bytes_to_P_256PrivateKey(privateKeyBytes);
 		assertArrayEquals(privateKey.getEncoded(), privateKey2.getEncoded());

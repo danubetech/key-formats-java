@@ -1,9 +1,9 @@
 package com.danubetech.keyformats;
 
 import bbs.signatures.KeyPair;
-import com.danubetech.keyformats.util.ByteArrayUtil;
 import org.apache.commons.codec.binary.Hex;
 import org.bitcoinj.crypto.ECKey;
+import org.bouncycastle.jcajce.provider.asymmetric.util.EC5Util;
 import org.bouncycastle.jce.ECNamedCurveTable;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.jce.spec.ECNamedCurveParameterSpec;
@@ -158,40 +158,17 @@ public class PublicKeyBytes {
 
 	public static byte[] P_256PublicKey_to_bytes(ECPublicKey publicKey) {
 
-		ECPoint publicKeyPoint = publicKey.getW();
-
-		byte[] x = ByteArrayUtil.bigIntegertoByteArray(publicKeyPoint.getAffineX());
-		if (x.length != 32) throw new IllegalArgumentException("Invalid 'x' value (not 32 bytes): " + new String(Hex.encodeHex(x)) + ", length=" + x.length + " (" + publicKeyPoint.getAffineX().bitLength() + " bits)");
-		byte[] y = ByteArrayUtil.bigIntegertoByteArray(publicKeyPoint.getAffineY());
-		if (y.length != 32) throw new IllegalArgumentException("Invalid 'y' value (not 32 bytes): " + new String(Hex.encodeHex(y)) + ", length=" + y.length + " (" + publicKeyPoint.getAffineY().bitLength() + " bits)");
-
-		byte[] publicKeyBytes = new byte[1+x.length+y.length];
-		publicKeyBytes[0] = 4;
-		System.arraycopy(x, 0, publicKeyBytes, 1, x.length);
-		System.arraycopy(y, 0, publicKeyBytes, 1+x.length, y.length);
-
-		return publicKeyBytes;
+		return EC5Util.convertPoint(publicKey.getParams(), publicKey.getW()).getEncoded(true);
 	}
 
 	public static ECPublicKey bytes_to_P_256PublicKey(byte[] publicKeyBytes) {
 
-		if (publicKeyBytes.length != 33 && publicKeyBytes.length != 65) throw new IllegalArgumentException("Expected 33 or 65 bytes instead of " + publicKeyBytes.length);
+		if (publicKeyBytes.length != 33) throw new IllegalArgumentException("Expected 33 bytes instead of " + publicKeyBytes.length);
 
-		byte[] x = new byte[32];
-		byte[] y = new byte[32];
-
-		if (publicKeyBytes.length == 65) {
-			if (publicKeyBytes[0] != 4) throw new IllegalArgumentException("Expected 0x04 as first byte instead of " + publicKeyBytes[0] + " (length: " + publicKeyBytes.length + ")");
-			System.arraycopy(publicKeyBytes, 1, x, 0, x.length);
-			System.arraycopy(publicKeyBytes, 1+x.length, y, 0, y.length);
-		} else {
-			byte[] k = new byte[33];
-			System.arraycopy(publicKeyBytes, 0, k, 0, k.length);
-			ECNamedCurveParameterSpec ecNamedCurveParameterSpec = ECNamedCurveTable.getParameterSpec("secp256r1");
-			org.bouncycastle.math.ec.ECPoint bcEcPoint = ecNamedCurveParameterSpec.getCurve().decodePoint(k);
-			x = bcEcPoint.getRawXCoord().getEncoded();
-			y = bcEcPoint.getRawYCoord().getEncoded();
-		}
+		ECNamedCurveParameterSpec ecNamedCurveParameterSpec = ECNamedCurveTable.getParameterSpec("secp256r1");
+		org.bouncycastle.math.ec.ECPoint bcEcPoint = ecNamedCurveParameterSpec.getCurve().decodePoint(publicKeyBytes);
+		byte[] x = bcEcPoint.getRawXCoord().getEncoded();
+		byte[] y = bcEcPoint.getRawYCoord().getEncoded();
 
 		ECPublicKey publicKey;
 		try {
@@ -213,40 +190,17 @@ public class PublicKeyBytes {
 
 	public static byte[] P_384PublicKey_to_bytes(ECPublicKey publicKey) {
 
-		ECPoint publicKeyPoint = publicKey.getW();
-
-		byte[] x = ByteArrayUtil.bigIntegertoByteArray(publicKeyPoint.getAffineX());
-		if (x.length != 48) throw new IllegalArgumentException("Invalid 'x' value (not 48 bytes): " + new String(Hex.encodeHex(x)) + ", length=" + x.length + " (" + publicKeyPoint.getAffineX().bitLength() + " bits)");
-		byte[] y = ByteArrayUtil.bigIntegertoByteArray(publicKeyPoint.getAffineY());
-		if (y.length != 48) throw new IllegalArgumentException("Invalid 'y' value (not 48 bytes): " + new String(Hex.encodeHex(y)) + ", length=" + y.length + " (" + publicKeyPoint.getAffineY().bitLength() + " bits)");
-
-		byte[] publicKeyBytes = new byte[1+x.length+y.length];
-		publicKeyBytes[0] = 4;
-		System.arraycopy(x, 0, publicKeyBytes, 1, x.length);
-		System.arraycopy(y, 0, publicKeyBytes, 1+x.length, y.length);
-
-		return publicKeyBytes;
+		return EC5Util.convertPoint(publicKey.getParams(), publicKey.getW()).getEncoded(true);
 	}
 
 	public static ECPublicKey bytes_to_P_384PublicKey(byte[] publicKeyBytes) {
 
-		if (publicKeyBytes.length != 49 && publicKeyBytes.length != 97) throw new IllegalArgumentException("Expected 97 bytes instead of " + publicKeyBytes.length);
+		if (publicKeyBytes.length != 49) throw new IllegalArgumentException("Expected 49 bytes instead of " + publicKeyBytes.length);
 
-		byte[] x = new byte[48];
-		byte[] y = new byte[48];
-
-		if (publicKeyBytes.length == 97) {
-			if (publicKeyBytes[0] != 4) throw new IllegalArgumentException("Expected 0x04 as first byte instead of " + publicKeyBytes[0] + " (length: " + publicKeyBytes.length + ")");
-			System.arraycopy(publicKeyBytes, 1, x, 0, x.length);
-			System.arraycopy(publicKeyBytes, 1+x.length, y, 0, y.length);
-		} else {
-			byte[] k = new byte[49];
-			System.arraycopy(publicKeyBytes, 0, k, 0, k.length);
-			ECNamedCurveParameterSpec ecNamedCurveParameterSpec = ECNamedCurveTable.getParameterSpec("secp384r1");
-			org.bouncycastle.math.ec.ECPoint bcEcPoint = ecNamedCurveParameterSpec.getCurve().decodePoint(k);
-			x = bcEcPoint.getRawXCoord().getEncoded();
-			y = bcEcPoint.getRawYCoord().getEncoded();
-		}
+		ECNamedCurveParameterSpec ecNamedCurveParameterSpec = ECNamedCurveTable.getParameterSpec("secp384r1");
+		org.bouncycastle.math.ec.ECPoint bcEcPoint = ecNamedCurveParameterSpec.getCurve().decodePoint(publicKeyBytes);
+		byte[] x = bcEcPoint.getRawXCoord().getEncoded();
+		byte[] y = bcEcPoint.getRawYCoord().getEncoded();
 
 		ECPublicKey publicKey;
 		try {
@@ -268,40 +222,17 @@ public class PublicKeyBytes {
 
 	public static byte[] P_521PublicKey_to_bytes(ECPublicKey publicKey) {
 
-		ECPoint publicKeyPoint = publicKey.getW();
-
-		byte[] x = ByteArrayUtil.bigIntegertoByteArray(publicKeyPoint.getAffineX());
-		if (x.length < 64 || x.length > 66) throw new IllegalArgumentException("Invalid 'x' value (<64 or >66 bytes): " + new String(Hex.encodeHex(x)) + ", length=" + x.length + " (" + publicKeyPoint.getAffineX().bitLength() + " bits)");
-		byte[] y = ByteArrayUtil.bigIntegertoByteArray(publicKeyPoint.getAffineY());
-		if (y.length < 64 || y.length > 66) throw new IllegalArgumentException("Invalid 'y' value (<64 or >66 bytes): " + new String(Hex.encodeHex(y)) + ", length=" + y.length + " (" + publicKeyPoint.getAffineY().bitLength() + " bits)");
-
-		byte[] publicKeyBytes = new byte[1+x.length+y.length];
-		publicKeyBytes[0] = 4;
-		System.arraycopy(x, 0, publicKeyBytes, 1, x.length);
-		System.arraycopy(y, 0, publicKeyBytes, 1+x.length, y.length);
-
-		return publicKeyBytes;
+		return EC5Util.convertPoint(publicKey.getParams(), publicKey.getW()).getEncoded(true);
 	}
 
 	public static ECPublicKey bytes_to_P_521PublicKey(byte[] publicKeyBytes) {
 
-		if ((! (publicKeyBytes.length >= 65 && publicKeyBytes.length <= 67)) && (! (publicKeyBytes.length >= 129 && publicKeyBytes.length <= 133))) throw new IllegalArgumentException("Expected >=65 and <=67 OR >=129 and <=133 bytes instead of " + publicKeyBytes.length);
+		if (publicKeyBytes.length != 65 && publicKeyBytes.length != 66 && publicKeyBytes.length != 67) throw new IllegalArgumentException("Expected 64 or 65 or 66 bytes instead of " + publicKeyBytes.length);
 
-		byte[] x = new byte[(publicKeyBytes.length-1)/2];
-		byte[] y = new byte[(publicKeyBytes.length-1)/2];
-
-		if (publicKeyBytes.length >= 129 && publicKeyBytes.length <= 133) {
-			if (publicKeyBytes[0] != 4) throw new IllegalArgumentException("Expected 0x04 as first byte instead of " + publicKeyBytes[0] + " (length: " + publicKeyBytes.length + ")");
-			System.arraycopy(publicKeyBytes, 1, x, 0, x.length);
-			System.arraycopy(publicKeyBytes, 1+x.length, y, 0, y.length);
-		} else {
-			byte[] k = new byte[133];
-			System.arraycopy(publicKeyBytes, 0, k, 0, k.length);
-			ECNamedCurveParameterSpec ecNamedCurveParameterSpec = ECNamedCurveTable.getParameterSpec("secp521r1");
-			org.bouncycastle.math.ec.ECPoint bcEcPoint = ecNamedCurveParameterSpec.getCurve().decodePoint(k);
-			x = bcEcPoint.getRawXCoord().getEncoded();
-			y = bcEcPoint.getRawYCoord().getEncoded();
-		}
+		ECNamedCurveParameterSpec ecNamedCurveParameterSpec = ECNamedCurveTable.getParameterSpec("secp521r1");
+		org.bouncycastle.math.ec.ECPoint bcEcPoint = ecNamedCurveParameterSpec.getCurve().decodePoint(publicKeyBytes);
+		byte[] x = bcEcPoint.getRawXCoord().getEncoded();
+		byte[] y = bcEcPoint.getRawYCoord().getEncoded();
 
 		ECPublicKey publicKey;
 		try {
