@@ -181,7 +181,7 @@ public class PrivateKeyBytes {
 	public static byte[] P_256PrivateKey_to_bytes(ECPrivateKey privateKey) {
 
 		byte[] s = ByteArrayUtil.bigIntegertoByteArray(privateKey.getS());
-		if (s.length != 32) throw new IllegalArgumentException("Invalid 's' value (not 32 bytes): private key, length=" + s.length);
+		if (s.length != 32) throw new IllegalArgumentException("Invalid key size (not 32 bytes): private key, length=" + s.length + " (" + privateKey.getS().bitLength() + " bits)");
 
 		return s;
 	}
@@ -211,7 +211,7 @@ public class PrivateKeyBytes {
 	public static byte[] P_384PrivateKey_to_bytes(ECPrivateKey privateKey) {
 
 		byte[] s = ByteArrayUtil.bigIntegertoByteArray(privateKey.getS());
-		if (s.length != 48) throw new IllegalArgumentException("Invalid 's' value (not 48 bytes): private key, length=" + s.length);
+		if (s.length != 48) throw new IllegalArgumentException("Invalid key size (not 48 bytes): private key, length=" + s.length + " (" + privateKey.getS().bitLength() + " bits)");
 
 		return s;
 	}
@@ -241,7 +241,7 @@ public class PrivateKeyBytes {
 	public static byte[] P_521PrivateKey_to_bytes(ECPrivateKey privateKey) {
 
 		byte[] s = ByteArrayUtil.bigIntegertoByteArray(privateKey.getS());
-		if (s.length != 64 && s.length != 65 && s.length != 66) throw new IllegalArgumentException("Invalid 's' value (not 64 or 65 or 66 bytes): private key, length=" + s.length);
+		if (s.length != 64 && s.length != 65 && s.length != 66) throw new IllegalArgumentException("Invalid key size (not 64 or 65 or 66 bytes): private key, length=" + s.length + " (" + privateKey.getS().bitLength() + " bits)");
 
 		return s;
 	}

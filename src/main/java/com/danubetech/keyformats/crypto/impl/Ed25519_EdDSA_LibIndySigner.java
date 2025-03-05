@@ -20,6 +20,8 @@ public class Ed25519_EdDSA_LibIndySigner extends ByteSigner {
 
         this.wallet = wallet;
         this.signerVk = signerVk;
+
+        if (privateKey.length != 64) throw new IllegalArgumentException("Expected 32 bytes instead of " + privateKey.length);
     }
 
     @Override

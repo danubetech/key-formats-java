@@ -11,6 +11,8 @@ public class Ed25519_EdDSA_PublicKeyVerifier extends PublicKeyVerifier<byte[]> {
     public Ed25519_EdDSA_PublicKeyVerifier(byte[] publicKey) {
 
         super(publicKey, JWSAlgorithm.EdDSA);
+
+        if (publicKey.length != 32) throw new IllegalArgumentException("Expected 32 bytes instead of " + publicKey.length);
     }
 
     @Override

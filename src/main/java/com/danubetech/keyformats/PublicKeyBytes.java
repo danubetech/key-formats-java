@@ -166,7 +166,9 @@ public class PublicKeyBytes {
 
 	public static byte[] P_256PublicKey_to_bytes(ECPublicKey publicKey) {
 
-		return EC5Util.convertPoint(publicKey.getParams(), publicKey.getW()).getEncoded(true);
+		byte[] point = EC5Util.convertPoint(publicKey.getParams(), publicKey.getW()).getEncoded(true);
+		if (point.length != 33) throw new IllegalArgumentException("Invalid key size (not 33 bytes): " + Hex.encodeHexString(point) + ", length=" + point.length);
+		return point;
 	}
 
 	public static ECPublicKey bytes_to_P_256PublicKey(byte[] publicKeyBytes) {
@@ -198,7 +200,9 @@ public class PublicKeyBytes {
 
 	public static byte[] P_384PublicKey_to_bytes(ECPublicKey publicKey) {
 
-		return EC5Util.convertPoint(publicKey.getParams(), publicKey.getW()).getEncoded(true);
+		byte[] point = EC5Util.convertPoint(publicKey.getParams(), publicKey.getW()).getEncoded(true);
+		if (point.length != 49) throw new IllegalArgumentException("Invalid key size (not 49 bytes): " + Hex.encodeHexString(point) + ", length=" + point.length);
+		return point;
 	}
 
 	public static ECPublicKey bytes_to_P_384PublicKey(byte[] publicKeyBytes) {
@@ -230,12 +234,14 @@ public class PublicKeyBytes {
 
 	public static byte[] P_521PublicKey_to_bytes(ECPublicKey publicKey) {
 
-		return EC5Util.convertPoint(publicKey.getParams(), publicKey.getW()).getEncoded(true);
+		byte[] point = EC5Util.convertPoint(publicKey.getParams(), publicKey.getW()).getEncoded(true);
+		if (point.length != 65 && point.length != 66 && point.length != 67) throw new IllegalArgumentException("Invalid key size (not 65 or 66 or 67 bytes): " + Hex.encodeHexString(point) + ", length=" + point.length);
+		return point;
 	}
 
 	public static ECPublicKey bytes_to_P_521PublicKey(byte[] publicKeyBytes) {
 
-		if (publicKeyBytes.length != 65 && publicKeyBytes.length != 66 && publicKeyBytes.length != 67) throw new IllegalArgumentException("Expected 64 or 65 or 66 bytes instead of " + publicKeyBytes.length);
+		if (publicKeyBytes.length != 65 && publicKeyBytes.length != 66 && publicKeyBytes.length != 67) throw new IllegalArgumentException("Expected 65 or 66 or 67 bytes instead of " + publicKeyBytes.length);
 
 		ECNamedCurveParameterSpec ecNamedCurveParameterSpec = ECNamedCurveTable.getParameterSpec("secp521r1");
 		org.bouncycastle.math.ec.ECPoint bcEcPoint = ecNamedCurveParameterSpec.getCurve().decodePoint(publicKeyBytes);
