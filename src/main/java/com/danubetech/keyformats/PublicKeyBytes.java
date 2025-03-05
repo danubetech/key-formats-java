@@ -3,6 +3,7 @@ package com.danubetech.keyformats;
 import bbs.signatures.KeyPair;
 import org.apache.commons.codec.binary.Hex;
 import org.bitcoinj.crypto.ECKey;
+import org.bitcoinj.crypto.LazyECPoint;
 import org.bouncycastle.jcajce.provider.asymmetric.util.EC5Util;
 import org.bouncycastle.jce.ECNamedCurveTable;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -48,22 +49,15 @@ public class PublicKeyBytes {
 
 	public static byte[] secp256k1PublicKey_to_bytes(ECKey publicKey) {
 
-		org.bouncycastle.math.ec.ECPoint publicKeyPoint = publicKey.getPubKeyPoint();
-
-		byte[] x = publicKeyPoint.getAffineXCoord().getEncoded();
-		if (x.length != 32) throw new IllegalArgumentException("Invalid 'x' value (not 32 bytes): " + Hex.encodeHexString(x) + ", length=" + x.length);
-		byte[] y = publicKeyPoint.getAffineYCoord().getEncoded();
-		if (y.length != 32) throw new IllegalArgumentException("Invalid 'y' value (not 32 bytes): " + Hex.encodeHexString(y) + ", length=" + y.length);
-
-		byte[] publicKeyBytes = new byte[65];
-		publicKeyBytes[0] = 4;
-		System.arraycopy(x, 0, publicKeyBytes, 1, 32);
-		System.arraycopy(y, 0, publicKeyBytes, 33, 32);
+		byte[] publicKeyBytes = ECKey.fromPublicOnly(new LazyECPoint(publicKey.getPubKeyPoint(), true).get(), true).getPubKey();
+		if (publicKeyBytes.length != 33) throw new IllegalArgumentException("Invalid key size (not 33 bytes): " + Hex.encodeHexString(publicKeyBytes) + ", length=" + publicKeyBytes.length);
 
 		return publicKeyBytes;
 	}
 
 	public static ECKey bytes_to_secp256k1PublicKey(byte[] publicKeyBytes) {
+
+		if (publicKeyBytes.length != 33) throw new IllegalArgumentException("Invalid key size (not 33 bytes): " + Hex.encodeHexString(publicKeyBytes) + ", length=" + publicKeyBytes.length);
 
 		return ECKey.fromPublicOnly(publicKeyBytes);
 	}

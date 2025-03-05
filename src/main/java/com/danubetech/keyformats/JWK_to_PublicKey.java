@@ -7,6 +7,7 @@ import com.danubetech.keyformats.jose.KeyType;
 import com.danubetech.keyformats.jose.KeyTypeName;
 import com.danubetech.keyformats.keytypes.KeyTypeName_for_JWK;
 import org.bitcoinj.crypto.ECKey;
+import org.bitcoinj.crypto.LazyECPoint;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import java.math.BigInteger;
@@ -82,7 +83,7 @@ public class JWK_to_PublicKey {
 		System.arraycopy(x, 0, publicKeyBytes, 1, 32);
 		System.arraycopy(y, 0, publicKeyBytes, 33, 32);
 
-		return ECKey.fromPublicOnly(publicKeyBytes);
+		return ECKey.fromPublicOnly(new LazyECPoint(ECKey.fromPublicOnly(publicKeyBytes).getPubKeyPoint(), true).get(), true);
 	}
 
 	public static KeyPair JWK_to_Bls12381G1PublicKey(JWK jsonWebKey) {

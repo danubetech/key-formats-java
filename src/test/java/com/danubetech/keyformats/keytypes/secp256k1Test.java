@@ -65,7 +65,7 @@ public class secp256k1Test extends AbstractTest {
 	public void testPublicKey() throws Exception {
 		ECKey publicKey = JWK_to_PublicKey.JWK_to_secp256k1PublicKey(jwkPublic);
 		byte[] publicKeyBytes = PublicKeyBytes.secp256k1PublicKey_to_bytes(publicKey);
-		assertEquals(publicKeyBytes.length, 65);
+		assertEquals(publicKeyBytes.length, 33);
 
 		ECKey publicKey2 = PublicKeyBytes.bytes_to_secp256k1PublicKey(publicKeyBytes);
 		assertArrayEquals(publicKey.getPubKey(), publicKey2.getPubKey());
