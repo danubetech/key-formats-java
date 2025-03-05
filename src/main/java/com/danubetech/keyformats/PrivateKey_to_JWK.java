@@ -6,6 +6,10 @@ import com.danubetech.keyformats.jose.KeyType;
 import com.danubetech.keyformats.util.ByteArrayUtil;
 import org.apache.commons.codec.binary.Hex;
 import org.bitcoinj.crypto.ECKey;
+import org.bouncycastle.crypto.params.Ed25519PrivateKeyParameters;
+import org.bouncycastle.crypto.params.Ed25519PublicKeyParameters;
+import org.bouncycastle.crypto.params.X25519PrivateKeyParameters;
+import org.bouncycastle.crypto.params.X25519PublicKeyParameters;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import java.security.KeyPair;
@@ -41,8 +45,8 @@ public class PrivateKey_to_JWK {
 		org.bouncycastle.math.ec.ECPoint publicKeyPoint = privateKey.getPubKeyPoint();
 		byte[] privateKeyBytes = privateKey.getPrivKeyBytes();
 
-		if (publicKeyPoint.getAffineXCoord().getEncoded().length != 32) throw new IllegalArgumentException("Invalid 'x' value (not 32 bytes): " + new String(Hex.encodeHex(publicKeyPoint.getAffineXCoord().getEncoded())) + ", length=" + publicKeyPoint.getAffineXCoord().getEncoded().length);
-		if (publicKeyPoint.getAffineYCoord().getEncoded().length != 32) throw new IllegalArgumentException("Invalid 'y' value (not 32 bytes): " + new String(Hex.encodeHex(publicKeyPoint.getAffineYCoord().getEncoded())) + ", length=" + publicKeyPoint.getAffineYCoord().getEncoded().length);
+		if (publicKeyPoint.getAffineXCoord().getEncoded().length != 32) throw new IllegalArgumentException("Invalid 'x' value (not 32 bytes): " + Hex.encodeHexString(publicKeyPoint.getAffineXCoord().getEncoded()) + ", length=" + publicKeyPoint.getAffineXCoord().getEncoded().length);
+		if (publicKeyPoint.getAffineYCoord().getEncoded().length != 32) throw new IllegalArgumentException("Invalid 'y' value (not 32 bytes): " + Hex.encodeHexString(publicKeyPoint.getAffineYCoord().getEncoded()) + ", length=" + publicKeyPoint.getAffineYCoord().getEncoded().length);
 		if (privateKeyBytes.length != 32) throw new IllegalArgumentException("Invalid 'd' value (not 32 bytes): length=" + privateKeyBytes.length);
 
 		JWK jsonWebKey = new JWK();
@@ -61,6 +65,8 @@ public class PrivateKey_to_JWK {
 
 		byte[] publicKeyBytes = privateKey.publicKey;
 		byte[] privateKeyBytes = privateKey.secretKey;
+		if (publicKeyBytes.length != 32) throw new IllegalArgumentException("Invalid byte value (not 32 bytes): " + Hex.encodeHexString(publicKeyBytes));
+		if (privateKeyBytes.length != 32) throw new IllegalArgumentException("Invalid byte value (not 32 bytes): private key");
 
 		JWK jsonWebKey = new JWK();
 		jsonWebKey.setKty(KeyType.OKP);
@@ -77,6 +83,8 @@ public class PrivateKey_to_JWK {
 
 		byte[] publicKeyBytes = privateKey.publicKey;
 		byte[] privateKeyBytes = privateKey.secretKey;
+		if (publicKeyBytes.length != 32) throw new IllegalArgumentException("Invalid byte value (not 32 bytes): " + Hex.encodeHexString(publicKeyBytes));
+		if (privateKeyBytes.length != 32) throw new IllegalArgumentException("Invalid byte value (not 32 bytes): private key");
 
 		JWK jsonWebKey = new JWK();
 		jsonWebKey.setKty(KeyType.OKP);
@@ -93,6 +101,8 @@ public class PrivateKey_to_JWK {
 
 		byte[] publicKeyBytes = privateKey.publicKey;
 		byte[] privateKeyBytes = privateKey.secretKey;
+		if (publicKeyBytes.length != 32) throw new IllegalArgumentException("Invalid byte value (not 32 bytes): " + Hex.encodeHexString(publicKeyBytes));
+		if (privateKeyBytes.length != 32) throw new IllegalArgumentException("Invalid byte value (not 32 bytes): private key");
 
 		JWK jsonWebKey = new JWK();
 		jsonWebKey.setKty(KeyType.OKP);
@@ -109,6 +119,8 @@ public class PrivateKey_to_JWK {
 
 		byte[] publicKeyBytes = privateKey.publicKey;
 		byte[] privateKeyBytes = privateKey.secretKey;
+		if (publicKeyBytes.length != 32) throw new IllegalArgumentException("Invalid byte value (not 32 bytes): " + Hex.encodeHexString(publicKeyBytes));
+		if (privateKeyBytes.length != 32) throw new IllegalArgumentException("Invalid byte value (not 32 bytes): private key");
 
 		JWK jsonWebKey = new JWK();
 		jsonWebKey.setKty(KeyType.OKP);
@@ -121,34 +133,32 @@ public class PrivateKey_to_JWK {
 		return jsonWebKey;
 	}
 
-	public static JWK Ed25519PrivateKey_to_JWK(byte[] privateKeyBytes, String kid, String use) {
+	public static JWK Ed25519PrivateKey_to_JWK(byte[] privateKey, String kid, String use) {
 
-		byte[] publicKeyBytes = Arrays.copyOfRange(privateKeyBytes, 32, 64);
-		byte[] onlyPrivateKeyBytes = Arrays.copyOfRange(privateKeyBytes, 0, 32);
+		if (privateKey.length != 64) throw new IllegalArgumentException("Invalid byte value (not 64 bytes): private key");
 
 		JWK jsonWebKey = new JWK();
 		jsonWebKey.setKty(KeyType.OKP);
 		jsonWebKey.setCrv(Curve.Ed25519);
 		jsonWebKey.setKid(kid);
 		jsonWebKey.setUse(use);
-		jsonWebKey.setX(Base64.getUrlEncoder().withoutPadding().encodeToString(publicKeyBytes));
-		jsonWebKey.setD(Base64.getUrlEncoder().withoutPadding().encodeToString(onlyPrivateKeyBytes));
+		jsonWebKey.setX(Base64.getUrlEncoder().withoutPadding().encodeToString(Arrays.copyOfRange(privateKey, 32, 64)));
+		jsonWebKey.setD(Base64.getUrlEncoder().withoutPadding().encodeToString(Arrays.copyOfRange(privateKey, 0, 32)));
 
 		return jsonWebKey;
 	}
 
-	public static JWK X25519PrivateKey_to_JWK(byte[] privateKeyBytes, String kid, String use) {
+	public static JWK X25519PrivateKey_to_JWK(byte[] privateKey, String kid, String use) {
 
-		byte[] publicKeyBytes = Arrays.copyOfRange(privateKeyBytes, 32, 64);
-		byte[] onlyPrivateKeyBytes = Arrays.copyOfRange(privateKeyBytes, 0, 32);
+		if (privateKey.length != 64) throw new IllegalArgumentException("Invalid byte value (not 32 bytes): private key");
 
 		JWK jsonWebKey = new JWK();
 		jsonWebKey.setKty(KeyType.OKP);
 		jsonWebKey.setCrv(Curve.X25519);
 		jsonWebKey.setKid(kid);
 		jsonWebKey.setUse(use);
-		jsonWebKey.setX(Base64.getUrlEncoder().withoutPadding().encodeToString(publicKeyBytes));
-		jsonWebKey.setD(Base64.getUrlEncoder().withoutPadding().encodeToString(onlyPrivateKeyBytes));
+		jsonWebKey.setX(Base64.getUrlEncoder().withoutPadding().encodeToString(Arrays.copyOfRange(privateKey, 32, 64)));
+		jsonWebKey.setD(Base64.getUrlEncoder().withoutPadding().encodeToString(Arrays.copyOfRange(privateKey, 0, 32)));
 
 		return jsonWebKey;
 	}
@@ -156,7 +166,7 @@ public class PrivateKey_to_JWK {
 	public static JWK P_256PrivateKey_to_JWK(ECPrivateKey privateKey, String kid, String use) {
 
 		byte[] d = ByteArrayUtil.bigIntegertoByteArray(privateKey.getS());
-		if (d.length != 32) throw new IllegalArgumentException("Invalid 'd' value (not 32 bytes): " + new String(Hex.encodeHex(d)) + ", length=" + d.length + " (" + privateKey.getS().bitLength() + " bits)");
+		if (d.length != 32) throw new IllegalArgumentException("Invalid 'd' value (not 32 bytes): private key, length=" + d.length + " (" + privateKey.getS().bitLength() + " bits)");
 
 		ECPoint publicKeyPoint;
 		try {
@@ -169,9 +179,9 @@ public class PrivateKey_to_JWK {
 		}
 
 		byte[] x = ByteArrayUtil.bigIntegertoByteArray(publicKeyPoint.getAffineX());
-		if (x.length != 32) throw new IllegalArgumentException("Invalid 'x' value (not 32 bytes): " + new String(Hex.encodeHex(x)) + ", length=" + x.length + " (" + publicKeyPoint.getAffineX().bitLength() + " bits)");
+		if (x.length != 32) throw new IllegalArgumentException("Invalid 'x' value (not 32 bytes): " + Hex.encodeHexString(x) + ", length=" + x.length + " (" + publicKeyPoint.getAffineX().bitLength() + " bits)");
 		byte[] y = ByteArrayUtil.bigIntegertoByteArray(publicKeyPoint.getAffineY());
-		if (y.length != 32) throw new IllegalArgumentException("Invalid 'y' value (not 32 bytes): " + new String(Hex.encodeHex(y)) + ", length=" + y.length + " (" + publicKeyPoint.getAffineY().bitLength() + " bits)");
+		if (y.length != 32) throw new IllegalArgumentException("Invalid 'y' value (not 32 bytes): " + Hex.encodeHexString(y) + ", length=" + y.length + " (" + publicKeyPoint.getAffineY().bitLength() + " bits)");
 
 		JWK jsonWebKey = new JWK();
 		jsonWebKey.setKty(KeyType.EC);
@@ -188,7 +198,7 @@ public class PrivateKey_to_JWK {
 	public static JWK P_384PrivateKey_to_JWK(ECPrivateKey privateKey, String kid, String use) {
 
 		byte[] d = ByteArrayUtil.bigIntegertoByteArray(privateKey.getS());
-		if (d.length != 48) throw new IllegalArgumentException("Invalid 'd' value (not 48 bytes): " + new String(Hex.encodeHex(d)) + ", length=" + d.length + " (" + privateKey.getS().bitLength() + " bits)");
+		if (d.length != 48) throw new IllegalArgumentException("Invalid 'd' value (not 48 bytes): private key, length=" + d.length + " (" + privateKey.getS().bitLength() + " bits)");
 
 		ECPoint publicKeyPoint;
 		try {
@@ -201,9 +211,9 @@ public class PrivateKey_to_JWK {
 		}
 
 		byte[] x = ByteArrayUtil.bigIntegertoByteArray(publicKeyPoint.getAffineX());
-		if (x.length != 48) throw new IllegalArgumentException("Invalid 'x' value (not 48 bytes): " + new String(Hex.encodeHex(x)) + ", length=" + x.length + " (" + publicKeyPoint.getAffineX().bitLength() + " bits)");
+		if (x.length != 48) throw new IllegalArgumentException("Invalid 'x' value (not 48 bytes): " + Hex.encodeHexString(x) + ", length=" + x.length + " (" + publicKeyPoint.getAffineX().bitLength() + " bits)");
 		byte[] y = ByteArrayUtil.bigIntegertoByteArray(publicKeyPoint.getAffineY());
-		if (y.length != 48) throw new IllegalArgumentException("Invalid 'y' value (not 48 bytes): " + new String(Hex.encodeHex(y)) + ", length=" + y.length + " (" + publicKeyPoint.getAffineY().bitLength() + " bits)");
+		if (y.length != 48) throw new IllegalArgumentException("Invalid 'y' value (not 48 bytes): " + Hex.encodeHexString(y) + ", length=" + y.length + " (" + publicKeyPoint.getAffineY().bitLength() + " bits)");
 
 		JWK jsonWebKey = new JWK();
 		jsonWebKey.setKty(KeyType.EC);
@@ -220,7 +230,7 @@ public class PrivateKey_to_JWK {
 	public static JWK P_521PrivateKey_to_JWK(ECPrivateKey privateKey, String kid, String use) {
 
 		byte[] d = ByteArrayUtil.bigIntegertoByteArray(privateKey.getS());
-		if (d.length != 64 && d.length != 65 && d.length != 66) throw new IllegalArgumentException("Invalid 'd' value (not 64 or 65 or 66 bytes): " + new String(Hex.encodeHex(d)) + ", length=" + d.length + " (" + privateKey.getS().bitLength() + " bits)");
+		if (d.length != 64 && d.length != 65 && d.length != 66) throw new IllegalArgumentException("Invalid 'd' value (not 64 or 65 or 66 bytes): private key, length=" + d.length + " (" + privateKey.getS().bitLength() + " bits)");
 		d = ByteArrayUtil.padArrayZeros(d, 66);
 
 		ECPoint publicKeyPoint;
@@ -234,10 +244,10 @@ public class PrivateKey_to_JWK {
 		}
 
 		byte[] x = ByteArrayUtil.bigIntegertoByteArray(publicKeyPoint.getAffineX());
-		if (x.length != 64 && x.length != 65 && x.length != 66) throw new IllegalArgumentException("Invalid 'x' value (not 64 or 65 or bytes): " + new String(Hex.encodeHex(x)) + ", length=" + x.length + " (" + publicKeyPoint.getAffineX().bitLength() + " bits)");
+		if (x.length != 64 && x.length != 65 && x.length != 66) throw new IllegalArgumentException("Invalid 'x' value (not 64 or 65 or bytes): " + Hex.encodeHexString(x) + ", length=" + x.length + " (" + publicKeyPoint.getAffineX().bitLength() + " bits)");
 		x = ByteArrayUtil.padArrayZeros(x, 66);
 		byte[] y = ByteArrayUtil.bigIntegertoByteArray(publicKeyPoint.getAffineY());
-		if (y.length != 64 && y.length != 65 && y.length != 66) throw new IllegalArgumentException("Invalid 'y' value (not 64 or 65 or 66 bytes): " + new String(Hex.encodeHex(y)) + ", length=" + y.length + " (" + publicKeyPoint.getAffineY().bitLength() + " bits)");
+		if (y.length != 64 && y.length != 65 && y.length != 66) throw new IllegalArgumentException("Invalid 'y' value (not 64 or 65 or 66 bytes): " + Hex.encodeHexString(y) + ", length=" + y.length + " (" + publicKeyPoint.getAffineY().bitLength() + " bits)");
 		y = ByteArrayUtil.padArrayZeros(y, 66);
 
 		JWK jsonWebKey = new JWK();

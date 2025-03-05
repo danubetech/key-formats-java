@@ -54,6 +54,7 @@ public class PublicKey_to_JWK {
 	public static JWK Bls12381G1PublicKey_to_JWK(KeyPair publicKey, String kid, String use) {
 
 		byte[] publicKeyBytes = publicKey.publicKey;
+		if (publicKeyBytes.length != 32) throw new IllegalArgumentException("Invalid byte value (not 32 bytes): " + Hex.encodeHexString(publicKeyBytes));
 
 		JWK jsonWebKey = new JWK();
 		jsonWebKey.setKty(KeyType.OKP);
@@ -68,6 +69,7 @@ public class PublicKey_to_JWK {
 	public static JWK Bls12381G2PublicKey_to_JWK(KeyPair publicKey, String kid, String use) {
 
 		byte[] publicKeyBytes = publicKey.publicKey;
+		if (publicKeyBytes.length != 32) throw new IllegalArgumentException("Invalid byte value (not 32 bytes): " + Hex.encodeHexString(publicKeyBytes));
 
 		JWK jsonWebKey = new JWK();
 		jsonWebKey.setKty(KeyType.OKP);
@@ -82,6 +84,7 @@ public class PublicKey_to_JWK {
 	public static JWK Bls48581G1PublicKey_to_JWK(KeyPair publicKey, String kid, String use) {
 
 		byte[] publicKeyBytes = publicKey.publicKey;
+		if (publicKeyBytes.length != 32) throw new IllegalArgumentException("Invalid byte value (not 32 bytes): " + Hex.encodeHexString(publicKeyBytes));
 
 		JWK jsonWebKey = new JWK();
 		jsonWebKey.setKty(KeyType.OKP);
@@ -96,6 +99,7 @@ public class PublicKey_to_JWK {
 	public static JWK Bls48581G2PublicKey_to_JWK(KeyPair publicKey, String kid, String use) {
 
 		byte[] publicKeyBytes = publicKey.publicKey;
+		if (publicKeyBytes.length != 32) throw new IllegalArgumentException("Invalid byte value (not 32 bytes): " + Hex.encodeHexString(publicKeyBytes));
 
 		JWK jsonWebKey = new JWK();
 		jsonWebKey.setKty(KeyType.OKP);
@@ -109,6 +113,8 @@ public class PublicKey_to_JWK {
 
 	public static JWK Ed25519PublicKey_to_JWK(byte[] publicKeyBytes, String kid, String use) {
 
+		if (publicKeyBytes.length != 32) throw new IllegalArgumentException("Invalid byte value (not 32 bytes): " + Hex.encodeHexString(publicKeyBytes));
+
 		JWK jsonWebKey = new JWK();
 		jsonWebKey.setKty(KeyType.OKP);
 		jsonWebKey.setCrv(Curve.Ed25519);
@@ -120,6 +126,8 @@ public class PublicKey_to_JWK {
 	}
 
 	public static JWK X25519PublicKey_to_JWK(byte[] publicKeyBytes, String kid, String use) {
+
+		if (publicKeyBytes.length != 32) throw new IllegalArgumentException("Invalid byte value (not 32 bytes): " + Hex.encodeHexString(publicKeyBytes));
 
 		JWK jsonWebKey = new JWK();
 		jsonWebKey.setKty(KeyType.OKP);

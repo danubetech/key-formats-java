@@ -6,6 +6,7 @@ import com.google.crypto.tink.subtle.Ed25519Sign;
 import com.google.crypto.tink.subtle.Ed25519Verify;
 
 import java.security.GeneralSecurityException;
+import java.util.Arrays;
 
 public class TinkEd25519Provider extends Ed25519Provider {
 
@@ -22,7 +23,7 @@ public class TinkEd25519Provider extends Ed25519Provider {
 	@Override
 	public void generateEC25519KeyPair(byte[] publicKey, byte[] privateKey) throws GeneralSecurityException {
 
-		if (privateKey.length != Ed25519Sign.SECRET_KEY_LEN + Ed25519Verify.PUBLIC_KEY_LEN) throw new GeneralSecurityException("Invalid private key length: " + privateKey.length);
+		if (privateKey.length != Ed25519Sign.SECRET_KEY_LEN) throw new GeneralSecurityException("Invalid private key length: " + privateKey.length);
 		if (publicKey.length != Ed25519Verify.PUBLIC_KEY_LEN) throw new GeneralSecurityException("Invalid public key length: "+ publicKey.length);
 
 		// create key pair
@@ -31,7 +32,6 @@ public class TinkEd25519Provider extends Ed25519Provider {
 
 		System.arraycopy(tinkKeyPair.getPrivateKey(), 0, privateKey, 0, Ed25519Sign.SECRET_KEY_LEN);
 		System.arraycopy(tinkKeyPair.getPublicKey(), 0, publicKey, 0, Ed25519Verify.PUBLIC_KEY_LEN);
-		System.arraycopy(publicKey, 0, privateKey, Ed25519Verify.PUBLIC_KEY_LEN, Ed25519Verify.PUBLIC_KEY_LEN);
 	}
 
 	@Override
@@ -46,14 +46,16 @@ public class TinkEd25519Provider extends Ed25519Provider {
 		Ed25519Sign.KeyPair tinkKeyPair = Ed25519Sign.KeyPair.newKeyPairFromSeed(seed);
 
 		System.arraycopy(tinkKeyPair.getPrivateKey(), 0, privateKey, 0, Ed25519Sign.SECRET_KEY_LEN);
+		System.arraycopy(tinkKeyPair.getPublicKey(), 0, privateKey, Ed25519Sign.SECRET_KEY_LEN, Ed25519Verify.PUBLIC_KEY_LEN);
 		System.arraycopy(tinkKeyPair.getPublicKey(), 0, publicKey, 0, Ed25519Verify.PUBLIC_KEY_LEN);
-		System.arraycopy(publicKey, 0, privateKey, Ed25519Verify.PUBLIC_KEY_LEN, Ed25519Verify.PUBLIC_KEY_LEN);
 	}
 
 	@Override
 	public byte[] sign(byte[] content, byte[] privateKey) throws GeneralSecurityException {
 
-		if (privateKey.length != Ed25519Sign.SECRET_KEY_LEN + Ed25519Verify.PUBLIC_KEY_LEN) throw new GeneralSecurityException("Invalid private key length: " + privateKey.length);
+		privateKey = Arrays.copyOfRange(privateKey, 0, 32);
+
+		if (privateKey.length != Ed25519Sign.SECRET_KEY_LEN) throw new GeneralSecurityException("Invalid private key length: " + privateKey.length);
 
 		byte[] privateKeyOnly = new byte[32];
 		System.arraycopy(privateKey, 0, privateKeyOnly, 0, Ed25519Sign.SECRET_KEY_LEN);

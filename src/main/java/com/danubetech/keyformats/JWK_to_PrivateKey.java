@@ -111,11 +111,11 @@ public class JWK_to_PrivateKey {
 		if (! KeyType.OKP.equals(jsonWebKey.getKty())) throw new IllegalArgumentException("Incorrect key type: " + jsonWebKey.getKty());
 		if (! Curve.Ed25519.equals(jsonWebKey.getCrv())) throw new IllegalArgumentException("Incorrect curve: " + jsonWebKey.getCrv());
 
-		byte[] privateKeyBytes = new byte[64];
-		System.arraycopy(jsonWebKey.getDdecoded(), 0, privateKeyBytes, 0, 32);
-		System.arraycopy(jsonWebKey.getXdecoded(), 0, privateKeyBytes, 32, 32);
+		byte[] privateKey = new byte[64];
+		System.arraycopy(jsonWebKey.getDdecoded(), 0, privateKey, 0, 32);
+		System.arraycopy(jsonWebKey.getXdecoded(), 0, privateKey, 32, 32);
 
-		return privateKeyBytes;
+		return privateKey;
 	}
 
 	public static byte[] JWK_to_X25519PrivateKey(JWK jsonWebKey) {
@@ -123,11 +123,11 @@ public class JWK_to_PrivateKey {
 		if (! KeyType.OKP.equals(jsonWebKey.getKty())) throw new IllegalArgumentException("Incorrect key type: " + jsonWebKey.getKty());
 		if (! Curve.X25519.equals(jsonWebKey.getCrv())) throw new IllegalArgumentException("Incorrect curve: " + jsonWebKey.getCrv());
 
-		byte[] privateKeyBytes = new byte[64];
-		System.arraycopy(jsonWebKey.getDdecoded(), 0, privateKeyBytes, 0, 32);
-		System.arraycopy(jsonWebKey.getXdecoded(), 0, privateKeyBytes, 32, 32);
+		byte[] privateKey = new byte[64];
+		System.arraycopy(jsonWebKey.getDdecoded(), 0, privateKey, 0, 32);
+		System.arraycopy(jsonWebKey.getXdecoded(), 0, privateKey, 32, 32);
 
-		return privateKeyBytes;
+		return privateKey;
 	}
 
 	public static ECPrivateKey JWK_to_P_256PrivateKey(JWK jsonWebKey) {

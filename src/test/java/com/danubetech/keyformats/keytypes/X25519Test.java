@@ -49,8 +49,9 @@ public class X25519Test {
 	@Test
 	public void testPrivateKey() throws Exception {
 		byte[] privateKey = JWK_to_PrivateKey.JWK_to_X25519PrivateKey(jwkPrivate);
+		assertEquals(privateKey.length, 64);
 		byte[] privateKeyBytes = PrivateKeyBytes.X25519PrivateKey_to_bytes(privateKey);
-		assertEquals(privateKeyBytes.length, 64);
+		assertEquals(privateKeyBytes.length, 32);
 
 		byte[] privateKey2 = PrivateKeyBytes.bytes_to_X25519PrivateKey(privateKeyBytes);
 		assertArrayEquals(privateKey, privateKey2);

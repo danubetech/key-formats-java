@@ -44,6 +44,8 @@ public class Ed25519ProviderTest {
 		byte[] privateKey = new byte[64];
 		byte[] seed = "00000000000000000000000000000000".getBytes(StandardCharsets.US_ASCII);
 		ed25519Provider.generateEC25519KeyPairFromSeed(publicKey, privateKey, seed);
+		System.out.println("Public key: " + Hex.encodeHexString(publicKey));
+		System.out.println("Private key: " + Hex.encodeHexString(privateKey));
 		assertFalse(Arrays.equals(publicKey, zeros));
 		assertFalse(Arrays.equals(privateKey, zeros));
 		assertArrayEquals(publicKey, Hex.decodeHex("1ba4075b77c9e3fb3ecde15cdaf5221f3c10373e623f7b0e1ef76366b0af7137".toCharArray()));

@@ -40,7 +40,7 @@ public abstract class Ed25519Provider {
 	/**
 	 * Generate a new Ed25519 private/public key pair.
 	 * @param publicKey A 32 byte array that will be filled with the new Ed25519 public key.
-	 * @param privateKey A 64 byte array that will be filled with the new Ed25519 private key concatenated with the new Ed25519 public key.
+	 * @param privateKey A 32 byte array that will be filled with the new Ed25519 private key concatenated with the new Ed25519 public key.
 	 */
 	public abstract void generateEC25519KeyPair(byte[] publicKey, byte[] privateKey) throws GeneralSecurityException;
 

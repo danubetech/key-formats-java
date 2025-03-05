@@ -51,9 +51,9 @@ public class PublicKeyBytes {
 		org.bouncycastle.math.ec.ECPoint publicKeyPoint = publicKey.getPubKeyPoint();
 
 		byte[] x = publicKeyPoint.getAffineXCoord().getEncoded();
-		if (x.length != 32) throw new IllegalArgumentException("Invalid 'x' value (not 32 bytes): " + new String(Hex.encodeHex(x)) + ", length=" + x.length);
+		if (x.length != 32) throw new IllegalArgumentException("Invalid 'x' value (not 32 bytes): " + Hex.encodeHexString(x) + ", length=" + x.length);
 		byte[] y = publicKeyPoint.getAffineYCoord().getEncoded();
-		if (y.length != 32) throw new IllegalArgumentException("Invalid 'y' value (not 32 bytes): " + new String(Hex.encodeHex(y)) + ", length=" + y.length);
+		if (y.length != 32) throw new IllegalArgumentException("Invalid 'y' value (not 32 bytes): " + Hex.encodeHexString(y) + ", length=" + y.length);
 
 		byte[] publicKeyBytes = new byte[65];
 		publicKeyBytes[0] = 4;
@@ -130,10 +130,14 @@ public class PublicKeyBytes {
 
 	public static byte[] Ed25519PublicKey_to_bytes(byte[] publicKey) {
 
+		if (publicKey.length != 32) throw new IllegalArgumentException("Expected 32 bytes instead of " + publicKey.length);
+
 		return publicKey;
 	}
 
 	public static byte[] bytes_to_Ed25519PublicKey(byte[] publicKeyBytes) {
+
+		if (publicKeyBytes.length != 32) throw new IllegalArgumentException("Expected 32 bytes instead of " + publicKeyBytes.length);
 
 		return publicKeyBytes;
 	}
@@ -144,10 +148,14 @@ public class PublicKeyBytes {
 
 	public static byte[] X25519PublicKey_to_bytes(byte[] publicKey) {
 
+		if (publicKey.length != 32) throw new IllegalArgumentException("Expected 32 bytes instead of " + publicKey.length);
+
 		return publicKey;
 	}
 
 	public static byte[] bytes_to_X25519PublicKey(byte[] publicKeyBytes) {
+
+		if (publicKeyBytes.length != 32) throw new IllegalArgumentException("Expected 32 bytes instead of " + publicKeyBytes.length);
 
 		return publicKeyBytes;
 	}

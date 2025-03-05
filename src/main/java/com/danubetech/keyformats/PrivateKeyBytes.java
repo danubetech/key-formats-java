@@ -1,8 +1,11 @@
 package com.danubetech.keyformats;
 
 import com.danubetech.keyformats.util.ByteArrayUtil;
-import org.apache.commons.codec.binary.Hex;
 import org.bitcoinj.crypto.ECKey;
+import org.bouncycastle.crypto.params.Ed25519PrivateKeyParameters;
+import org.bouncycastle.crypto.params.Ed25519PublicKeyParameters;
+import org.bouncycastle.crypto.params.X25519PrivateKeyParameters;
+import org.bouncycastle.crypto.params.X25519PublicKeyParameters;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import java.io.ByteArrayInputStream;
@@ -18,6 +21,7 @@ import java.security.interfaces.ECPrivateKey;
 import java.security.spec.ECGenParameterSpec;
 import java.security.spec.ECParameterSpec;
 import java.security.spec.ECPrivateKeySpec;
+import java.util.Arrays;
 
 public class PrivateKeyBytes {
 
@@ -126,12 +130,23 @@ public class PrivateKeyBytes {
 
 	public static byte[] Ed25519PrivateKey_to_bytes(byte[] privateKey) {
 
-		return privateKey;
+		if (privateKey.length != 64) throw new IllegalArgumentException("Expected 32 bytes instead of " + privateKey.length);
+
+		return Arrays.copyOfRange(privateKey, 0, 32);
 	}
 
 	public static byte[] bytes_to_Ed25519PrivateKey(byte[] privateKeyBytes) {
 
-		return privateKeyBytes;
+		if (privateKeyBytes.length != 32) throw new IllegalArgumentException("Expected 32 bytes instead of " + privateKeyBytes.length);
+
+		Ed25519PrivateKeyParameters ed25519PublicKeyParameters = new Ed25519PrivateKeyParameters(privateKeyBytes, 0);
+		Ed25519PublicKeyParameters ed25519PublicKeyParameters1 = ed25519PublicKeyParameters.generatePublicKey();
+
+		byte[] privateKey = new byte[64];
+		System.arraycopy(privateKeyBytes, 0, privateKey, 0, 32);
+		System.arraycopy(ed25519PublicKeyParameters1.getEncoded(), 0, privateKey, 32, 32);
+
+		return privateKey;
 	}
 
 	/*
@@ -140,12 +155,23 @@ public class PrivateKeyBytes {
 
 	public static byte[] X25519PrivateKey_to_bytes(byte[] privateKey) {
 
-		return privateKey;
+		if (privateKey.length != 64) throw new IllegalArgumentException("Expected 32 bytes instead of " + privateKey.length);
+
+		return Arrays.copyOfRange(privateKey, 0, 32);
 	}
 
 	public static byte[] bytes_to_X25519PrivateKey(byte[] privateKeyBytes) {
 
-		return privateKeyBytes;
+		if (privateKeyBytes.length != 32) throw new IllegalArgumentException("Expected 32 bytes instead of " + privateKeyBytes.length);
+
+		X25519PrivateKeyParameters x25519PrivateKeyParameters = new X25519PrivateKeyParameters(privateKeyBytes, 0);
+		X25519PublicKeyParameters x25519PublicKeyParameters = x25519PrivateKeyParameters.generatePublicKey();
+
+		byte[] privateKey = new byte[64];
+		System.arraycopy(privateKeyBytes, 0, privateKey, 0, 32);
+		System.arraycopy(x25519PublicKeyParameters.getEncoded(), 0, privateKey, 32, 32);
+
+		return privateKey;
 	}
 
 	/*
@@ -155,7 +181,7 @@ public class PrivateKeyBytes {
 	public static byte[] P_256PrivateKey_to_bytes(ECPrivateKey privateKey) {
 
 		byte[] s = ByteArrayUtil.bigIntegertoByteArray(privateKey.getS());
-		if (s.length != 32) throw new IllegalArgumentException("Invalid 's' value (not 32 bytes): " + new String(Hex.encodeHex(s)) + ", length=" + s.length);
+		if (s.length != 32) throw new IllegalArgumentException("Invalid 's' value (not 32 bytes): private key, length=" + s.length);
 
 		return s;
 	}
@@ -185,7 +211,7 @@ public class PrivateKeyBytes {
 	public static byte[] P_384PrivateKey_to_bytes(ECPrivateKey privateKey) {
 
 		byte[] s = ByteArrayUtil.bigIntegertoByteArray(privateKey.getS());
-		if (s.length != 48) throw new IllegalArgumentException("Invalid 's' value (not 48 bytes): " + new String(Hex.encodeHex(s)) + ", length=" + s.length);
+		if (s.length != 48) throw new IllegalArgumentException("Invalid 's' value (not 48 bytes): private key, length=" + s.length);
 
 		return s;
 	}
@@ -215,7 +241,7 @@ public class PrivateKeyBytes {
 	public static byte[] P_521PrivateKey_to_bytes(ECPrivateKey privateKey) {
 
 		byte[] s = ByteArrayUtil.bigIntegertoByteArray(privateKey.getS());
-		if (s.length != 64 && s.length != 65 && s.length != 66) throw new IllegalArgumentException("Invalid 's' value (not 64 or 65 or 66 bytes): " + new String(Hex.encodeHex(s)) + ", length=" + s.length);
+		if (s.length != 64 && s.length != 65 && s.length != 66) throw new IllegalArgumentException("Invalid 's' value (not 64 or 65 or 66 bytes): private key, length=" + s.length);
 
 		return s;
 	}
