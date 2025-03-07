@@ -1,6 +1,7 @@
 package com.danubetech.keyformats.crypto.impl;
 
 import com.danubetech.keyformats.crypto.PrivateKeySigner;
+import com.danubetech.keyformats.crypto.provider.SHA256Provider;
 import com.danubetech.keyformats.jose.JWSAlgorithm;
 import com.miketwk.schnorr.core.Schnorr;
 import org.bitcoinj.crypto.ECKey;
@@ -19,7 +20,7 @@ public class secp256k1_ES256KS_PrivateKeySigner extends PrivateKeySigner<ECKey> 
 
         // sign
 
-        byte[] hash = Schnorr.sha256(content);
+        byte[] hash = SHA256Provider.get().sha256(content);
         byte[] signatureBytes = Schnorr.schnorr_sign(hash, this.getPrivateKey().getPrivKey());
 
         // done

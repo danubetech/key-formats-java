@@ -1,6 +1,7 @@
 package com.danubetech.keyformats.crypto.impl;
 
 import com.danubetech.keyformats.crypto.PublicKeyVerifier;
+import com.danubetech.keyformats.crypto.provider.SHA256Provider;
 import com.danubetech.keyformats.jose.JWSAlgorithm;
 import com.miketwk.schnorr.core.Schnorr;
 import org.bitcoinj.crypto.ECKey;
@@ -19,7 +20,7 @@ public class secp256k1_ES256KS_PublicKeyVerifier extends PublicKeyVerifier<ECKey
 
         // verify
 
-        byte[] hash = Schnorr.sha256(content);
+        byte[] hash = SHA256Provider.get().sha256(content);
         boolean verified = Schnorr.schnorr_verify(hash, this.getPublicKey().getPubKey(), signature);
 
         // done
