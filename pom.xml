@@ -247,19 +247,9 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>org.bitcoinj.secp</groupId>
-			<artifactId>secp-api</artifactId>
-			<version>0.2-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.bitcoinj.secp</groupId>
-			<artifactId>secp-bouncy</artifactId>
-			<version>0.2-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.bitcoinj.secp</groupId>
-			<artifactId>secp-ffm</artifactId>
-			<version>0.2-SNAPSHOT</version>
+			<groupId>org.bitcoin-s</groupId>
+			<artifactId>bitcoin-s-secp256k1jni</artifactId>
+			<version>1.9.10</version>
 		</dependency>
 		<dependency>
 			<groupId>org.web3j</groupId>
