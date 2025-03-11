@@ -247,9 +247,19 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>com.github.deavmi</groupId>
-			<artifactId>bip-schnorr-java</artifactId>
-			<version>0.0.2</version>
+			<groupId>org.bitcoinj.secp</groupId>
+			<artifactId>secp-api</artifactId>
+			<version>0.2-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.bitcoinj.secp</groupId>
+			<artifactId>secp-bouncy</artifactId>
+			<version>0.2-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.bitcoinj.secp</groupId>
+			<artifactId>secp-ffm</artifactId>
+			<version>0.2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.web3j</groupId>
