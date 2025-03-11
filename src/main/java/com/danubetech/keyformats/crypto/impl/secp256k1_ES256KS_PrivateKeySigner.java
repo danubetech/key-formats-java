@@ -8,6 +8,7 @@ import org.bitcoin.NativeSecp256k1Util;
 import org.bitcoinj.crypto.ECKey;
 
 import java.security.GeneralSecurityException;
+import java.util.Arrays;
 import java.util.Random;
 
 public class secp256k1_ES256KS_PrivateKeySigner extends PrivateKeySigner<ECKey> {
@@ -27,7 +28,7 @@ public class secp256k1_ES256KS_PrivateKeySigner extends PrivateKeySigner<ECKey> 
         byte[] hash = SHA256Provider.get().sha256(content);
         byte[] privateKey = this.getPrivateKey().getPrivKeyBytes();
         byte[] auxRand = new byte[32];
-        new Random().nextBytes(auxRand);
+        Arrays.fill(auxRand, (byte) 0xff);
         try {
             signatureBytes = NativeSecp256k1.schnorrSign(hash, privateKey, auxRand);
         } catch (NativeSecp256k1Util.AssertFailException ex) {
