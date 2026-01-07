@@ -144,9 +144,11 @@ public class PublicKey_to_JWK {
 		ECPoint publicKeyPoint = publicKey.getW();
 
 		byte[] x = ByteArrayUtil.bigIntegertoByteArray(publicKeyPoint.getAffineX());
-		if (x.length != 32) throw new IllegalArgumentException("Invalid 'x' value (not 32 bytes): " + new String(Hex.encodeHex(x)) + ", length=" + x.length + " (" + publicKeyPoint.getAffineX().bitLength() + " bits)");
+		if (x.length < 30 || x.length > 32) throw new IllegalArgumentException("Invalid 'x' value (<30 or >32 bytes): " + new String(Hex.encodeHex(x)) + ", length=" + x.length + " (" + publicKeyPoint.getAffineX().bitLength() + " bits)");
+		x = ByteArrayUtil.padArrayZeros(x, 32);
 		byte[] y = ByteArrayUtil.bigIntegertoByteArray(publicKeyPoint.getAffineY());
-		if (y.length != 32) throw new IllegalArgumentException("Invalid 'y' value (not 32 bytes): " + new String(Hex.encodeHex(y)) + ", length=" + y.length + " (" + publicKeyPoint.getAffineY().bitLength() + " bits)");
+		if (y.length < 30 || y.length > 32) throw new IllegalArgumentException("Invalid 'y' value (<30 or >32 bytes): " + new String(Hex.encodeHex(y)) + ", length=" + y.length + " (" + publicKeyPoint.getAffineY().bitLength() + " bits)");
+		y = ByteArrayUtil.padArrayZeros(y, 32);
 
 		JWK jsonWebKey = new JWK();
 		jsonWebKey.setKty(KeyType.EC);
@@ -164,9 +166,11 @@ public class PublicKey_to_JWK {
 		ECPoint publicKeyPoint = publicKey.getW();
 
 		byte[] x = ByteArrayUtil.bigIntegertoByteArray(publicKeyPoint.getAffineX());
-		if (x.length != 48) throw new IllegalArgumentException("Invalid 'x' value (not 48 bytes): " + new String(Hex.encodeHex(x)) + ", length=" + x.length + " (" + publicKeyPoint.getAffineX().bitLength() + " bits)");
+		if (x.length < 46 || x.length > 48) throw new IllegalArgumentException("Invalid 'x' value (<46 or >48 bytes): " + new String(Hex.encodeHex(x)) + ", length=" + x.length + " (" + publicKeyPoint.getAffineX().bitLength() + " bits)");
+		x = ByteArrayUtil.padArrayZeros(x, 48);
 		byte[] y = ByteArrayUtil.bigIntegertoByteArray(publicKeyPoint.getAffineY());
-		if (y.length != 48) throw new IllegalArgumentException("Invalid 'y' value (not 48 bytes): " + new String(Hex.encodeHex(y)) + ", length=" + y.length + " (" + publicKeyPoint.getAffineY().bitLength() + " bits)");
+		if (y.length < 46 || y.length > 48) throw new IllegalArgumentException("Invalid 'y' value (<46 or >48 bytes): " + new String(Hex.encodeHex(y)) + ", length=" + y.length + " (" + publicKeyPoint.getAffineY().bitLength() + " bits)");
+		y = ByteArrayUtil.padArrayZeros(y, 48);
 
 		JWK jsonWebKey = new JWK();
 		jsonWebKey.setKty(KeyType.EC);
