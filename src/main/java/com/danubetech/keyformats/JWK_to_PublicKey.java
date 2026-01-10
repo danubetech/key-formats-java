@@ -25,58 +25,58 @@ public class JWK_to_PublicKey {
 		Security.addProvider(new BouncyCastleProvider());
 	}
 
-	public static Object JWK_to_anyPublicKey(JWK jsonWebKey) {
+	public static Object JWK_to_anyPublicKey(JWK jwk) {
 
-		KeyTypeName keyType = KeyTypeName_for_JWK.keyTypeName_for_JWK(jsonWebKey);
+		KeyTypeName keyType = KeyTypeName_for_JWK.keyTypeName_for_JWK(jwk);
 
 		if (keyType == KeyTypeName.RSA)
-			return JWK_to_RSAPublicKey(jsonWebKey);
+			return JWK_to_RSAPublicKey(jwk);
 		else if (keyType == KeyTypeName.secp256k1)
-			return JWK_to_secp256k1PublicKey(jsonWebKey);
+			return JWK_to_secp256k1PublicKey(jwk);
 		else if (keyType == KeyTypeName.Bls12381G1)
-			return JWK_to_Bls12381G1PublicKey(jsonWebKey);
+			return JWK_to_Bls12381G1PublicKey(jwk);
 		else if (keyType == KeyTypeName.Bls12381G2)
-			return JWK_to_Bls12381G2PublicKey(jsonWebKey);
+			return JWK_to_Bls12381G2PublicKey(jwk);
 		else if (keyType == KeyTypeName.Bls48581G1)
-			return JWK_to_Bls48581G1PublicKey(jsonWebKey);
+			return JWK_to_Bls48581G1PublicKey(jwk);
 		else if (keyType == KeyTypeName.Bls48581G2)
-			return JWK_to_Bls48581G2PublicKey(jsonWebKey);
+			return JWK_to_Bls48581G2PublicKey(jwk);
 		else if (keyType == KeyTypeName.Ed25519)
-			return JWK_to_Ed25519PublicKey(jsonWebKey);
+			return JWK_to_Ed25519PublicKey(jwk);
 		else if (keyType == KeyTypeName.X25519)
-			return JWK_to_X25519PublicKey(jsonWebKey);
+			return JWK_to_X25519PublicKey(jwk);
 		else if (keyType == KeyTypeName.P_256)
-			return JWK_to_P_256PublicKey(jsonWebKey);
+			return JWK_to_P_256PublicKey(jwk);
 		else if (keyType == KeyTypeName.P_384)
-			return JWK_to_P_384PublicKey(jsonWebKey);
+			return JWK_to_P_384PublicKey(jwk);
 		else if (keyType == KeyTypeName.P_521)
-			return JWK_to_P_521PublicKey(jsonWebKey);
+			return JWK_to_P_521PublicKey(jwk);
 		else
 			throw new IllegalArgumentException("Unsupported key type: " + keyType);
 	}
 
-	public static RSAPublicKey JWK_to_RSAPublicKey(JWK jsonWebKey) {
+	public static RSAPublicKey JWK_to_RSAPublicKey(JWK jwk) {
 
-		if (! KeyType.RSA.equals(jsonWebKey.getKty())) throw new IllegalArgumentException("Incorrect key type: " + jsonWebKey.getKty());
+		if (! KeyType.RSA.equals(jwk.getKty())) throw new IllegalArgumentException("Incorrect key type: " + jwk.getKty());
 
 		try {
 			KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-			RSAPublicKeySpec rsaPublicKeySpec = new RSAPublicKeySpec(new BigInteger(1, jsonWebKey.getNdecoded()), new BigInteger(1, jsonWebKey.getEdecoded()));
+			RSAPublicKeySpec rsaPublicKeySpec = new RSAPublicKeySpec(new BigInteger(1, jwk.getNdecoded()), new BigInteger(1, jwk.getEdecoded()));
 			return (RSAPublicKey) keyFactory.generatePublic(rsaPublicKeySpec);
 		} catch (InvalidKeySpecException | NoSuchAlgorithmException ex) {
 			throw new RuntimeException(ex.getMessage(), ex);
 		}
 	}
 
-	public static ECKey JWK_to_secp256k1PublicKey(JWK jsonWebKey) {
+	public static ECKey JWK_to_secp256k1PublicKey(JWK jwk) {
 
-		if (! KeyType.EC.equals(jsonWebKey.getKty())) throw new IllegalArgumentException("Incorrect key type: " + jsonWebKey.getKty());
-		if (! Curve.secp256k1.equals(jsonWebKey.getCrv())) throw new IllegalArgumentException("Incorrect curve: " + jsonWebKey.getCrv());
+		if (! KeyType.EC.equals(jwk.getKty())) throw new IllegalArgumentException("Incorrect key type: " + jwk.getKty());
+		if (! Curve.secp256k1.equals(jwk.getCrv())) throw new IllegalArgumentException("Incorrect curve: " + jwk.getCrv());
 
-		byte[] x = jsonWebKey.getXdecoded();
-		if (x.length != 32) throw new IllegalArgumentException("Invalid 'x' value (not 32 bytes): " + jsonWebKey.getX() + ", length=" + jsonWebKey.getXdecoded().length);
-		byte[] y = jsonWebKey.getYdecoded();
-		if (y.length != 32) throw new IllegalArgumentException("Invalid 'y' value (not 32 bytes): " + jsonWebKey.getY() + ", length=" + jsonWebKey.getYdecoded().length);
+		byte[] x = jwk.getXdecoded();
+		if (x.length != 32) throw new IllegalArgumentException("Invalid 'x' value (not 32 bytes): " + jwk.getX() + ", length=" + jwk.getXdecoded().length);
+		byte[] y = jwk.getYdecoded();
+		if (y.length != 32) throw new IllegalArgumentException("Invalid 'y' value (not 32 bytes): " + jwk.getY() + ", length=" + jwk.getYdecoded().length);
 
 		byte[] publicKeyBytes = new byte[65];
 		publicKeyBytes[0] = 4;
@@ -86,63 +86,63 @@ public class JWK_to_PublicKey {
 		return ECKey.fromPublicOnly(new LazyECPoint(ECKey.fromPublicOnly(publicKeyBytes).getPubKeyPoint(), true).get(), true);
 	}
 
-	public static KeyPair JWK_to_Bls12381G1PublicKey(JWK jsonWebKey) {
+	public static KeyPair JWK_to_Bls12381G1PublicKey(JWK jwk) {
 
-		if (! KeyType.OKP.equals(jsonWebKey.getKty())) throw new IllegalArgumentException("Incorrect key type: " + jsonWebKey.getKty());
-		if (! Curve.Bls12381G1.equals(jsonWebKey.getCrv())) throw new IllegalArgumentException("Incorrect curve: " + jsonWebKey.getCrv());
+		if (! KeyType.OKP.equals(jwk.getKty())) throw new IllegalArgumentException("Incorrect key type: " + jwk.getKty());
+		if (! Curve.Bls12381G1.equals(jwk.getCrv())) throw new IllegalArgumentException("Incorrect curve: " + jwk.getCrv());
 
-		return new KeyPair(jsonWebKey.getXdecoded(), null);
+		return new KeyPair(jwk.getXdecoded(), null);
 	}
 
-	public static KeyPair JWK_to_Bls12381G2PublicKey(JWK jsonWebKey) {
+	public static KeyPair JWK_to_Bls12381G2PublicKey(JWK jwk) {
 
-		if (! KeyType.OKP.equals(jsonWebKey.getKty())) throw new IllegalArgumentException("Incorrect key type: " + jsonWebKey.getKty());
-		if (! Curve.Bls12381G2.equals(jsonWebKey.getCrv())) throw new IllegalArgumentException("Incorrect curve: " + jsonWebKey.getCrv());
+		if (! KeyType.OKP.equals(jwk.getKty())) throw new IllegalArgumentException("Incorrect key type: " + jwk.getKty());
+		if (! Curve.Bls12381G2.equals(jwk.getCrv())) throw new IllegalArgumentException("Incorrect curve: " + jwk.getCrv());
 
-		return new KeyPair(jsonWebKey.getXdecoded(), null);
+		return new KeyPair(jwk.getXdecoded(), null);
 	}
 
-	public static KeyPair JWK_to_Bls48581G1PublicKey(JWK jsonWebKey) {
+	public static KeyPair JWK_to_Bls48581G1PublicKey(JWK jwk) {
 
-		if (! KeyType.OKP.equals(jsonWebKey.getKty())) throw new IllegalArgumentException("Incorrect key type: " + jsonWebKey.getKty());
-		if (! Curve.Bls48581G1.equals(jsonWebKey.getCrv())) throw new IllegalArgumentException("Incorrect curve: " + jsonWebKey.getCrv());
+		if (! KeyType.OKP.equals(jwk.getKty())) throw new IllegalArgumentException("Incorrect key type: " + jwk.getKty());
+		if (! Curve.Bls48581G1.equals(jwk.getCrv())) throw new IllegalArgumentException("Incorrect curve: " + jwk.getCrv());
 
-		return new KeyPair(jsonWebKey.getXdecoded(), null);
+		return new KeyPair(jwk.getXdecoded(), null);
 	}
 
-	public static KeyPair JWK_to_Bls48581G2PublicKey(JWK jsonWebKey) {
+	public static KeyPair JWK_to_Bls48581G2PublicKey(JWK jwk) {
 
-		if (! KeyType.OKP.equals(jsonWebKey.getKty())) throw new IllegalArgumentException("Incorrect key type: " + jsonWebKey.getKty());
-		if (! Curve.Bls48581G2.equals(jsonWebKey.getCrv())) throw new IllegalArgumentException("Incorrect curve: " + jsonWebKey.getCrv());
+		if (! KeyType.OKP.equals(jwk.getKty())) throw new IllegalArgumentException("Incorrect key type: " + jwk.getKty());
+		if (! Curve.Bls48581G2.equals(jwk.getCrv())) throw new IllegalArgumentException("Incorrect curve: " + jwk.getCrv());
 
-		return new KeyPair(jsonWebKey.getXdecoded(), null);
+		return new KeyPair(jwk.getXdecoded(), null);
 	}
 
-	public static byte[] JWK_to_Ed25519PublicKey(JWK jsonWebKey) {
+	public static byte[] JWK_to_Ed25519PublicKey(JWK jwk) {
 
-		if (! KeyType.OKP.equals(jsonWebKey.getKty())) throw new IllegalArgumentException("Incorrect key type: " + jsonWebKey.getKty());
-		if (! Curve.Ed25519.equals(jsonWebKey.getCrv())) throw new IllegalArgumentException("Incorrect curve: " + jsonWebKey.getCrv());
+		if (! KeyType.OKP.equals(jwk.getKty())) throw new IllegalArgumentException("Incorrect key type: " + jwk.getKty());
+		if (! Curve.Ed25519.equals(jwk.getCrv())) throw new IllegalArgumentException("Incorrect curve: " + jwk.getCrv());
 
-		return jsonWebKey.getXdecoded();
+		return jwk.getXdecoded();
 	}
 
-	public static byte[] JWK_to_X25519PublicKey(JWK jsonWebKey) {
+	public static byte[] JWK_to_X25519PublicKey(JWK jwk) {
 
-		if (! KeyType.OKP.equals(jsonWebKey.getKty())) throw new IllegalArgumentException("Incorrect key type: " + jsonWebKey.getKty());
-		if (! Curve.X25519.equals(jsonWebKey.getCrv())) throw new IllegalArgumentException("Incorrect curve: " + jsonWebKey.getCrv());
+		if (! KeyType.OKP.equals(jwk.getKty())) throw new IllegalArgumentException("Incorrect key type: " + jwk.getKty());
+		if (! Curve.X25519.equals(jwk.getCrv())) throw new IllegalArgumentException("Incorrect curve: " + jwk.getCrv());
 
-		return jsonWebKey.getXdecoded();
+		return jwk.getXdecoded();
 	}
 
-	public static ECPublicKey JWK_to_P_256PublicKey(JWK jsonWebKey) {
+	public static ECPublicKey JWK_to_P_256PublicKey(JWK jwk) {
 
-		if (! KeyType.EC.equals(jsonWebKey.getKty())) throw new IllegalArgumentException("Incorrect key type: " + jsonWebKey.getKty());
-		if (! Curve.P_256.equals(jsonWebKey.getCrv())) throw new IllegalArgumentException("Incorrect curve: " + jsonWebKey.getCrv());
+		if (! KeyType.EC.equals(jwk.getKty())) throw new IllegalArgumentException("Incorrect key type: " + jwk.getKty());
+		if (! Curve.P_256.equals(jwk.getCrv())) throw new IllegalArgumentException("Incorrect curve: " + jwk.getCrv());
 
-		byte[] x = jsonWebKey.getXdecoded();
-		if (x.length != 32) throw new IllegalArgumentException("Invalid 'x' value (not 32 bytes): " + jsonWebKey.getX() + ", length=" + jsonWebKey.getXdecoded().length);
-		byte[] y = jsonWebKey.getYdecoded();
-		if (y.length != 32) throw new IllegalArgumentException("Invalid 'y' value (not 32 bytes): " + jsonWebKey.getY() + ", length=" + jsonWebKey.getYdecoded().length);
+		byte[] x = jwk.getXdecoded();
+		if (x.length != 32) throw new IllegalArgumentException("Invalid 'x' value (not 32 bytes): " + jwk.getX() + ", length=" + jwk.getXdecoded().length);
+		byte[] y = jwk.getYdecoded();
+		if (y.length != 32) throw new IllegalArgumentException("Invalid 'y' value (not 32 bytes): " + jwk.getY() + ", length=" + jwk.getYdecoded().length);
 
 		ECPublicKey publicKey;
 		try {
@@ -159,15 +159,15 @@ public class JWK_to_PublicKey {
 		return publicKey;
 	}
 
-	public static ECPublicKey JWK_to_P_384PublicKey(JWK jsonWebKey) {
+	public static ECPublicKey JWK_to_P_384PublicKey(JWK jwk) {
 
-		if (! KeyType.EC.equals(jsonWebKey.getKty())) throw new IllegalArgumentException("Incorrect key type: " + jsonWebKey.getKty());
-		if (! Curve.P_384.equals(jsonWebKey.getCrv())) throw new IllegalArgumentException("Incorrect curve: " + jsonWebKey.getCrv());
+		if (! KeyType.EC.equals(jwk.getKty())) throw new IllegalArgumentException("Incorrect key type: " + jwk.getKty());
+		if (! Curve.P_384.equals(jwk.getCrv())) throw new IllegalArgumentException("Incorrect curve: " + jwk.getCrv());
 
-		byte[] x = jsonWebKey.getXdecoded();
-		if (x.length != 48) throw new IllegalArgumentException("Invalid 'x' value (not 48 bytes): " + jsonWebKey.getX() + ", length=" + jsonWebKey.getXdecoded().length);
-		byte[] y = jsonWebKey.getYdecoded();
-		if (y.length != 48) throw new IllegalArgumentException("Invalid 'y' value (not 48 bytes): " + jsonWebKey.getY() + ", length=" + jsonWebKey.getYdecoded().length);
+		byte[] x = jwk.getXdecoded();
+		if (x.length != 48) throw new IllegalArgumentException("Invalid 'x' value (not 48 bytes): " + jwk.getX() + ", length=" + jwk.getXdecoded().length);
+		byte[] y = jwk.getYdecoded();
+		if (y.length != 48) throw new IllegalArgumentException("Invalid 'y' value (not 48 bytes): " + jwk.getY() + ", length=" + jwk.getYdecoded().length);
 
 		ECPublicKey publicKey;
 		try {
@@ -184,15 +184,15 @@ public class JWK_to_PublicKey {
 		return publicKey;
 	}
 
-	public static ECPublicKey JWK_to_P_521PublicKey(JWK jsonWebKey) {
+	public static ECPublicKey JWK_to_P_521PublicKey(JWK jwk) {
 
-		if (! KeyType.EC.equals(jsonWebKey.getKty())) throw new IllegalArgumentException("Incorrect key type: " + jsonWebKey.getKty());
-		if (! Curve.P_521.equals(jsonWebKey.getCrv())) throw new IllegalArgumentException("Incorrect curve: " + jsonWebKey.getCrv());
+		if (! KeyType.EC.equals(jwk.getKty())) throw new IllegalArgumentException("Incorrect key type: " + jwk.getKty());
+		if (! Curve.P_521.equals(jwk.getCrv())) throw new IllegalArgumentException("Incorrect curve: " + jwk.getCrv());
 
-		byte[] x = jsonWebKey.getXdecoded();
-		if (x.length != 66) throw new IllegalArgumentException("Invalid 'x' value (not 66 bytes): " + jsonWebKey.getX() + ", length=" + jsonWebKey.getXdecoded().length);
-		byte[] y = jsonWebKey.getYdecoded();
-		if (y.length != 66) throw new IllegalArgumentException("Invalid 'y' value (not 66 bytes): " + jsonWebKey.getY() + ", length=" + jsonWebKey.getYdecoded().length);
+		byte[] x = jwk.getXdecoded();
+		if (x.length != 66) throw new IllegalArgumentException("Invalid 'x' value (not 66 bytes): " + jwk.getX() + ", length=" + jwk.getXdecoded().length);
+		byte[] y = jwk.getYdecoded();
+		if (y.length != 66) throw new IllegalArgumentException("Invalid 'y' value (not 66 bytes): " + jwk.getY() + ", length=" + jwk.getYdecoded().length);
 
 		ECPublicKey publicKey;
 		try {
