@@ -203,6 +203,36 @@ public class JWK_to_PrivateKey {
 	 * Convenience methods
 	 */
 
+	public static byte[] JWK_to_anyPrivateKeyBytes(JWK jwk) {
+
+		KeyTypeName keyType = KeyTypeName_for_JWK.keyTypeName_for_JWK(jwk);
+
+		if (keyType == KeyTypeName.RSA)
+			return JWK_to_RSAPrivateKeyBytes(jwk);
+		else if (keyType == KeyTypeName.secp256k1)
+			return JWK_to_secp256k1PrivateKeyBytes(jwk);
+		else if (keyType == KeyTypeName.Bls12381G1)
+			return JWK_to_Bls12381G1PrivateKeyBytes(jwk);
+		else if (keyType == KeyTypeName.Bls12381G2)
+			return JWK_to_Bls12381G2PrivateKeyBytes(jwk);
+		else if (keyType == KeyTypeName.Bls48581G1)
+			return JWK_to_Bls48581G1PrivateKeyBytes(jwk);
+		else if (keyType == KeyTypeName.Bls48581G2)
+			return JWK_to_Bls48581G2PrivateKeyBytes(jwk);
+		else if (keyType == KeyTypeName.Ed25519)
+			return JWK_to_Ed25519PrivateKeyBytes(jwk);
+		else if (keyType == KeyTypeName.X25519)
+			return JWK_to_X25519PrivateKeyBytes(jwk);
+		else if (keyType == KeyTypeName.P_256)
+			return JWK_to_P_256PrivateKeyBytes(jwk);
+		else if (keyType == KeyTypeName.P_384)
+			return JWK_to_P_384PrivateKeyBytes(jwk);
+		else if (keyType == KeyTypeName.P_521)
+			return JWK_to_P_521PrivateKeyBytes(jwk);
+		else
+			throw new IllegalArgumentException("Unsupported key type: " + keyType);
+	}
+
 	public static byte[] JWK_to_RSAPrivateKeyBytes(JWK jwk) {
 		return PrivateKeyBytes.RSAPrivateKey_to_bytes(JWK_to_RSAPrivateKey(jwk));
 	}

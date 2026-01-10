@@ -213,6 +213,36 @@ public class JWK_to_PublicKey {
 	 * Convenience methods
 	 */
 
+	public static byte[] JWK_to_anyPublicKeyBytes(JWK jwk) {
+
+		KeyTypeName keyType = KeyTypeName_for_JWK.keyTypeName_for_JWK(jwk);
+
+		if (keyType == KeyTypeName.RSA)
+			return JWK_to_RSAPublicKeyBytes(jwk);
+		else if (keyType == KeyTypeName.secp256k1)
+			return JWK_to_secp256k1PublicKeyBytes(jwk);
+		else if (keyType == KeyTypeName.Bls12381G1)
+			return JWK_to_Bls12381G1PublicKeyBytes(jwk);
+		else if (keyType == KeyTypeName.Bls12381G2)
+			return JWK_to_Bls12381G2PublicKeyBytes(jwk);
+		else if (keyType == KeyTypeName.Bls48581G1)
+			return JWK_to_Bls48581G1PublicKeyBytes(jwk);
+		else if (keyType == KeyTypeName.Bls48581G2)
+			return JWK_to_Bls48581G2PublicKeyBytes(jwk);
+		else if (keyType == KeyTypeName.Ed25519)
+			return JWK_to_Ed25519PublicKeyBytes(jwk);
+		else if (keyType == KeyTypeName.X25519)
+			return JWK_to_X25519PublicKeyBytes(jwk);
+		else if (keyType == KeyTypeName.P_256)
+			return JWK_to_P_256PublicKeyBytes(jwk);
+		else if (keyType == KeyTypeName.P_384)
+			return JWK_to_P_384PublicKeyBytes(jwk);
+		else if (keyType == KeyTypeName.P_521)
+			return JWK_to_P_521PublicKeyBytes(jwk);
+		else
+			throw new IllegalArgumentException("Unsupported key type: " + keyType);
+	}
+
 	public static byte[] JWK_to_RSAPublicKeyBytes(JWK jwk) {
 		return PublicKeyBytes.RSAPublicKey_to_bytes(JWK_to_RSAPublicKey(jwk));
 	}
