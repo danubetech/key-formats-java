@@ -247,6 +247,18 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
+			<groupId>fr.acinq.bitcoin</groupId>
+			<artifactId>bitcoin-kmp-jvm</artifactId>
+			<version>0.30.0</version>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>fr.acinq.secp256k1</groupId>
+			<artifactId>secp256k1-kmp-jni-jvm</artifactId>
+			<version>0.23.0</version>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
 			<groupId>org.bitcoin-s</groupId>
 			<artifactId>bitcoin-s-secp256k1jni</artifactId>
 			<version>1.9.12</version>
