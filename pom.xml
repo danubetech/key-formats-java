@@ -266,7 +266,7 @@
 		<dependency>
 			<groupId>org.web3j</groupId>
 			<artifactId>crypto</artifactId>
-			<version>5.0.2</version>
+			<version>5.0.3</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.bouncycastle</groupId>
