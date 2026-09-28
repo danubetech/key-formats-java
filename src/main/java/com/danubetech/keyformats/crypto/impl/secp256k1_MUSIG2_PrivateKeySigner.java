@@ -64,10 +64,11 @@ public class secp256k1_MUSIG2_PrivateKeySigner extends PrivateKeySigner<ECKey> {
                 publicNonces.stream().map(IndividualNonce::new).toList(),
                 null
         );
+        if (musig2Session == null) throw new GeneralSecurityException("No MuSig2 session.");
         if (musig2Session.isLeft()) throw new GeneralSecurityException("Cannot create MuSig2 session: " + musig2Session.getLeft().getMessage(), musig2Session.getLeft());
         if (! musig2Session.isRight()) throw new IllegalStateException("Invalid MuSig2 session: " + musig2Session);
 
-        ByteVector32 musig2Signature = null;
+        Either<Throwable, ByteVector32> musig2Signature;
         try {
             musig2Signature = musig2Session.getRight().sign(
                     new SecretNonce(secretNonce),
@@ -76,9 +77,11 @@ public class secp256k1_MUSIG2_PrivateKeySigner extends PrivateKeySigner<ECKey> {
         } catch (Exception ex) {
             throw new GeneralSecurityException("Cannot create MuSig2 signature: " + ex.getMessage(), ex);
         }
-        if (musig2Signature == null) throw new GeneralSecurityException("Invalid MuSig2 signature: " + musig2Signature);
+        if (musig2Signature == null) throw new GeneralSecurityException("No MuSig2 signature.");
+        if (musig2Signature.isLeft()) throw new GeneralSecurityException("Cannot create MuSig2 signature: " + musig2Signature.getLeft().getMessage(), musig2Signature.getLeft());
+        if (! musig2Signature.isRight()) throw new IllegalStateException("Invalid MuSig2 signature: " + musig2Signature);
 
-        signatureBytes = musig2Signature.toByteArray();
+        signatureBytes = musig2Signature.getRight().toByteArray();
 
         // done
 
