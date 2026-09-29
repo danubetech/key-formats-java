@@ -15,6 +15,8 @@ public class KeyTypeName_for_JWK {
 			return KeyTypeName.from(jwk.getCrv());	// "secp256k1"
 		else if (KeyType.OKP.equals(jwk.getKty()))
 			return KeyTypeName.from(jwk.getCrv());	// "Ed25519", "X25519", "Bls12381G1", "Bls12381G2", "Bls48581G1", "Bls48581G2"
+		else if (KeyType.AKP.equals(jwk.getKty()))
+			return KeyTypeName.from(jwk.getAlg());	// "ML-DSA-44", "ML-DSA-65", "ML-DSA-87"
 		else
 			throw new IllegalArgumentException("Unsupported key type " + jwk.getKty());
 	}

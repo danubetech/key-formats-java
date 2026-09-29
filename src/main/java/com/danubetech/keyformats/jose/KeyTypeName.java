@@ -14,7 +14,10 @@ public enum KeyTypeName {
     X25519(Curve.X25519),
     P_256(Curve.P_256),
     P_384(Curve.P_384),
-    P_521(Curve.P_521);
+    P_521(Curve.P_521),
+    ML_DSA_44(JWSAlgorithm.ML_DSA_44),
+    ML_DSA_65(JWSAlgorithm.ML_DSA_65),
+    ML_DSA_87(JWSAlgorithm.ML_DSA_87);
 
     private static final Map<String, KeyTypeName> KEY_TYPE_NAME_MAP = new HashMap<>();
 
