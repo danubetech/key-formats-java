@@ -4,6 +4,8 @@ import bbs.signatures.KeyPair;
 import org.apache.commons.codec.binary.Hex;
 import org.bitcoinj.crypto.ECKey;
 import org.bitcoinj.crypto.LazyECPoint;
+import org.bouncycastle.crypto.params.MLDSAParameters;
+import org.bouncycastle.crypto.params.MLDSAPublicKeyParameters;
 import org.bouncycastle.jcajce.provider.asymmetric.util.EC5Util;
 import org.bouncycastle.jce.ECNamedCurveTable;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -254,5 +256,53 @@ public class PublicKeyBytes {
 		}
 
 		return publicKey;
+	}
+
+	/*
+	 * ML-DSA-44
+	 */
+
+	public static byte[] MLDSA44PublicKey_to_bytes(MLDSAPublicKeyParameters publicKey) {
+
+		return publicKey.getEncoded();
+	}
+
+	public static MLDSAPublicKeyParameters bytes_to_MLDSA44PublicKey(byte[] publicKeyBytes) {
+
+		if (publicKeyBytes.length != 1312) throw new IllegalArgumentException("Expected 1312 bytes instead of " + publicKeyBytes.length);
+
+		return new MLDSAPublicKeyParameters(MLDSAParameters.ml_dsa_44, publicKeyBytes);
+	}
+
+	/*
+	 * ML-DSA-65
+	 */
+
+	public static byte[] MLDSA65PublicKey_to_bytes(MLDSAPublicKeyParameters publicKey) {
+
+		return publicKey.getEncoded();
+	}
+
+	public static MLDSAPublicKeyParameters bytes_to_MLDSA65PublicKey(byte[] publicKeyBytes) {
+
+		if (publicKeyBytes.length != 1952) throw new IllegalArgumentException("Expected 1952 bytes instead of " + publicKeyBytes.length);
+
+		return new MLDSAPublicKeyParameters(MLDSAParameters.ml_dsa_65, publicKeyBytes);
+	}
+
+	/*
+	 * ML-DSA-87
+	 */
+
+	public static byte[] MLDSA87PublicKey_to_bytes(MLDSAPublicKeyParameters publicKey) {
+
+		return publicKey.getEncoded();
+	}
+
+	public static MLDSAPublicKeyParameters bytes_to_MLDSA87PublicKey(byte[] publicKeyBytes) {
+
+		if (publicKeyBytes.length != 2592) throw new IllegalArgumentException("Expected 2592 bytes instead of " + publicKeyBytes.length);
+
+		return new MLDSAPublicKeyParameters(MLDSAParameters.ml_dsa_87, publicKeyBytes);
 	}
 }

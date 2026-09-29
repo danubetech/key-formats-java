@@ -7,6 +7,7 @@ import com.danubetech.keyformats.jose.JWSAlgorithm;
 import com.danubetech.keyformats.jose.KeyTypeName;
 import com.danubetech.keyformats.keytypes.KeyTypeName_for_JWK;
 import org.bitcoinj.crypto.ECKey;
+import org.bouncycastle.crypto.params.MLDSAPrivateKeyParameters;
 
 import java.security.KeyPair;
 import java.security.interfaces.ECPrivateKey;
@@ -62,6 +63,15 @@ public class PrivateKeySignerFactory {
         } else if (KeyTypeName.P_521.equals(keyTypeName)) {
 
             if (JWSAlgorithm.ES512.equals(algorithm)) return new P_521_ES512_PrivateKeySigner((ECPrivateKey) privateKey);
+        } else if (KeyTypeName.ML_DSA_44.equals(keyTypeName)) {
+
+            if (JWSAlgorithm.ML_DSA_44.equals(algorithm)) return new MLDSA44_PrivateKeySigner((MLDSAPrivateKeyParameters) privateKey);
+        } else if (KeyTypeName.ML_DSA_65.equals(keyTypeName)) {
+
+            if (JWSAlgorithm.ML_DSA_65.equals(algorithm)) return new MLDSA65_PrivateKeySigner((MLDSAPrivateKeyParameters) privateKey);
+        } else if (KeyTypeName.ML_DSA_87.equals(keyTypeName)) {
+
+            if (JWSAlgorithm.ML_DSA_87.equals(algorithm)) return new MLDSA87_PrivateKeySigner((MLDSAPrivateKeyParameters) privateKey);
         }
 
         throw new IllegalArgumentException("Unsupported private key " + keyTypeName + " and/or algorithm " + algorithm);

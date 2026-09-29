@@ -7,6 +7,7 @@ import com.danubetech.keyformats.jose.JWSAlgorithm;
 import com.danubetech.keyformats.jose.KeyTypeName;
 import com.danubetech.keyformats.keytypes.KeyTypeName_for_JWK;
 import org.bitcoinj.crypto.ECKey;
+import org.bouncycastle.crypto.params.MLDSAPublicKeyParameters;
 
 import java.security.interfaces.ECPublicKey;
 import java.security.interfaces.RSAPublicKey;
@@ -61,6 +62,15 @@ public class PublicKeyVerifierFactory {
         } else if (KeyTypeName.P_521.equals(keyTypeName)) {
 
             if (JWSAlgorithm.ES512.equals(algorithm)) return new P_521_ES512_PublicKeyVerifier((ECPublicKey) publicKey);
+        } else if (KeyTypeName.ML_DSA_44.equals(keyTypeName)) {
+
+            if (JWSAlgorithm.ML_DSA_44.equals(algorithm)) return new MLDSA44_PublicKeyVerifier((MLDSAPublicKeyParameters) publicKey);
+        } else if (KeyTypeName.ML_DSA_65.equals(keyTypeName)) {
+
+            if (JWSAlgorithm.ML_DSA_65.equals(algorithm)) return new MLDSA65_PublicKeyVerifier((MLDSAPublicKeyParameters) publicKey);
+        } else if (KeyTypeName.ML_DSA_87.equals(keyTypeName)) {
+
+            if (JWSAlgorithm.ML_DSA_87.equals(algorithm)) return new MLDSA87_PublicKeyVerifier((MLDSAPublicKeyParameters) publicKey);
         }
 
         throw new IllegalArgumentException("Unsupported public key " + keyTypeName + " and/or algorithm " + algorithm);
