@@ -3,10 +3,12 @@ package com.danubetech.keyformats;
 import bbs.signatures.KeyPair;
 import com.danubetech.keyformats.jose.Curve;
 import com.danubetech.keyformats.jose.JWK;
+import com.danubetech.keyformats.jose.JWSAlgorithm;
 import com.danubetech.keyformats.jose.KeyType;
 import com.danubetech.keyformats.util.ByteArrayUtil;
 import org.apache.commons.codec.binary.Hex;
 import org.bitcoinj.crypto.ECKey;
+import org.bouncycastle.crypto.params.MLDSAPublicKeyParameters;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import java.security.Security;
@@ -205,6 +207,42 @@ public class PublicKey_to_JWK {
 		return jwk;
 	}
 
+	public static JWK MLDSA44PublicKey_to_JWK(MLDSAPublicKeyParameters publicKey, String kid, String use) {
+
+		JWK jwk = new JWK();
+		jwk.setKty(KeyType.AKP);
+		jwk.setAlg(JWSAlgorithm.ML_DSA_44);
+		jwk.setKid(kid);
+		jwk.setUse(use);
+		jwk.setPub(Base64.getUrlEncoder().withoutPadding().encodeToString(publicKey.getEncoded()));
+
+		return jwk;
+	}
+
+	public static JWK MLDSA65PublicKey_to_JWK(MLDSAPublicKeyParameters publicKey, String kid, String use) {
+
+		JWK jwk = new JWK();
+		jwk.setKty(KeyType.AKP);
+		jwk.setAlg(JWSAlgorithm.ML_DSA_65);
+		jwk.setKid(kid);
+		jwk.setUse(use);
+		jwk.setPub(Base64.getUrlEncoder().withoutPadding().encodeToString(publicKey.getEncoded()));
+
+		return jwk;
+	}
+
+	public static JWK MLDSA87PublicKey_to_JWK(MLDSAPublicKeyParameters publicKey, String kid, String use) {
+
+		JWK jwk = new JWK();
+		jwk.setKty(KeyType.AKP);
+		jwk.setAlg(JWSAlgorithm.ML_DSA_87);
+		jwk.setKid(kid);
+		jwk.setUse(use);
+		jwk.setPub(Base64.getUrlEncoder().withoutPadding().encodeToString(publicKey.getEncoded()));
+
+		return jwk;
+	}
+
 	/*
 	 * Convenience methods
 	 */
@@ -251,5 +289,17 @@ public class PublicKey_to_JWK {
 
 	public static JWK P_521PublicKeyBytes_to_JWK(byte[] publicKeyBytes, String kid, String use) {
 		return P_521PublicKey_to_JWK(PublicKeyBytes.bytes_to_P_521PublicKey(publicKeyBytes), kid, use);
+	}
+
+	public static JWK MLDSA44PublicKeyBytes_to_JWK(byte[] publicKeyBytes, String kid, String use) {
+		return MLDSA44PublicKey_to_JWK(PublicKeyBytes.bytes_to_MLDSA44PublicKey(publicKeyBytes), kid, use);
+	}
+
+	public static JWK MLDSA65PublicKeyBytes_to_JWK(byte[] publicKeyBytes, String kid, String use) {
+		return MLDSA65PublicKey_to_JWK(PublicKeyBytes.bytes_to_MLDSA65PublicKey(publicKeyBytes), kid, use);
+	}
+
+	public static JWK MLDSA87PublicKeyBytes_to_JWK(byte[] publicKeyBytes, String kid, String use) {
+		return MLDSA87PublicKey_to_JWK(PublicKeyBytes.bytes_to_MLDSA87PublicKey(publicKeyBytes), kid, use);
 	}
 }

@@ -3,11 +3,13 @@ package com.danubetech.keyformats;
 import bbs.signatures.KeyPair;
 import com.danubetech.keyformats.jose.Curve;
 import com.danubetech.keyformats.jose.JWK;
+import com.danubetech.keyformats.jose.JWSAlgorithm;
 import com.danubetech.keyformats.jose.KeyType;
 import com.danubetech.keyformats.jose.KeyTypeName;
 import com.danubetech.keyformats.keytypes.KeyTypeName_for_JWK;
 import org.bitcoinj.crypto.ECKey;
 import org.bitcoinj.crypto.LazyECPoint;
+import org.bouncycastle.crypto.params.MLDSAPublicKeyParameters;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import java.math.BigInteger;
@@ -51,6 +53,12 @@ public class JWK_to_PublicKey {
 			return JWK_to_P_384PublicKey(jwk);
 		else if (keyType == KeyTypeName.P_521)
 			return JWK_to_P_521PublicKey(jwk);
+		else if (keyType == KeyTypeName.ML_DSA_44)
+			return JWK_to_MLDSA44PublicKey(jwk);
+		else if (keyType == KeyTypeName.ML_DSA_65)
+			return JWK_to_MLDSA65PublicKey(jwk);
+		else if (keyType == KeyTypeName.ML_DSA_87)
+			return JWK_to_MLDSA87PublicKey(jwk);
 		else
 			throw new IllegalArgumentException("Unsupported key type: " + keyType);
 	}
@@ -209,6 +217,30 @@ public class JWK_to_PublicKey {
 		return publicKey;
 	}
 
+	public static MLDSAPublicKeyParameters JWK_to_MLDSA44PublicKey(JWK jwk) {
+
+		if (! KeyType.AKP.equals(jwk.getKty())) throw new IllegalArgumentException("Incorrect key type: " + jwk.getKty());
+		if (! JWSAlgorithm.ML_DSA_44.equals(jwk.getAlg())) throw new IllegalArgumentException("Incorrect algorithm: " + jwk.getAlg());
+
+		return PublicKeyBytes.bytes_to_MLDSA44PublicKey(jwk.getPubdecoded());
+	}
+
+	public static MLDSAPublicKeyParameters JWK_to_MLDSA65PublicKey(JWK jwk) {
+
+		if (! KeyType.AKP.equals(jwk.getKty())) throw new IllegalArgumentException("Incorrect key type: " + jwk.getKty());
+		if (! JWSAlgorithm.ML_DSA_65.equals(jwk.getAlg())) throw new IllegalArgumentException("Incorrect algorithm: " + jwk.getAlg());
+
+		return PublicKeyBytes.bytes_to_MLDSA65PublicKey(jwk.getPubdecoded());
+	}
+
+	public static MLDSAPublicKeyParameters JWK_to_MLDSA87PublicKey(JWK jwk) {
+
+		if (! KeyType.AKP.equals(jwk.getKty())) throw new IllegalArgumentException("Incorrect key type: " + jwk.getKty());
+		if (! JWSAlgorithm.ML_DSA_87.equals(jwk.getAlg())) throw new IllegalArgumentException("Incorrect algorithm: " + jwk.getAlg());
+
+		return PublicKeyBytes.bytes_to_MLDSA87PublicKey(jwk.getPubdecoded());
+	}
+
 	/*
 	 * Convenience methods
 	 */
@@ -239,6 +271,12 @@ public class JWK_to_PublicKey {
 			return JWK_to_P_384PublicKeyBytes(jwk);
 		else if (keyType == KeyTypeName.P_521)
 			return JWK_to_P_521PublicKeyBytes(jwk);
+		else if (keyType == KeyTypeName.ML_DSA_44)
+			return JWK_to_MLDSA44PublicKeyBytes(jwk);
+		else if (keyType == KeyTypeName.ML_DSA_65)
+			return JWK_to_MLDSA65PublicKeyBytes(jwk);
+		else if (keyType == KeyTypeName.ML_DSA_87)
+			return JWK_to_MLDSA87PublicKeyBytes(jwk);
 		else
 			throw new IllegalArgumentException("Unsupported key type: " + keyType);
 	}
@@ -285,5 +323,17 @@ public class JWK_to_PublicKey {
 
 	public static byte[] JWK_to_P_521PublicKeyBytes(JWK jwk) {
 		return PublicKeyBytes.P_521PublicKey_to_bytes(JWK_to_P_521PublicKey(jwk));
+	}
+
+	public static byte[] JWK_to_MLDSA44PublicKeyBytes(JWK jwk) {
+		return PublicKeyBytes.MLDSA44PublicKey_to_bytes(JWK_to_MLDSA44PublicKey(jwk));
+	}
+
+	public static byte[] JWK_to_MLDSA65PublicKeyBytes(JWK jwk) {
+		return PublicKeyBytes.MLDSA65PublicKey_to_bytes(JWK_to_MLDSA65PublicKey(jwk));
+	}
+
+	public static byte[] JWK_to_MLDSA87PublicKeyBytes(JWK jwk) {
+		return PublicKeyBytes.MLDSA87PublicKey_to_bytes(JWK_to_MLDSA87PublicKey(jwk));
 	}
 }

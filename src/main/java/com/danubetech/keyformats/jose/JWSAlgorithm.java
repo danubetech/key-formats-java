@@ -14,4 +14,7 @@ public class JWSAlgorithm {
     public static final String ES256KRR = "ES256KRR";
     public static final String ES256KS = "ES256KS";
     public static final String MUSIG2 = "MUSIG2";
+    public static final String ML_DSA_44 = "ML-DSA-44";
+    public static final String ML_DSA_65 = "ML-DSA-65";
+    public static final String ML_DSA_87 = "ML-DSA-87";
 }

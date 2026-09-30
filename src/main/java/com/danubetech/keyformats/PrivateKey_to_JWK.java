@@ -2,12 +2,14 @@ package com.danubetech.keyformats;
 
 import com.danubetech.keyformats.jose.Curve;
 import com.danubetech.keyformats.jose.JWK;
+import com.danubetech.keyformats.jose.JWSAlgorithm;
 import com.danubetech.keyformats.jose.KeyType;
 import com.danubetech.keyformats.util.ByteArrayUtil;
 import org.apache.commons.codec.binary.Hex;
 import org.bitcoinj.crypto.ECKey;
 import org.bouncycastle.crypto.params.Ed25519PrivateKeyParameters;
 import org.bouncycastle.crypto.params.Ed25519PublicKeyParameters;
+import org.bouncycastle.crypto.params.MLDSAPrivateKeyParameters;
 import org.bouncycastle.crypto.params.X25519PrivateKeyParameters;
 import org.bouncycastle.crypto.params.X25519PublicKeyParameters;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -268,6 +270,45 @@ public class PrivateKey_to_JWK {
 		return jwk;
 	}
 
+	public static JWK MLDSA44PrivateKey_to_JWK(MLDSAPrivateKeyParameters privateKey, String kid, String use) {
+
+		JWK jwk = new JWK();
+		jwk.setKty(KeyType.AKP);
+		jwk.setAlg(JWSAlgorithm.ML_DSA_44);
+		jwk.setKid(kid);
+		jwk.setUse(use);
+		jwk.setPub(Base64.getUrlEncoder().withoutPadding().encodeToString(privateKey.getPublicKeyParameters().getEncoded()));
+		jwk.setPriv(Base64.getUrlEncoder().withoutPadding().encodeToString(privateKey.getEncoded()));
+
+		return jwk;
+	}
+
+	public static JWK MLDSA65PrivateKey_to_JWK(MLDSAPrivateKeyParameters privateKey, String kid, String use) {
+
+		JWK jwk = new JWK();
+		jwk.setKty(KeyType.AKP);
+		jwk.setAlg(JWSAlgorithm.ML_DSA_65);
+		jwk.setKid(kid);
+		jwk.setUse(use);
+		jwk.setPub(Base64.getUrlEncoder().withoutPadding().encodeToString(privateKey.getPublicKeyParameters().getEncoded()));
+		jwk.setPriv(Base64.getUrlEncoder().withoutPadding().encodeToString(privateKey.getEncoded()));
+
+		return jwk;
+	}
+
+	public static JWK MLDSA87PrivateKey_to_JWK(MLDSAPrivateKeyParameters privateKey, String kid, String use) {
+
+		JWK jwk = new JWK();
+		jwk.setKty(KeyType.AKP);
+		jwk.setAlg(JWSAlgorithm.ML_DSA_87);
+		jwk.setKid(kid);
+		jwk.setUse(use);
+		jwk.setPub(Base64.getUrlEncoder().withoutPadding().encodeToString(privateKey.getPublicKeyParameters().getEncoded()));
+		jwk.setPriv(Base64.getUrlEncoder().withoutPadding().encodeToString(privateKey.getEncoded()));
+
+		return jwk;
+	}
+
 	/*
 	 * Convenience methods
 	 */
@@ -314,5 +355,17 @@ public class PrivateKey_to_JWK {
 
 	public static JWK P_521PrivateKeyBytes_to_JWK(byte[] privateKeyBytes, String kid, String use) {
 		return P_521PrivateKey_to_JWK(PrivateKeyBytes.bytes_to_P_521PrivateKey(privateKeyBytes), kid, use);
+	}
+
+	public static JWK MLDSA44PrivateKeyBytes_to_JWK(byte[] privateKeyBytes, String kid, String use) {
+		return MLDSA44PrivateKey_to_JWK(PrivateKeyBytes.bytes_to_MLDSA44PrivateKey(privateKeyBytes), kid, use);
+	}
+
+	public static JWK MLDSA65PrivateKeyBytes_to_JWK(byte[] privateKeyBytes, String kid, String use) {
+		return MLDSA65PrivateKey_to_JWK(PrivateKeyBytes.bytes_to_MLDSA65PrivateKey(privateKeyBytes), kid, use);
+	}
+
+	public static JWK MLDSA87PrivateKeyBytes_to_JWK(byte[] privateKeyBytes, String kid, String use) {
+		return MLDSA87PrivateKey_to_JWK(PrivateKeyBytes.bytes_to_MLDSA87PrivateKey(privateKeyBytes), kid, use);
 	}
 }

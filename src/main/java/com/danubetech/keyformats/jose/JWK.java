@@ -33,6 +33,8 @@ public class JWK {
     @JsonProperty("dp") private String dp;
     @JsonProperty("dq") private String dq;
     @JsonProperty("qi") private String qi;
+    @JsonProperty("pub") private String pub;
+    @JsonProperty("priv") private String priv;
 
     public JWK() {
     }
@@ -320,6 +322,34 @@ public class JWK {
         this.qi = qi;
     }
 
+    public String getPub() {
+        return pub;
+    }
+
+    @JsonIgnore
+    public byte[] getPubdecoded() {
+        String pub = this.getPub();
+        return pub != null ? Base64.getUrlDecoder().decode(pub) : null;
+    }
+
+    public void setPub(String pub) {
+        this.pub = pub;
+    }
+
+    public String getPriv() {
+        return priv;
+    }
+
+    @JsonIgnore
+    public byte[] getPrivdecoded() {
+        String priv = this.getPriv();
+        return priv != null ? Base64.getUrlDecoder().decode(priv) : null;
+    }
+
+    public void setPriv(String priv) {
+        this.priv = priv;
+    }
+
     /*
      * Object methods
      */
@@ -348,6 +378,8 @@ public class JWK {
                 ", dp='" + dp + '\'' +
                 ", dq='" + dq + '\'' +
                 ", qi='" + qi + '\'' +
+                ", pub='" + pub + '\'' +
+                ", priv='" + priv + '\'' +
                 '}';
     }
 
@@ -356,11 +388,11 @@ public class JWK {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         JWK jwk = (JWK) o;
-        return Objects.equals(kid, jwk.kid) && Objects.equals(use, jwk.use) && Objects.equals(key_ops, jwk.key_ops) && Objects.equals(alg, jwk.alg) && Objects.equals(kty, jwk.kty) && Objects.equals(crv, jwk.crv) && Objects.equals(x5u, jwk.x5u) && Objects.equals(x5c, jwk.x5c) && Objects.equals(x5t, jwk.x5t) && Objects.equals(x5t_S256, jwk.x5t_S256) && Objects.equals(x, jwk.x) && Objects.equals(y, jwk.y) && Objects.equals(d, jwk.d) && Objects.equals(n, jwk.n) && Objects.equals(e, jwk.e) && Objects.equals(k, jwk.k) && Objects.equals(p, jwk.p) && Objects.equals(q, jwk.q) && Objects.equals(dp, jwk.dp) && Objects.equals(dq, jwk.dq) && Objects.equals(qi, jwk.qi);
+        return Objects.equals(kid, jwk.kid) && Objects.equals(use, jwk.use) && Objects.equals(key_ops, jwk.key_ops) && Objects.equals(alg, jwk.alg) && Objects.equals(kty, jwk.kty) && Objects.equals(crv, jwk.crv) && Objects.equals(x5u, jwk.x5u) && Objects.equals(x5c, jwk.x5c) && Objects.equals(x5t, jwk.x5t) && Objects.equals(x5t_S256, jwk.x5t_S256) && Objects.equals(x, jwk.x) && Objects.equals(y, jwk.y) && Objects.equals(d, jwk.d) && Objects.equals(n, jwk.n) && Objects.equals(e, jwk.e) && Objects.equals(k, jwk.k) && Objects.equals(p, jwk.p) && Objects.equals(q, jwk.q) && Objects.equals(dp, jwk.dp) && Objects.equals(dq, jwk.dq) && Objects.equals(qi, jwk.qi) && Objects.equals(pub, jwk.pub) && Objects.equals(priv, jwk.priv);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(kid, use, key_ops, alg, kty, crv, x5u, x5c, x5t, x5t_S256, x, y, d, n, e, k, p, q, dp, dq, qi);
+        return Objects.hash(kid, use, key_ops, alg, kty, crv, x5u, x5c, x5t, x5t_S256, x, y, d, n, e, k, p, q, dp, dq, qi, pub, priv);
     }
 }

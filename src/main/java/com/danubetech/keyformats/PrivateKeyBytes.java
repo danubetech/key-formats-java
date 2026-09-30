@@ -4,6 +4,8 @@ import com.danubetech.keyformats.util.ByteArrayUtil;
 import org.bitcoinj.crypto.ECKey;
 import org.bouncycastle.crypto.params.Ed25519PrivateKeyParameters;
 import org.bouncycastle.crypto.params.Ed25519PublicKeyParameters;
+import org.bouncycastle.crypto.params.MLDSAParameters;
+import org.bouncycastle.crypto.params.MLDSAPrivateKeyParameters;
 import org.bouncycastle.crypto.params.X25519PrivateKeyParameters;
 import org.bouncycastle.crypto.params.X25519PublicKeyParameters;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -262,5 +264,53 @@ public class PrivateKeyBytes {
 		}
 
 		return privateKey;
+	}
+
+	/*
+	 * ML-DSA-44
+	 */
+
+	public static byte[] MLDSA44PrivateKey_to_bytes(MLDSAPrivateKeyParameters privateKey) {
+
+		return privateKey.getEncoded();
+	}
+
+	public static MLDSAPrivateKeyParameters bytes_to_MLDSA44PrivateKey(byte[] privateKeyBytes) {
+
+		if (privateKeyBytes.length != 2560) throw new IllegalArgumentException("Expected 2560 bytes instead of " + privateKeyBytes.length);
+
+		return new MLDSAPrivateKeyParameters(MLDSAParameters.ml_dsa_44, privateKeyBytes);
+	}
+
+	/*
+	 * ML-DSA-65
+	 */
+
+	public static byte[] MLDSA65PrivateKey_to_bytes(MLDSAPrivateKeyParameters privateKey) {
+
+		return privateKey.getEncoded();
+	}
+
+	public static MLDSAPrivateKeyParameters bytes_to_MLDSA65PrivateKey(byte[] privateKeyBytes) {
+
+		if (privateKeyBytes.length != 4032) throw new IllegalArgumentException("Expected 4032 bytes instead of " + privateKeyBytes.length);
+
+		return new MLDSAPrivateKeyParameters(MLDSAParameters.ml_dsa_65, privateKeyBytes);
+	}
+
+	/*
+	 * ML-DSA-87
+	 */
+
+	public static byte[] MLDSA87PrivateKey_to_bytes(MLDSAPrivateKeyParameters privateKey) {
+
+		return privateKey.getEncoded();
+	}
+
+	public static MLDSAPrivateKeyParameters bytes_to_MLDSA87PrivateKey(byte[] privateKeyBytes) {
+
+		if (privateKeyBytes.length != 4896) throw new IllegalArgumentException("Expected 4896 bytes instead of " + privateKeyBytes.length);
+
+		return new MLDSAPrivateKeyParameters(MLDSAParameters.ml_dsa_87, privateKeyBytes);
 	}
 }
